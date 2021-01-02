@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+  data:
+    mongodb:
+      uri: mongodb+srv://admin:admin@nethacker.alqpl.mongodb.net/spring-messenger?retryWrites=true&w=majority
+  jpa:
+    generate-ddl: false
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+  mail:
+    host: smtp.yandex.ru
+    username: birdgp@yandex.ru
+    password: 123456YFlz
+    port: 465
+    protocol: smtps
+  session:
+    jdbc:
+      initialize-schema: always
+      table-name: SPRING_SESSION
+  servlet:
+    multipart:
+      max-file-size: 4MB
+      max-request-size: 4MB
+
+server:
+  error:
+    include-stacktrace: always
+
+mail:
+  debug: false
+
+upload:
+  path: /app/uploads
