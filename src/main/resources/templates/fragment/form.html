@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="log_form (type)">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 mx-auto bg-primary rounded pt-2 pb-3 vertical-center">
+                    <div th:if="${param.logout}" class="alert alert-warning text-center" role="alert">
+                        You have been logged out.
+                    </div>
+                    <div class="mb-3 form-title">
+                        <div class="col-md-12 text-center">
+                            <h3 th:text="${#strings.capitalize(type)}"></h3>
+                        </div>
+                    </div>
+                    <div class="alert alert-success" role="alert" th:if="${message != null}" th:text="${message}"></div>
+                    <form action="#" th:action="@{/} + ${type}" method="post" th:object="${user}">
+                        <div class="form-group row" th:if="${type == 'registration'}">
+                            <div class="col-sm-12">
+                                <input th:value="${user != null} ? *{email}: ''" type="email" class="form-control" name="email" id="loginEmail" placeholder="Email example@exam.com" th:classappend="${user != null and #fields.hasErrors('email')} ? 'is-invalid': ''"/>
+                                <span class="invalid-feedback" th:if="${user != null and #fields.hasErrors('email')}" th:errors="*{email}"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input th:if="${type == 'registration'}" th:value="${user != null} ? *{username}: ''" type="text" class="form-control"  name="username" id="loginUsername" placeholder="Username" th:classappend="${type == 'registration' and user != null and #fields.hasErrors('username')} ? 'is-invalid': ''"/>
+                                <input th:unless="${type == 'registration'}" type="text" class="form-control"  name="username" id="loginUsername" placeholder="Username" th:classappend="${type == 'registration' and user != null and #fields.hasErrors('username')} ? 'is-invalid': ''"/>
+                                <th:block th:if="${type == 'registration'}"><span class="invalid-feedback" th:if="${user != null and #fields.hasErrors('username')}" th:errors="*{username}"></span></th:block>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input type="password" class="form-control" name="password" id="loginPassword" placeholder="Password" th:classappend="${type == 'registration' and user != null and #fields.hasErrors('password')} ? 'is-invalid': ''"/>
+                                <th:block th:if="${type == 'registration'}"><span class="invalid-feedback" th:if="${user != null and #fields.hasErrors('password')}" th:errors="*{password}"></span></th:block>
+                            </div>
+                        </div>
+                        <div class="form-group row" th:if="${type == 'registration'}">
+                            <div class="col-sm-12">
+                                <input type="password" class="form-control" name="password2" id="loginPassword2" placeholder="Repeat password" th:classappend="${password2 != null or passwordDiffError != null} ? 'is-invalid': ''"/>
+                                <span class="invalid-feedback" th:if="${password2 != null}" th:text="${password2}"></span>
+                                <span class="invalid-feedback" th:if="${passwordDiffError != null}" th:text="${passwordDiffError}"></span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-block btn-primary tx-tfm border-form" th:if="${type == 'registration'}">Sign Up</button>
+                        <button type="submit" class="btn btn-block btn-primary tx-tfm button-form" th:unless="${type == 'registration'}">Sign In</button>
+                    </form>
+
+                    <div class="col-md-12">
+                        <div class="login-or">
+                            <hr class="hr-or"/>
+                            <span class="span-or">or</span>
+                        </div>
+                    </div>
+
+                    <a type="button" class="btn btn-block btn-primary tx-tfm" href="/login" th:if="${type == 'registration'}">Sign In</a>
+                    <a type="button" class="btn btn-block btn-primary tx-tfm" href="registration" th:unless="${type == 'registration'}">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

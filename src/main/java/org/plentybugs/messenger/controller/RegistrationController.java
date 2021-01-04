@@ -19,6 +19,11 @@ public class RegistrationController {
     private final UserService userService;
     private final ValidationUtils validationUtils;
 
+    @GetMapping
+    public String get() {
+        return "registration";
+    }
+
     @PostMapping
     public String register(
             @RequestParam String password2,

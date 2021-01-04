@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <th:block th:fragment="sidebar">
+        <aside id="sidebar" sec:authorize="hasAuthority('USER')">
+            <div class="toggle">
+                <a href="#" class="fa-align-justify fa js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
+                    <span></span>
+                </a>
+            </div>
+            <div class="side-inner">
+                <div id="side-content">
+                    <div class="logo">
+                        <span>M</span>
+                    </div>
+                    <div class="nav-menu">
+                        <ul>
+                            <li><a href="#">Settings</a></li>
+                            <li><a href="#">Channels</a></li>
+                            <li><a href="#">Chats</a></li>
+                        </ul>
+                    </div>
+                    <div class="featured-users">
+                        <h3>Contacts</h3>
+                        <ul>
+                            <li class="person">
+                                <a href="#" class="d-flex align-items-center">
+                                    <img th:src="@{/img/logo.png}" alt="Image" class="img-fluid mr-3">
+                                    <span class="user-name">Name</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div th:replace="~{fragment/logout :: logout}"></div>
+            </div>
+        </aside>
+    </th:block>
+</html>

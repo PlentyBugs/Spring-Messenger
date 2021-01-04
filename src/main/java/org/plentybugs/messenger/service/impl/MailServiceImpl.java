@@ -1,4 +1,4 @@
-package org.plentybugs.messenger.util;
+package org.plentybugs.messenger.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.plentybugs.messenger.service.MailService;

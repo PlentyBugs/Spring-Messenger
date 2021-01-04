@@ -2,6 +2,7 @@ package org.plentybugs.messenger.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.plentybugs.messenger.model.User;
+import org.plentybugs.messenger.model.enums.Role;
 import org.plentybugs.messenger.repository.UserRepository;
 import org.plentybugs.messenger.service.MailService;
 import org.plentybugs.messenger.service.UserService;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.UUID;
 
 @Service
@@ -39,6 +41,7 @@ public class UserServiceImpl implements UserService {
         user.setActive(false);
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Collections.singleton(Role.USER));
 
         repository.save(user);
 

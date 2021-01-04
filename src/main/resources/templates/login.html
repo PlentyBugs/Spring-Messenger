@@ -1,0 +1,5 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layout}"><div layout:fragment="content">
+    <div th:if="${param.error}" class="alert alert-warning text-center" role="alert" style="opacity: 0.6;">Invalid username and password or account isn't activated.</div>
+    <div th:if="${param.activate}" class="alert alert-success text-center" role="alert" style="opacity: 0.6;">Please check your email. An activation code message has been sent there.</div>
+    <div th:replace="fragment/form :: log_form(type='login')"></div>
+</div></html>
