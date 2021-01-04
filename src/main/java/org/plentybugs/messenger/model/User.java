@@ -34,6 +34,7 @@ public class User implements UserDetails, Serializable {
     private String email;
 
     private boolean active;
+    private String activationCode;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "usr_role", joinColumns = @JoinColumn(name = "usr_id"))
