@@ -1,4 +1,4 @@
-$(function() {
+$(() => {
     let $body = $('body');
     $('.js-menu-toggle').click(function(e) {
         const $this = $(this);
