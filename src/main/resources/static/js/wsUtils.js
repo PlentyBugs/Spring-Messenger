@@ -1,6 +1,7 @@
 let stompClient = null;
 
 function connect() {
+    let userId = $("#usrId").data("usrId");
     let socket = new SockJS("/ws");
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {

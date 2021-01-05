@@ -21,13 +21,22 @@ html, body {
     background: #229cff;
 }
 
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 body {
     background-color: deepskyblue !important;
     color: white !important;
 }
 
 aside {
-    width: 300px;
+    max-width: 20vw;
+    min-width: 20vw;
     left: 0;
     z-index: 1001;
     position: fixed;
@@ -47,11 +56,11 @@ aside {
 }
 
 aside .toggle {
-    padding-left: 30px;
-    padding-top: 30px;
+    padding-left: 2.5vw;
+    padding-top: 2.5vw;
     position: absolute;
     right: 0;
-    font-size: 1.5em;
+    font-size: 1.5vw;
     -webkit-transform: translateX(100%);
     -ms-transform: translateX(100%);
     transform: translateX(100%);
@@ -67,7 +76,7 @@ aside .toggle {
 }
 
 aside .side-inner {
-    padding-top: 30px;
+    padding-top: 2.5vw;
     height: 100vh;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
@@ -83,18 +92,18 @@ aside .side-inner::-webkit-scrollbar {
 }
 
 aside .side-inner .logo {
-    width: 50px;
-    height: 50px;
+    width: 4vw;
+    height: 4vw;
     background: #007bff;
     border-radius: 50%;
     position: relative;
-    margin: 0 auto 50px 40px;
+    margin: 0 auto 4vw 3vw;
 }
 
 aside .side-inner .logo span {
     position: absolute;
     color: #fff;
-    font-size: 2rem;
+    font-size: 2vw;
     top: 50%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
@@ -103,13 +112,13 @@ aside .side-inner .logo span {
 }
 
 aside .side-inner .featured-users h3 {
-    font-size: 13px;
+    font-size: 0.7vw;
     text-transform: uppercase;
-    letter-spacing: .2rem;
+    letter-spacing: .2vw;
     font-weight: 700;
     color: #000;
-    margin-bottom: 30px;
-    margin-left: 40px;
+    margin-bottom: 2.5vw;
+    margin-left: 3vw;
 }
 
 aside .side-inner .featured-users ul, aside .side-inner .featured-users ul li {
@@ -119,25 +128,25 @@ aside .side-inner .featured-users ul, aside .side-inner .featured-users ul li {
 }
 
 aside .side-inner .featured-users ul .person {
-    margin-left: 40px;
-    margin-bottom: 15px;
+    margin-left: 3vw;
+    margin-bottom: 1vw;
 }
 
 aside .side-inner .featured-users ul .person .d-flex img {
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 45px;
-    flex: 0 0 45px;
-    width: 45px;
+    -ms-flex: 0 0 3.5vw;
+    flex: 0 0 3.5vw;
+    width: 3.5vw;
     border-radius: 50%;
 }
 
 aside .side-inner .featured-users ul .person .d-flex .user-name {
     color: #000;
-    font-size: 14px;
+    font-size: 1.1vw;
 }
 
 aside .side-inner .nav-menu {
-    margin-bottom: 50px;
+    margin-bottom: 4vw;
 }
 
 aside .side-inner .nav-menu ul, aside .side-inner .nav-menu ul li {
@@ -148,7 +157,7 @@ aside .side-inner .nav-menu ul, aside .side-inner .nav-menu ul li {
 
 aside .side-inner .nav-menu ul li a {
     display: block;
-    padding: 10px 30px 10px 40px;
+    padding: 1vw 2.5vw 1vw 3vw;
     color: #b1b1b1;
     position: relative;
     -webkit-transition: .3s padding-left ease;
@@ -199,10 +208,82 @@ aside .side-inner .nav-menu ul li.active a:before {
     width: 30px;
 }
 
+aside #side-content {
+    font-size: 1.2vw;
+}
+
+.mr-vw {
+    margin-right: 1.1vw;
+}
+
+.btn-vw {
+    font-size: 1.35vw !important;
+    line-height: 0 !important;
+    height: 3vw !important;
+    max-height: 3vw !important;
+    min-height: 3vw !important;
+    padding: 0.5vw 1vw !important;
+}
+
 .vertical-center {
     margin: 0;
     position: absolute;
     top: 50vh;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+}
+
+.main-window {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: stretch;
+    min-height: 100vh;
+    max-height: 100vh;
+}
+
+.chat-window {
+    flex: 1 1 auto;
+    height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 15px;
+}
+
+.message-box {
+    min-width: 100%;
+    max-width: 100%;
+    position: relative;
+    flex: 0 1 auto;
+}
+
+.message-textarea {
+    font-size: 1.2vw !important;
+    min-width: 95%;
+    max-width: 95%;
+    height: 15vh;
+    padding: 0.5vw;
+    resize: none;
+    display: inline-flex;
+    border: 0;
+}
+
+.message-textarea:focus {
+    border: 0;
+    outline: 0;
+}
+
+.send-button {
+    background-color: white;
+    position: absolute;
+    width: 5%;
+    height: 15vh;
+    color: deepskyblue;
+    text-align: center;
+    font-size: 2vw !important;
+    line-height: 15vh !important;
+}
+
+.send-button:hover {
+    font-size: 2.5vw !important;
 }
