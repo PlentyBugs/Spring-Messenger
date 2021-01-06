@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +19,6 @@ public class Chat {
     private String id;
     private String chatId;
     private String chatName;
-    private String senderId;
-    private String recipientId;
+    private Set<String> moderatorIds;
+    private Set<String> participantIds;
 }

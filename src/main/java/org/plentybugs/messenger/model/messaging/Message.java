@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import javax.persistence.Id;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -14,9 +15,11 @@ import java.time.LocalDateTime;
 @Builder
 @Document
 public class Message {
+    @Id
     private String id;
     private String chatId;
+    private String content;
     private String senderId;
     private String senderName;
-    private LocalDateTime time;
+    private Date time;
 }

@@ -14,3 +14,7 @@ $(() => {
         e.preventDefault();
     });
 });
+
+function getHostname() {
+    return document.URL.match(/(https?:\/\/.+?\/)\/?.*/)[1];
+}

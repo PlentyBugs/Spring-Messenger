@@ -1,6 +1,10 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div id="header" th:fragment="header">
         <th:block th:replace="fragment/sidebar :: sidebar"></th:block>
-        <div id="usrId" th:data-usdId="${#authentication.principal.id}"></div>
+        <div id="data" sec:authorize="hasAuthority('USER')"
+             th:data-usr-id="${#authentication.principal.id}"
+             th:data-token="${_csrf.token}"
+             th:data-header="${_csrf.headerName}"
+        ></div>
     </div>
 </html>
