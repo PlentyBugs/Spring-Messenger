@@ -1,5 +1,6 @@
 package org.plentybugs.messenger.service;
 
+import org.plentybugs.messenger.model.User;
 import org.plentybugs.messenger.model.enums.ChatStatus;
 import org.plentybugs.messenger.model.messaging.Chat;
 import org.plentybugs.messenger.model.messaging.Message;
@@ -15,4 +16,6 @@ public interface NotificationService {
     void sendMessageNotificationInChat(Chat chat, String dest, Message message);
 
     void sendChatNotificationToAllUsers(Chat chat, Set<String> userIds, ChatStatus status);
+
+    void sendContactNotification(Long userId, User contact);
 }

@@ -18,6 +18,7 @@ import java.util.Set;
 @Table(name = "usr")
 @NoArgsConstructor
 public class User implements UserDetails, Serializable {
+    private static final long serialVersionUID = -8401182482189625141L;
 
     @Id
     @GeneratedValue
@@ -32,6 +33,19 @@ public class User implements UserDetails, Serializable {
     @Email(message = "Email's format isn't correct")
     @NotBlank
     private String email;
+
+    @ElementCollection
+    @CollectionTable(name = "contacts", joinColumns = @JoinColumn(name = "follower"))
+    @Column(name = "contact")
+    private Set<Long> contacts;
+
+    @ElementCollection
+    @CollectionTable(name = "contacts", joinColumns = @JoinColumn(name = "contact"))
+    @Column(name = "follower")
+    private Set<Long> followers;
+
+    @Column(name="avatar_filename", nullable = false)
+    private String avatar = "logo.png";
 
     private boolean active;
     private String activationCode;

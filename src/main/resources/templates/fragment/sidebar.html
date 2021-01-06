@@ -1,5 +1,23 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <th:block th:fragment="sidebar">
+
+        <div class="modal fade" id="modal-contacts" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content bg-primary">
+                    <div class="modal-header text-center d-block">
+                        <h5 class="modal-title">Add new contact</h5>
+                    </div>
+                    <div class="modal-body" id="modal-body-id">
+                        <input type="text" id="modal-contacts-filter" class="form-control mb-4" placeholder="Username" autocomplete="off" autocapitalize="off" />
+
+                        <div class="container user-list-container" id="user-list-contacts-add">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <aside id="sidebar" sec:authorize="hasAuthority('USER')">
             <div class="toggle">
                 <a href="#" class="fa-align-justify fa js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
@@ -19,14 +37,9 @@
                         </ul>
                     </div>
                     <div class="featured-users">
-                        <h3>Contacts</h3>
-                        <ul>
-                            <li class="person">
-                                <a href="#" class="d-flex align-items-center">
-                                    <img th:src="@{/img/logo.png}" alt="Image" class="img-fluid mr-vw">
-                                    <span class="user-name">Name</span>
-                                </a>
-                            </li>
+                        <h3><span class="fa fa-plus add-contact" data-toggle="modal" data-target="#modal-contacts"></span> Contacts</h3>
+                        <ul id="contact-list">
+
                         </ul>
                     </div>
                 </div>

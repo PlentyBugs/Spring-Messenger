@@ -1,11 +1,13 @@
 package org.plentybugs.messenger.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.plentybugs.messenger.model.User;
 import org.plentybugs.messenger.model.enums.ChatStatus;
 import org.plentybugs.messenger.model.messaging.Chat;
 import org.plentybugs.messenger.model.messaging.Message;
-import org.plentybugs.messenger.model.messaging.notification.ChatNotification;
-import org.plentybugs.messenger.model.messaging.notification.MessageNotification;
+import org.plentybugs.messenger.model.notification.ChatNotification;
+import org.plentybugs.messenger.model.notification.ContactNotification;
+import org.plentybugs.messenger.model.notification.MessageNotification;
 import org.plentybugs.messenger.service.NotificationService;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,14 @@ public class NotificationServiceImpl implements NotificationService {
                         userId,
                         status
                 )
+        );
+    }
+
+    @Override
+    public void sendContactNotification(Long userId, User contact) {
+        messagingTemplate.convertAndSendToUser(
+                userId.toString(), "/queue/contacts",
+                ContactNotification.of(contact)
         );
     }
 

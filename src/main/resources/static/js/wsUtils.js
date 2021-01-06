@@ -16,6 +16,9 @@ function connect() {
             console.log(chat);
             console.log(chat.chatId);
         });
+        stompClient.subscribe("/user/" + userId + "/queue/contacts", function (contact) {
+            addContactToSideBar(JSON.parse(contact.body));
+        });
     });
 }
 

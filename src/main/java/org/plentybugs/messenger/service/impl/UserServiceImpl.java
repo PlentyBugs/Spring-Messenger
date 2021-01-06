@@ -2,25 +2,33 @@ package org.plentybugs.messenger.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.plentybugs.messenger.model.User;
+import org.plentybugs.messenger.model.dto.SimpleUser;
 import org.plentybugs.messenger.model.enums.Role;
+import org.plentybugs.messenger.model.notification.ContactNotification;
 import org.plentybugs.messenger.repository.UserRepository;
+import org.plentybugs.messenger.service.ChatService;
 import org.plentybugs.messenger.service.MailService;
+import org.plentybugs.messenger.service.NotificationService;
 import org.plentybugs.messenger.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository repository;
+    private final NotificationService notificationService;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository repository;
+    private final ChatService chatService;
     private final MailService mailService;
 
     @Value("${hostname}")
@@ -63,6 +71,41 @@ public class UserServiceImpl implements UserService {
         repository.save(user);
 
         return "User successfully activated";
+    }
+
+    @Override
+    public List<SimpleUser> getSimpleUsers() {
+        List<User> users = repository.findAll();
+        return SimpleUser.of(users);
+    }
+
+    @Override
+    public List<SimpleUser> getSimpleUsersWithoutFriends(User user) {
+        List<User> users = repository.findAllNonFriends(user.getId());
+        return SimpleUser.of(users);
+    }
+
+    @Override
+    @Transactional
+    public void follow(User user, User contact) {
+        String id = user.getId().toString();
+        User fromDB = repository.findById(user.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        fromDB.getContacts().add(contact.getId());
+
+        repository.save(fromDB);
+
+        Set<String> participantIds = new HashSet<>();
+        participantIds.add(id);
+        participantIds.add(contact.getId().toString());
+
+        chatService.create(id, user.getUsername() + "/" + contact.getUsername(), participantIds);
+
+        notificationService.sendContactNotification(user.getId(), contact);
+    }
+
+    @Override
+    public List<ContactNotification> getContacts(User user) {
+        return repository.findAllContactsShort(user.getId());
     }
 
     private void sendMessage(User user) {

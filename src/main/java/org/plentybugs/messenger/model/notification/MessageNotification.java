@@ -1,4 +1,4 @@
-package org.plentybugs.messenger.model.messaging.notification;
+package org.plentybugs.messenger.model.notification;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
