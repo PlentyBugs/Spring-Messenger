@@ -1,0 +1,9 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <th:block th:fragment="navbar">
+        <nav class="navbar-custom" sec:authorize="hasAuthority('USER')">
+            <div class="order-2 w-100 text-center" id="navbarSupportedContent">
+                <span id="chat-name">Chat name</span>
+            </div>
+        </nav>
+    </th:block>
+</html>
