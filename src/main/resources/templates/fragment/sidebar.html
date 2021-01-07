@@ -29,18 +29,34 @@
                     <div class="logo">
                         <span>M</span>
                     </div>
-                    <div class="nav-menu">
-                        <ul>
-                            <li><a href="#">Settings</a></li>
-                            <li><a href="#">Channels</a></li>
-                            <li><a href="#">Chats</a></li>
-                        </ul>
+                    <div id="origin-menu">
+                        <div class="nav-menu">
+                            <ul class="custom-ul">
+                                <li class="custom-li"><a href="#" class="settings-menu-toggle custom-a">Settings</a></li>
+                                <li class="custom-li"><a href="#" class="contacts-menu-toggle custom-a">Contacts</a></li>
+                            </ul>
+                        </div>
+                        <div class="featured-users">
+                            <h3>Chats</h3>
+                            <ul id="chat-list">
+
+                            </ul>
+                        </div>
                     </div>
-                    <div class="featured-users">
+                    <div class="featured-users d-none" id="contact-menu">
+                        <ul class="custom-ul">
+                            <li class="custom-li"><a href="#" class="contacts-menu-toggle custom-a">Return</a></li>
+                        </ul>
                         <h3><span class="fa fa-plus add-contact" data-toggle="modal" data-target="#modal-contacts"></span> Contacts</h3>
                         <ul id="contact-list">
 
                         </ul>
+                    </div>
+                    <div class="featured-users d-none" id="settings-menu">
+                        <ul class="custom-ul">
+                            <li class="custom-li"><a href="#" class="settings-menu-toggle custom-a">Return</a></li>
+                        </ul>
+                        <h3>Settings</h3>
                     </div>
                 </div>
                 <div th:replace="~{fragment/logout :: logout}"></div>

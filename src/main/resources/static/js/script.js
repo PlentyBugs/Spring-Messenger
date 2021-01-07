@@ -68,6 +68,26 @@ $(() => {
     let searchUsers = $(".user-modal");
 
     searchUsersInput.keyup(() => filter(searchUsersInput.val(), searchUsers));
+
+    let menu = $("#origin-menu");
+    let settingsMenuToggle = $(".settings-menu-toggle");
+    let contactMenuToggle = $(".contacts-menu-toggle");
+    let contactMenu = $("#contact-menu");
+    let settingsMenu = $("#settings-menu");
+
+    for (let cmt of contactMenuToggle) {
+        $(cmt).click(() => {
+            menu.toggleClass("d-none");
+            contactMenu.toggleClass("d-none");
+        });
+    }
+
+    for (let smt of settingsMenuToggle) {
+        $(smt).click(() => {
+            menu.toggleClass("d-none");
+            settingsMenu.toggleClass("d-none");
+        });
+    }
 });
 
 function addContactToSideBar(contact) {
