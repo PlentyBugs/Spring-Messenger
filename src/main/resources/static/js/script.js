@@ -155,9 +155,9 @@ function addContactToSideBar(contact) {
 }
 
 function cacheMessageText(id) {
-    messageTextCache[chatId] = messageText.val();
-    if (messageTextCache[id] !== null) {
-        messageText.val(messageTextCache[id]);
+    localStorage.setItem(chatId, messageText.val())
+    if (localStorage.getItem(id) !== null) {
+        messageText.val(localStorage.getItem(id));
     } else {
         messageText.val("");
     }
