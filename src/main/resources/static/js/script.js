@@ -1,6 +1,9 @@
 let contactList = $("#contact-list");
 let chatList = $("#chat-list");
 let chatNameHeader = $("#chat-name");
+let messageText = $("#message-text");
+let messageTextCache = [];
+let chatId = "-1";
 
 $(() => {
     let $body = $('body');
@@ -107,6 +110,7 @@ $(() => {
 
 function addChatToSideBar(chat) {
     let name = chat.chatName;
+    let id = chat.chatId;
 
     let chatBlock = $(`<li class="block"></li>`);
     let chatLink = $(`<a href="#" class="d-flex align-items-center"></a>`);
@@ -123,11 +127,13 @@ function addChatToSideBar(chat) {
         $.ajax({
             type: 'GET',
             beforeSend: (xhr) => xhr.setRequestHeader(header, token),
-            url: getHostname() + "message/chat/" + chat.chatId,
+            url: getHostname() + "message/chat/" + id,
             async: false,
             cache: false,
             success: (messages) => {
                 chatNameHeader.text(name);
+                cacheMessageText(id);
+                chatId = id;
                 printChatWindow(messages)
             }
         });
@@ -146,6 +152,15 @@ function addContactToSideBar(contact) {
         </li>
     `)
     contactList.prepend(contactBlock);
+}
+
+function cacheMessageText(id) {
+    messageTextCache[chatId] = messageText.val();
+    if (messageTextCache[id] !== null) {
+        messageText.val(messageTextCache[id]);
+    } else {
+        messageText.val("");
+    }
 }
 
 function printChatWindow(messages) {
