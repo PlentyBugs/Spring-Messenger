@@ -13,8 +13,7 @@ function connect() {
             console.log(message.chatId);
         });
         stompClient.subscribe("/user/" + userId + "/queue/chats", function (chat) {
-            console.log(chat);
-            console.log(chat.chatId);
+            addChatToSideBar(JSON.parse(chat));
         });
         stompClient.subscribe("/user/" + userId + "/queue/contacts", function (contact) {
             addContactToSideBar(JSON.parse(contact.body));

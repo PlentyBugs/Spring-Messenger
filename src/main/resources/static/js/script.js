@@ -1,4 +1,6 @@
 let contactList = $("#contact-list");
+let chatList = $("#chat-list");
+let chatNameHeader = $("#chat-name");
 
 $(() => {
     let $body = $('body');
@@ -14,6 +16,19 @@ $(() => {
         }
 
         e.preventDefault();
+    });
+
+    $.ajax({
+        type: 'GET',
+        beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+        url: getHostname() + "chat",
+        async: false,
+        cache: false,
+        success: (chats) => {
+            for (let chat of chats) {
+                addChatToSideBar(chat);
+            }
+        }
     });
 
     $.ajax({
@@ -90,9 +105,40 @@ $(() => {
     }
 });
 
+function addChatToSideBar(chat) {
+    let name = chat.chatName;
+
+    let chatBlock = $(`<li class="block"></li>`);
+    let chatLink = $(`<a href="#" class="d-flex align-items-center"></a>`);
+    let chatImage = $(`<img src="/img/` + chat.chatLogo + `" alt="Image" class="img-fluid mr-vw">`);
+    let chatName = $(`<span class="user-name">` + name + `</span>`);
+
+    chatImage.on("error", () => chatImage.attr("src", "/img/logo.png"));
+
+    chatLink.append(chatImage);
+    chatLink.append(chatName);
+    chatBlock.append(chatLink);
+
+    chatBlock.click(() => {
+        $.ajax({
+            type: 'GET',
+            beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+            url: getHostname() + "message/chat/" + chat.chatId,
+            async: false,
+            cache: false,
+            success: (messages) => {
+                chatNameHeader.text(name);
+                printChatWindow(messages)
+            }
+        });
+    });
+
+    chatList.prepend(chatBlock);
+}
+
 function addContactToSideBar(contact) {
     let contactBlock = $(`
-        <li class="person">
+        <li class="block">
             <a href="#" class="d-flex align-items-center">
                 <img src="/img/` + contact.contactAvatarFilename + `" alt="Image" class="img-fluid mr-vw" onerror="this.onerror = null; this.src= + /img/logo.png">
                 <span class="user-name">` + contact.contactUsername + `</span>
@@ -100,6 +146,10 @@ function addContactToSideBar(contact) {
         </li>
     `)
     contactList.prepend(contactBlock);
+}
+
+function printChatWindow(messages) {
+    console.log(messages);
 }
 
 function filter(filter, items) {

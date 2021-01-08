@@ -127,11 +127,11 @@ aside .side-inner .featured-users h3 {
     list-style: none;
 }
 
-aside .side-inner .featured-users ul .person {
+aside .side-inner .featured-users ul .block {
     margin-bottom: 1vw;
 }
 
-aside .side-inner .featured-users ul .person .d-flex img {
+aside .side-inner .featured-users ul .block .d-flex img {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 3.5vw;
     flex: 0 0 3.5vw;
@@ -139,7 +139,7 @@ aside .side-inner .featured-users ul .person .d-flex img {
     border-radius: 50%;
 }
 
-aside .side-inner .featured-users ul .person .d-flex .user-name {
+aside .side-inner .featured-users ul .block .d-flex .user-name {
     color: #000;
     font-size: 1.1vw;
 }

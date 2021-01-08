@@ -19,6 +19,7 @@ public class Chat {
     private String id;
     private String chatId;
     private String chatName;
+    private String chatLogo;
     private Set<String> moderatorIds;
     private Set<String> participantIds;
 }

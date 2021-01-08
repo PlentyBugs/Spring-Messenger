@@ -2,6 +2,7 @@ package org.plentybugs.messenger.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.plentybugs.messenger.model.User;
+import org.plentybugs.messenger.model.dto.SimpleChat;
 import org.plentybugs.messenger.service.ChatService;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
@@ -31,5 +32,12 @@ public class ChatController {
         }
 
         chatService.create(userId, chatName.substring(1, chatName.length() - 1), userIds);
+    }
+
+    @GetMapping
+    public Set<SimpleChat> getAllByUser(
+            @AuthenticationPrincipal User user
+    ) {
+        return chatService.getAllByUserShort(user);
     }
 }
