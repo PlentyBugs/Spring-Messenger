@@ -1,11 +1,19 @@
+let data = $('#data');
+let userId = data.data("user-id");
+let username = data.data("user-username");
 let contactList = $("#contact-list");
 let chatList = $("#chat-list");
 let chatNameHeader = $("#chat-name");
 let messageText = $("#message-text");
-let messageTextCache = [];
+let sendButton = $("#send-button");
 let chatId = "-1";
 
 $(() => {
+
+    if (localStorage.getItem("currentChatId") !== null) {
+        loadChat(localStorage.getItem("currentChatName"), localStorage.getItem("currentChatId"));
+    }
+
     let $body = $('body');
     $('.js-menu-toggle').click(function(e) {
         const $this = $(this);
@@ -106,6 +114,16 @@ $(() => {
             settingsMenu.toggleClass("d-none");
         });
     }
+
+    messageText.keyup(evt => {
+        evt.preventDefault();
+        if (evt.which === 13) {
+            prepareMessage();
+        }
+        return false;
+    });
+
+    sendButton.click(() => prepareMessage());
 });
 
 function addChatToSideBar(chat) {
@@ -124,22 +142,28 @@ function addChatToSideBar(chat) {
     chatBlock.append(chatLink);
 
     chatBlock.click(() => {
-        $.ajax({
-            type: 'GET',
-            beforeSend: (xhr) => xhr.setRequestHeader(header, token),
-            url: getHostname() + "message/chat/" + id,
-            async: false,
-            cache: false,
-            success: (messages) => {
-                chatNameHeader.text(name);
-                cacheMessageText(id);
-                chatId = id;
-                printChatWindow(messages)
-            }
-        });
+        loadChat(name, id);
     });
 
     chatList.prepend(chatBlock);
+}
+
+function loadChat(name, id) {
+    $.ajax({
+        type: 'GET',
+        beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+        url: getHostname() + "message/chat/" + id,
+        async: false,
+        cache: false,
+        success: (messages) => {
+            chatNameHeader.text(name);
+            cacheMessageText(id);
+            chatId = id;
+            printChatWindow(messages)
+            localStorage.setItem("currentChatName", name);
+            localStorage.setItem("currentChatId", id);
+        }
+    });
 }
 
 function addContactToSideBar(contact) {
@@ -179,4 +203,11 @@ function filter(filter, items) {
 
 function getHostname() {
     return document.URL.match(/(https?:\/\/.+?\/)\/?.*/)[1];
+}
+
+function prepareMessage() {
+    let msg = messageText.val();
+    sendMessage(msg, userId, username, chatId);
+    messageText.val("");
+    localStorage.setItem(chatId, "");
 }

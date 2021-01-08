@@ -1,5 +1,4 @@
 let stompClient = null;
-let data = $('#data');
 let token = data.data('token');
 let header = data.data('header');
 
