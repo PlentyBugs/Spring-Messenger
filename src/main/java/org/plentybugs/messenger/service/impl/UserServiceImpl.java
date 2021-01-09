@@ -36,12 +36,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByUsername(username);
+        return repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @Override
     public boolean register(User user) {
-        User userFromDB = repository.findByUsername(user.getUsername());
+        User userFromDB = repository.findByUsername(user.getUsername()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         if (userFromDB != null) {
             return false;
         }
