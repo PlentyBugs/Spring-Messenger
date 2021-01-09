@@ -404,7 +404,7 @@ aside #side-content {
 .mine .message {
     color: white;
     margin-left: 25%;
-    background: linear-gradient(to bottom, #3eff6b 0%, #277200 100%) fixed;
+    background: linear-gradient(to bottom, #17ff4d 0%, #58f207 100%) fixed;
     position: relative;
 }
 
@@ -416,7 +416,7 @@ aside #side-content {
     right: -8px;
     height: 20px;
     width: 20px;
-    background: linear-gradient(to bottom, #3eff6b 0%, #277200 100%) fixed;
+    background: linear-gradient(to bottom, #17ff4d 0%, #58f207 100%) fixed;
     border-bottom-left-radius: 15px;
 }
 
