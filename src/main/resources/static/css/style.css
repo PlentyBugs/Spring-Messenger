@@ -57,7 +57,7 @@ aside {
 
 aside .toggle {
     padding-left: 2.5vw;
-    padding-top: 2.5vw;
+    padding-top: .6vw;
     position: absolute;
     right: 0;
     font-size: 1.5vw;
@@ -236,8 +236,9 @@ aside #side-content {
 }
 
 .chat-window {
+    margin-top: 5vh;
     flex: 1 1 auto;
-    height: 85vh;
+    height: 80vh;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 15px;
@@ -346,4 +347,87 @@ aside #side-content {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     border-top: 1px solid white !important;
+}
+
+.messages {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.yours {
+    align-items: flex-start;
+}
+
+.yours .message {
+    color: white;
+    margin-right: 25%;
+    background-color: #ffa012;
+    position: relative;
+}
+
+.yours .message.last:before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: -7px;
+    height: 20px;
+    width: 20px;
+    background: #ffa012;
+    border-bottom-right-radius: 15px;
+}
+.yours .message.last:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: -10px;
+    width: 10px;
+    height: 20px;
+    background: deepskyblue;
+    border-bottom-right-radius: 10px;
+}
+
+.mine {
+    align-items: flex-end;
+}
+
+.mine .message {
+    color: white;
+    margin-left: 25%;
+    background: linear-gradient(to bottom, #3eff6b 0%, #277200 100%) fixed;
+    position: relative;
+}
+
+.mine .message.last:before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    right: -8px;
+    height: 20px;
+    width: 20px;
+    background: linear-gradient(to bottom, #3eff6b 0%, #277200 100%) fixed;
+    border-bottom-left-radius: 15px;
+}
+
+.mine .message.last:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: -10px;
+    width: 10px;
+    height: 20px;
+    background: deepskyblue;
+    border-bottom-left-radius: 10px;
 }

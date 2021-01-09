@@ -3,13 +3,12 @@ let token = data.data('token');
 let header = data.data('header');
 
 function connect() {
-    let userId = data.data("usrId");
+    let userId = data.data("user-id");
     let socket = new SockJS("/ws");
     stompClient = Stomp.over(socket);
     stompClient.connect({}, () => {
         stompClient.subscribe("/user/" + userId + "/queue/messages", function (message) {
-            console.log(message);
-            console.log(message.chatId);
+            messageReceive(JSON.parse(message.body));
         });
         stompClient.subscribe("/user/" + userId + "/queue/chats", function (chat) {
             addChatToSideBar(JSON.parse(chat));

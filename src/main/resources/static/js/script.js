@@ -6,6 +6,7 @@ let chatList = $("#chat-list");
 let chatNameHeader = $("#chat-name");
 let messageText = $("#message-text");
 let sendButton = $("#send-button");
+let chatWindow = $("#chat-window");
 let chatId = "-1";
 
 $(() => {
@@ -149,21 +150,12 @@ function addChatToSideBar(chat) {
 }
 
 function loadChat(name, id) {
-    $.ajax({
-        type: 'GET',
-        beforeSend: (xhr) => xhr.setRequestHeader(header, token),
-        url: getHostname() + "message/chat/" + id,
-        async: false,
-        cache: false,
-        success: (messages) => {
-            chatNameHeader.text(name);
-            cacheMessageText(id);
-            chatId = id;
-            printChatWindow(messages)
-            localStorage.setItem("currentChatName", name);
-            localStorage.setItem("currentChatId", id);
-        }
-    });
+    chatNameHeader.text(name);
+    cacheMessageText(id);
+    chatId = id;
+    printMessages();
+    localStorage.setItem("currentChatName", name);
+    localStorage.setItem("currentChatId", id);
 }
 
 function addContactToSideBar(contact) {
@@ -187,8 +179,53 @@ function cacheMessageText(id) {
     }
 }
 
-function printChatWindow(messages) {
-    console.log(messages);
+// todo: оптимизировать
+function printMessages() {
+    $.ajax({
+        type: 'GET',
+        beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+        url: getHostname() + "message/chat/" + chatId,
+        async: false,
+        cache: false,
+        success: (messages) => {
+            chatWindow.empty();
+            let length = messages.length;
+
+            for (let i = 0; i < length; i++) {
+                let message = messages[i];
+                let position = getPosition(message);
+
+                let blockMessages = $("<div class='" + position + " messages'></div>")
+
+                while (i + 1 < length && position === getPosition(messages[i + 1])) {
+                    position = getPosition(message);
+                    blockMessages.append($("<div class='message'>" + message.content + "</div>"));
+                    message = messages[++i];
+                }
+
+                blockMessages.append($("<div class='message last'>" + message.content + "<div class='message-author'>By " + message.senderName + "</div></div>"));
+
+                chatWindow.append(blockMessages);
+            }
+            let chatWindow2 = document.getElementById("chat-window");
+            chatWindow2.scrollTop = chatWindow2.scrollHeight;
+        }
+    });
+}
+
+function getPosition(message) {
+    let position = "yours";
+    if (message.senderId == userId) {
+        position = "mine";
+    }
+    return position;
+}
+
+function messageReceive (msg) {
+    if (chatId == msg.chatId) {
+        printMessages(chatId);
+    }
+    messageText.focus();
 }
 
 function filter(filter, items) {
