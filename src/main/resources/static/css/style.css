@@ -320,3 +320,30 @@ aside #side-content {
 #contact-list {
     padding-left: 3vw;
 }
+
+.login-or {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.span-or {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: -2px;
+    margin-left: -25px;
+    background-color: #007bff;
+    width: 50px;
+    text-align: center;
+    color: white;
+}
+
+.hr-or {
+    height: 1px;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-top: 1px solid white !important;
+}
