@@ -4,6 +4,39 @@ html, body {
     height: 100%;
 }
 
+:root {
+    --background-color-side-menu: #ede6b9;
+    --background-color-chat: #ede6b9;
+    --text-color-main: black;
+    --text-color-chat: white;
+    --background-color-mine-message: #b9925e;
+    --background-color-yours-message: #829079;
+    --scroll-color: #b9925e;
+    --background-color-side-menu-logo: #b18013;
+    --text-color-menu-toggle: #ede6b9;
+    --text-color-link: #000000;
+    --text-color-link-hover: #b9925e;
+    --link-color-before: #b9925e;
+    --background-color-button: #b9925e;
+    --text-color-button: white;
+    --border-color-button: #b9925e;
+    --border-color-button-hover: white;
+    --background-color-checkbox-mark: #fff;
+    --background-color-checkbox-mark-checked: #6af321;
+    --background-color-textarea: #efac53;
+    --text-color-textarea: white;
+    --background-color-header: #efac53;
+    --text-color-chat-name-header: white;
+    --background-color-login-span-or: #efac53;
+    --text-color-login-span-or: white;
+    --text-color-error-message: red;
+    --border-color-input-error: red;
+    --background-color-input-error: #ffa1a1;
+    --background-color-form-body: #efac53;
+    --text-block-color-send-button: #efac53;
+    --send-button-color: #b18013;
+}
+
 ::-webkit-scrollbar {
     width: 3px;
     background: transparent;
@@ -14,11 +47,11 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #229cff;
+    background: var(--scroll-color);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #229cff;
+    background: var(--scroll-color);
 }
 
 .unselectable {
@@ -30,8 +63,8 @@ html, body {
 }
 
 body {
-    background-color: deepskyblue !important;
-    color: white !important;
+    background-color: var(--background-color-chat) !important;
+    color: var(--text-color-chat) !important;
 }
 
 aside {
@@ -43,7 +76,7 @@ aside {
     -webkit-transform: translateX(-100%);
     -ms-transform: translateX(-100%);
     transform: translateX(-100%);
-    background-color: #fff;
+    background-color: var(--background-color-side-menu);
     -webkit-transition: 1s -webkit-transform cubic-bezier(0.23, 1, 0.32, 1);
     transition: 1s -webkit-transform cubic-bezier(0.23, 1, 0.32, 1);
     -o-transition: 1s transform cubic-bezier(0.23, 1, 0.32, 1);
@@ -67,7 +100,7 @@ aside .toggle {
 }
 
 .show-sidebar aside .toggle .show-sidebar aside .toggle .show-sidebar aside .toggle {
-    background: #fff;
+    background: var(--background-color-side-menu);
 }
 
 .show-sidebar aside {
@@ -94,7 +127,7 @@ aside .side-inner::-webkit-scrollbar {
 aside .side-inner .logo {
     width: 4vw;
     height: 4vw;
-    background: #007bff;
+    background: var(--background-color-side-menu-logo);
     border-radius: 50%;
     position: relative;
     margin: 0 auto 4vw 3vw;
@@ -102,7 +135,7 @@ aside .side-inner .logo {
 
 aside .side-inner .logo span {
     position: absolute;
-    color: #fff;
+    color: var(--text-color-main);
     font-size: 2vw;
     top: 50%;
     left: 50%;
@@ -116,7 +149,7 @@ aside .side-inner .featured-users h3 {
     text-transform: uppercase;
     letter-spacing: .2vw;
     font-weight: 700;
-    color: #000;
+    color: var(--text-color-main);
     margin-bottom: 1vw;
     margin-left: 3vw;
 }
@@ -124,7 +157,7 @@ aside .side-inner .featured-users h3 {
 .custom-ul, .custom-li {
     padding: 0;
     margin: 0;
-    list-style: none;
+    list-style-type: none !important;
 }
 
 aside .side-inner .featured-users ul .block {
@@ -149,7 +182,7 @@ aside .side-inner .featured-users ul .block {
 }
 
 aside .side-inner .featured-users ul .block .d-flex .user-name {
-    color: #000;
+    color: var(--text-color-main);
     font-size: 1.1vw;
 }
 
@@ -157,16 +190,10 @@ aside .side-inner .nav-menu {
     margin-bottom: 4vw;
 }
 
-.custom-ul, .custom-li {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
 .custom-a {
     display: block;
     padding: 1vw 2.5vw 1vw 3vw;
-    color: #b1b1b1;
+    color: var(--text-color-link);
     position: relative;
     -webkit-transition: .3s padding-left ease;
     -o-transition: .3s padding-left ease;
@@ -184,7 +211,7 @@ aside .side-inner .nav-menu {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     height: 2px;
-    background-color: #007bff;
+    background-color: var(--link-color-before);
     opacity: 0;
     visibility: hidden;
     -webkit-transition: .3s opacity ease, .3s visibility ease, .3s width ease;
@@ -197,11 +224,7 @@ aside .side-inner .nav-menu {
 }
 
 .custom-a:hover {
-    color: #000;
-}
-
-.custom-a {
-    color: #000;
+    color: var(--text-color-link-hover);
 }
 
 .custom-a:hover:before {
@@ -277,11 +300,11 @@ aside #side-content {
 }
 
 .send-button {
-    background-color: white;
+    background-color: var(--text-block-color-send-button);
     position: absolute;
     width: 5%;
     height: 15vh;
-    color: deepskyblue;
+    color: var(--send-button-color);
     text-align: center;
     font-size: 2vw !important;
     line-height: 15vh !important;
@@ -297,7 +320,7 @@ aside #side-content {
 }
 
 .add-contact:hover {
-    color: deepskyblue;
+    color: var(--background-color-button);
 }
 
 .user-modal-checkbox {
@@ -316,17 +339,17 @@ aside #side-content {
     right: 0;
     height: 1.3rem;
     width: 1.3rem;
-    background-color: #eee;
+    background-color: var(--background-color-checkbox-mark);
     border-radius: 1rem;
     margin-top: 0.8rem;
 }
 
 .user-modal-checkbox:hover input ~ .user-modal-checkbox-mark {
-    background-color: #ccc;
+    background-color: var(--background-color-checkbox-mark);
 }
 
 .user-modal-checkbox input:checked ~ .user-modal-checkbox-mark {
-    background-color: #6af321;
+    background-color: var(--background-color-checkbox-mark-checked);
 }
 
 .user-modal-checkbox-mark:after {
@@ -357,13 +380,13 @@ aside #side-content {
 
 .navbar-custom {
     position: absolute;
-    background-color: white;
+    background-color: var(--background-color-header);
     width: 100%;
     height: 5vh;
 }
 
 #chat-name {
-    color: black;
+    color: var(--text-color-chat-name-header);
     font-size: 2vw;
     line-height: 5vh;
 }
@@ -386,10 +409,10 @@ aside #side-content {
     left: 50%;
     top: -2px;
     margin-left: -25px;
-    background-color: #007bff;
+    background-color: var(--background-color-login-span-or);
     width: 50px;
     text-align: center;
-    color: white;
+    color: var(--text-color-login-span-or);
 }
 
 .hr-or {
@@ -421,9 +444,9 @@ aside #side-content {
 }
 
 .yours .message {
-    color: white;
+    color: var(--text-color-chat);
     margin-right: 25%;
-    background-color: #ffa012;
+    background-color: var(--background-color-yours-message);
     position: relative;
 }
 
@@ -435,7 +458,7 @@ aside #side-content {
     left: -7px;
     height: 20px;
     width: 20px;
-    background: #ffa012;
+    background: var(--background-color-yours-message);
     border-bottom-right-radius: 15px;
 }
 .yours .message.last:after {
@@ -446,7 +469,7 @@ aside #side-content {
     left: -10px;
     width: 10px;
     height: 20px;
-    background: deepskyblue;
+    background: var(--background-color-chat);
     border-bottom-right-radius: 10px;
 }
 
@@ -455,9 +478,9 @@ aside #side-content {
 }
 
 .mine .message {
-    color: white;
+    color: var(--text-color-chat);
     margin-left: 25%;
-    background: linear-gradient(to bottom, #17ff4d 0%, #58f207 100%) fixed;
+    background: var(--background-color-mine-message);
     position: relative;
 }
 
@@ -469,7 +492,7 @@ aside #side-content {
     right: -8px;
     height: 20px;
     width: 20px;
-    background: linear-gradient(to bottom, #17ff4d 0%, #58f207 100%) fixed;
+    background: var(--background-color-mine-message);
     border-bottom-left-radius: 15px;
 }
 
@@ -481,18 +504,18 @@ aside #side-content {
     right: -10px;
     width: 10px;
     height: 20px;
-    background: deepskyblue;
+    background: var(--background-color-chat);
     border-bottom-left-radius: 10px;
 }
 
 .error {
-    color: black;
+    color: var(--text-color-error-message);
     font-size: 1.1vw;
 }
 
 .error-input {
-    border-color: red !important;
-    background-color: #ffd4d4 !important;
+    border-color: var(--border-color-input-error) !important;
+    background-color: var(--background-color-input-error) !important;
     border-width: 0.2vw !important;
 }
 
@@ -500,4 +523,31 @@ aside #side-content {
     max-height: 30vh;
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+.message-textarea {
+    background-color: var(--background-color-textarea);
+    color: var(--text-color-textarea);
+}
+
+.js-menu-toggle {
+    color: var(--text-color-menu-toggle);
+}
+
+.btn-custom {
+    color: var(--text-color-button);
+    background-color: var(--background-color-button);
+    border-color: var(--border-color-button);
+}
+
+.btn-custom:hover {
+    border-color: var(--border-color-button-hover);
+}
+
+.bg-custom {
+    background-color: var(--background-color-form-body) !important;
+}
+
+.non-styled-list {
+    list-style-type: none !important;
 }
