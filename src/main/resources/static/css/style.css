@@ -434,3 +434,14 @@ aside #side-content {
     background: deepskyblue;
     border-bottom-left-radius: 10px;
 }
+
+.error {
+    color: black;
+    font-size: 1.1vw;
+}
+
+.error-input {
+    border-color: red !important;
+    background-color: #ffd4d4 !important;
+    border-width: 0.2vw !important;
+}

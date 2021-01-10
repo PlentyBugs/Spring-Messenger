@@ -125,6 +125,22 @@ $(() => {
     });
 
     sendButton.click(() => prepareMessage());
+
+    let createChatName = $("#modal-create-chat-name");
+    let createChatError = $("#modal-create-chat-error")
+    let createChatButton = $("#modal-create-chat-button");
+    createChatButton.click(() => {
+        let chatName = createChatName.val();
+        if (chatName !== "" && chatName.length < 256) {
+            createChatError.text("");
+            createChatName.removeClass("error-input");
+            createChatName.val("");
+            createChat(chatName, userId, [userId]);
+        } else {
+            createChatError.text(chatName === "" ? "Chat name can't be empty": "Chat name's too long");
+            createChatName.addClass("error-input");
+        }
+    });
 });
 
 function addChatToSideBar(chat) {

@@ -11,7 +11,7 @@ function connect() {
             messageReceive(JSON.parse(message.body));
         });
         stompClient.subscribe("/user/" + userId + "/queue/chats", function (chat) {
-            addChatToSideBar(JSON.parse(chat));
+            addChatToSideBar(JSON.parse(chat.body));
         });
         stompClient.subscribe("/user/" + userId + "/queue/contacts", function (contact) {
             addContactToSideBar(JSON.parse(contact.body));
