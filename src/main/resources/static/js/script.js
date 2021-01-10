@@ -7,6 +7,7 @@ let chatNameHeader = $("#chat-name");
 let messageText = $("#message-text");
 let sendButton = $("#send-button");
 let chatWindow = $("#chat-window");
+let contactListChatCreating = $("#contact-list-chat-creating");
 let chatId = "-1";
 
 $(() => {
@@ -52,6 +53,7 @@ $(() => {
         success: (contacts) => {
             for (let contact of contacts) {
                 addContactToSideBar(contact);
+                addContactToChatCreatingBar(contact);
             }
         }
     });
@@ -149,7 +151,7 @@ function addChatToSideBar(chat) {
 
     let chatBlock = $(`<li class="block"></li>`);
     let chatLink = $(`<a href="#" class="d-flex align-items-center"></a>`);
-    let chatImage = $(`<img src="/img/` + chat.chatLogo + `" alt="Image" class="img-fluid mr-vw">`);
+    let chatImage = $(`<img src="/img/` + chat.chatLogo + `" alt="Image" class="img-fluid custom-img mr-vw">`);
     let chatName = $(`<span class="user-name">` + name + `</span>`);
 
     chatImage.on("error", () => chatImage.attr("src", "/img/logo.png"));
@@ -178,12 +180,27 @@ function addContactToSideBar(contact) {
     let contactBlock = $(`
         <li class="block">
             <a href="#" class="d-flex align-items-center">
-                <img src="/img/` + contact.contactAvatarFilename + `" alt="Image" class="img-fluid mr-vw" onerror="this.onerror = null; this.src= + /img/logo.png">
+                <img src="/img/` + contact.contactAvatarFilename + `" alt="Image" class="img-fluid custom-img mr-vw" onerror="this.onerror = null; this.src= + /img/logo.png">
                 <span class="user-name">` + contact.contactUsername + `</span>
             </a>
         </li>
     `)
     contactList.prepend(contactBlock);
+}
+
+function addContactToChatCreatingBar(contact) {
+    let id = contact.contactId;
+    let contactBlock = $(`
+        <div class='row m-2 user-modal checkbox-list-box' style='display: flow-root'>
+            <label for='contact-` + id + `' data-id='` + userId + `' class='user-modal-checkbox'>
+                <img src="/img/` + contact.contactAvatarFilename + `" alt="Image" class="img-fluid custom-img custom-img-checkbox-list mr-vw" onerror="this.onerror = null; this.src= + /img/logo.png">
+                <span>` + contact.contactUsername + `</span>
+                <input type='checkbox' id='contact-` + id + `' data-contact-id='` + id + `' class='user-modal-checkbox d-none' />
+                <span class='user-modal-checkbox-mark'></span>
+            </label>
+        </div>
+    `);
+    contactListChatCreating.append(contactBlock);
 }
 
 function cacheMessageText(id) {

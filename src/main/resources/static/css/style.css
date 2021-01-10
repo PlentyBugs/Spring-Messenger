@@ -131,12 +131,21 @@ aside .side-inner .featured-users ul .block {
     margin-bottom: 1vw;
 }
 
-aside .side-inner .featured-users ul .block .d-flex img {
+.custom-img {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 3.5vw;
     flex: 0 0 3.5vw;
     width: 3.5vw;
     border-radius: 50%;
+}
+
+.custom-img-checkbox-list {
+    min-width: 2rem !important;
+    width: 3rem !important;
+}
+
+.checkbox-list-box {
+    height: 3rem;
 }
 
 aside .side-inner .featured-users ul .block .d-flex .user-name {
@@ -301,6 +310,47 @@ aside #side-content {
     user-select: none;
 }
 
+.user-modal-checkbox-mark {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 1.3rem;
+    width: 1.3rem;
+    background-color: #eee;
+    border-radius: 1rem;
+    margin-top: 0.8rem;
+}
+
+.user-modal-checkbox:hover input ~ .user-modal-checkbox-mark {
+    background-color: #ccc;
+}
+
+.user-modal-checkbox input:checked ~ .user-modal-checkbox-mark {
+    background-color: #6af321;
+}
+
+.user-modal-checkbox-mark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.user-modal-checkbox input:checked ~ .user-modal-checkbox-mark:after {
+    display: block;
+}
+
+.user-modal-checkbox .user-modal-checkbox-mark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
 .add-contact-button {
     width: 5rem;
 }
@@ -444,4 +494,10 @@ aside #side-content {
     border-color: red !important;
     background-color: #ffd4d4 !important;
     border-width: 0.2vw !important;
+}
+
+.modal-list {
+    max-height: 30vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
