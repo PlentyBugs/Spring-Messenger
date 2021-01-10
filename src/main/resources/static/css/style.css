@@ -361,6 +361,8 @@ aside #side-content {
     margin-top: 5px;
     margin-bottom: 5px;
     display: inline-block;
+    max-width: 50vw;
+    overflow-wrap: break-word;
 }
 
 .yours {
