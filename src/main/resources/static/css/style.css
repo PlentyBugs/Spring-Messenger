@@ -363,6 +363,7 @@ aside #side-content {
     display: inline-block;
     max-width: 50vw;
     overflow-wrap: break-word;
+    width: fit-content;
 }
 
 .yours {

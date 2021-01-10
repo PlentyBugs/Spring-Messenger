@@ -18,6 +18,21 @@
             </div>
         </div>
 
+        <div class="modal fade" id="modal-new-channel" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content bg-primary">
+                    <div class="modal-header text-center d-block">
+                        <h5 class="modal-title">Create Chat</h5>
+                    </div>
+                    <div class="modal-body" id="modal-body-new-channel">
+                        <input type="text" id="modal-new-channel-name" class="form-control mb-4" placeholder="Chat name" autocomplete="off" autocapitalize="off" />
+
+                        <button class="btn btn-lg btn-block btn-outline-light">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <aside id="sidebar">
             <div class="toggle">
                 <a href="#" class="fa-align-justify fa js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
@@ -34,6 +49,7 @@
                             <ul class="custom-ul">
                                 <li class="custom-li"><a href="#" class="settings-menu-toggle custom-a">Settings</a></li>
                                 <li class="custom-li"><a href="#" class="contacts-menu-toggle custom-a">Contacts</a></li>
+                                <li class="custom-li"><a href="#" class="create-chat-menu-toggle custom-a" data-toggle="modal" data-target="#modal-new-channel">Create chat</a></li>
                             </ul>
                         </div>
                         <div class="featured-users">
