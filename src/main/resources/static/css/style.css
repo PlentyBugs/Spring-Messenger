@@ -14,6 +14,7 @@ html, body {
     --scroll-color: #b9925e;
     --background-color-side-menu-logo: #b18013;
     --text-color-menu-toggle: #ede6b9;
+    --text-color-menu-toggle-hover: #eee793;
     --text-color-link: #000000;
     --text-color-link-hover: #b9925e;
     --link-color-before: #b9925e;
@@ -35,6 +36,126 @@ html, body {
     --background-color-form-body: #efac53;
     --text-block-color-send-button: #efac53;
     --send-button-color: #b18013;
+}
+
+.bg-1 {
+    background: #abd7eb !important;
+}
+
+.bg-2 {
+    background: #2c9a8e !important;
+}
+
+.bg-3 {
+    background: #01463f !important;
+}
+
+.bg-4 {
+    background: #47485d !important;
+}
+
+.bg-5 {
+    background: #a89b28 !important;
+}
+
+.bg-6 {
+    background: #d7743b !important;
+}
+
+.bg-7 {
+    background: #fec4d2 !important;
+}
+
+.bg-8 {
+    background: #456c35 !important;
+}
+
+.bg-9 {
+    background: #778f51 !important;
+}
+
+.bg-10 {
+    background: #acc38b !important;
+}
+
+.bg-11 {
+    background: #96a1d1 !important;
+}
+
+.bg-12 {
+    background: #b9d3ef !important;
+}
+
+.bg-13 {
+    background: #dfe4da !important;
+}
+
+.bg-14 {
+    background: #faf4d7 !important;
+}
+
+.bg-15 {
+    background: #878289 !important;
+}
+
+.bg-16 {
+    background: #8595a5 !important;
+}
+
+.bg-17 {
+    background: #bcccdc !important;
+}
+
+.bg-18 {
+    background: #eaceca !important;
+}
+
+.bg-19 {
+    background: #f6b6b4 !important;
+}
+
+.bg-20 {
+    background: #f6b6b4 !important;
+}
+
+.bg-21 {
+    background: #f8f4c7 !important;
+}
+
+.bg-22 {
+    background: #f5ece3 !important;
+}
+
+.bg-23 {
+    background: #c2a899 !important;
+}
+
+.bg-24 {
+    background: #c8dcab !important;
+}
+
+.bg-25 {
+    background: #ebe996 !important;
+}
+
+.bg-26 {
+    background: #e78c0a !important;
+}
+
+.bg-27 {
+    background: #bf4b02 !important;
+}
+
+.bg-28 {
+    background: #e5bdb5 !important;
+}
+
+.bg-29 {
+    background: #e0dbc8 !important;
+}
+
+.bg-30 {
+    background: #fed6bc !important;
 }
 
 ::-webkit-scrollbar {
@@ -124,7 +245,7 @@ aside .side-inner::-webkit-scrollbar {
     display: none;
 }
 
-aside .side-inner .logo {
+.logo {
     width: 4vw;
     height: 4vw;
     background: var(--background-color-side-menu-logo);
@@ -133,7 +254,7 @@ aside .side-inner .logo {
     margin: 0 auto 4vw 3vw;
 }
 
-aside .side-inner .logo span {
+.logo span {
     position: absolute;
     color: var(--text-color-main);
     font-size: 2vw;
@@ -160,14 +281,28 @@ aside .side-inner .featured-users h3 {
     list-style-type: none !important;
 }
 
+.pl-1vw {
+    padding-left: 1vw;
+}
+
+.pl-2vw {
+    padding-left: 2vw;
+}
+
+.pl-3vw {
+    padding-left: 3vw;
+}
+
 aside .side-inner .featured-users ul .block {
     margin-bottom: 1vw;
 }
 
 .custom-img {
+    margin: 0;
     -webkit-box-flex: 0;
     -ms-flex: 0 0 3.5vw;
     flex: 0 0 3.5vw;
+    height: 3.5vw;
     width: 3.5vw;
     border-radius: 50%;
 }
@@ -391,10 +526,6 @@ aside #side-content {
     line-height: 5vh;
 }
 
-#contact-list {
-    padding-left: 3vw;
-}
-
 .login-or {
     position: relative;
     margin-top: 10px;
@@ -532,6 +663,10 @@ aside #side-content {
 
 .js-menu-toggle {
     color: var(--text-color-menu-toggle);
+}
+
+.js-menu-toggle:hover {
+    color: var(--text-color-menu-toggle-hover);
 }
 
 .btn-custom {

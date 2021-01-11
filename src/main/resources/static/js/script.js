@@ -156,7 +156,7 @@ function addChatToSideBar(chat) {
     let chatImage = $(`<img src="/img/` + chat.chatLogo + `" alt="Image" class="img-fluid custom-img mr-vw">`);
     let chatName = $(`<span class="user-name">` + name + `</span>`);
 
-    chatImage.on("error", () => chatImage.attr("src", "/img/logo.png"));
+    onImageError(chatImage, chatLink, name);
 
     chatLink.append(chatImage);
     chatLink.append(chatName);
@@ -179,29 +179,40 @@ function loadChat(name, id) {
 }
 
 function addContactToSideBar(contact) {
-    let contactBlock = $(`
-        <li class="block">
-            <a href="#" class="d-flex align-items-center">
-                <img src="/img/` + contact.contactAvatarFilename + `" alt="Image" class="img-fluid custom-img mr-vw" onerror="this.onerror = null; this.src= + /img/logo.png">
-                <span class="user-name">` + contact.contactUsername + `</span>
-            </a>
-        </li>
-    `)
+    let contactUsername = contact.contactUsername;
+
+    let contactBlock = $("<li class='block'></li>");
+    let link = $("<a href='#' class='d-flex align-items-center'></a>");
+    let img = $("<img src='/img/" + contact.contactAvatarFilename + "' alt='Image' class='img-fluid custom-img mr-vw'>");
+    let userName = $("<span class='user-name'>" + contactUsername + "</span>");
+    onImageError(img, link, contactUsername);
+
+    link.append(img);
+    link.append(userName);
+    contactBlock.append(link);
+
     contactList.prepend(contactBlock);
 }
 
 function addContactToChatCreatingBar(contact) {
+    let contactUsername = contact.contactUsername;
     let id = contact.contactId;
-    let contactBlock = $(`
-        <div class='row m-2 user-modal checkbox-list-box' style='display: flow-root'>
-            <label for='contact-` + id + `' data-id='` + userId + `' class='user-modal-checkbox'>
-                <img src="/img/` + contact.contactAvatarFilename + `" alt="Image" class="img-fluid custom-img custom-img-checkbox-list mr-vw" onerror="this.onerror = null; this.src= + /img/logo.png">
-                <span>` + contact.contactUsername + `</span>
-                <input type='checkbox' id='contact-` + id + `' data-id='` + id + `' class='user-modal-checkbox d-none create-chat-contact-checkbox' />
-                <span class='user-modal-checkbox-mark'></span>
-            </label>
-        </div>
-    `);
+
+    let contactBlock = $("<div class='row m-2 user-modal checkbox-list-box' style='display: flow-root'></div>");
+    let label = $("<label for='contact-" + id + "' data-id='" + userId + "' class='user-modal-checkbox'></label>");
+    let img = $("<img src='/img/" + contact.contactAvatarFilename + "' alt='Image' class='img-fluid custom-img custom-img-checkbox-list mr-vw'>");
+    let span = $("<span>" + contactUsername + "</span>");
+    let checkbox = $("<input type='checkbox' id='contact-" + id + "' data-id='" + id + "' class='user-modal-checkbox d-none create-chat-contact-checkbox' />");
+    let checkboxMark = $("<span class='user-modal-checkbox-mark'></span>");
+
+    onImageError(img, label, contactUsername);
+
+    label.append(img);
+    label.append(span);
+    label.append(checkbox);
+    label.append(checkboxMark);
+    contactBlock.append(label);
+
     contactListChatCreating.append(contactBlock);
 }
 
@@ -293,4 +304,17 @@ function processCheckboxes(checkboxes) {
         }
     }
     return userIds;
+}
+
+function onImageError(img, parent, name) {
+    $(img).on("error", () => {
+        $(img).remove();
+        $(parent).prepend(getErrorReplacement(name));
+    });
+}
+
+function getErrorReplacement(name) {
+    let letter = name[0].toUpperCase();
+    let backgroundColor = "bg-" + Math.floor(Math.random()*30 + 1);
+    return $("<div class='logo custom-img mr-vw " + backgroundColor + "'><span>" + letter + "</span></div>");
 }
