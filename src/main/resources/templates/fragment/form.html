@@ -1,6 +1,7 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div th:fragment="log_form (type)">
-        <div class="container">
+        <script th:src="@{/js/authRedirector.js}" sec:authorize="isAuthenticated()"></script>
+        <div class="container" sec:authorize="isAnonymous()">
             <div class="row">
                 <div class="col-md-5 mx-auto bg-custom rounded pt-2 pb-3 vertical-center">
                     <div th:if="${param.logout}" class="alert alert-warning text-center" role="alert">
