@@ -23,6 +23,7 @@ public class MVCConfig implements WebMvcConfigurer {
         registry.addResourceHandler(
                 "/webjars/**",
                 "/img/**",
+                "/favicon.png",
                 "/css/**",
                 "/js/**"
         ).addResourceLocations(
@@ -31,6 +32,7 @@ public class MVCConfig implements WebMvcConfigurer {
                 "classpath:/static/css/",
                 "classpath:/static/js/",
                 "classpath:/static/img/",
+                "classpath:/static/",
                 "/webjars/"
         );
     }
