@@ -41,8 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean register(User user) {
-        User userFromDB = repository.findByUsername(user.getUsername()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        if (userFromDB != null) {
+        if (repository.findByUsername(user.getUsername()).isPresent()) {
             return false;
         }
 
