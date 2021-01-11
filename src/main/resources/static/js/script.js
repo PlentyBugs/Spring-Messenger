@@ -137,7 +137,9 @@ $(() => {
             createChatError.text("");
             createChatName.removeClass("error-input");
             createChatName.val("");
-            createChat(chatName, userId, [userId]);
+            let ids = processCheckboxes($(".create-chat-contact-checkbox"));
+            ids.push(userId)
+            createChat(chatName, userId, ids);
         } else {
             createChatError.text(chatName === "" ? "Chat name can't be empty": "Chat name's too long");
             createChatName.addClass("error-input");
@@ -195,7 +197,7 @@ function addContactToChatCreatingBar(contact) {
             <label for='contact-` + id + `' data-id='` + userId + `' class='user-modal-checkbox'>
                 <img src="/img/` + contact.contactAvatarFilename + `" alt="Image" class="img-fluid custom-img custom-img-checkbox-list mr-vw" onerror="this.onerror = null; this.src= + /img/logo.png">
                 <span>` + contact.contactUsername + `</span>
-                <input type='checkbox' id='contact-` + id + `' data-contact-id='` + id + `' class='user-modal-checkbox d-none' />
+                <input type='checkbox' id='contact-` + id + `' data-id='` + id + `' class='user-modal-checkbox d-none create-chat-contact-checkbox' />
                 <span class='user-modal-checkbox-mark'></span>
             </label>
         </div>
@@ -280,4 +282,15 @@ function prepareMessage() {
     sendMessage(msg, userId, username, chatId);
     messageText.val("");
     localStorage.setItem(chatId, "");
+}
+
+function processCheckboxes(checkboxes) {
+    let userIds = [];
+    for (let checkbox of checkboxes) {
+        if ($(checkbox).is(':checked')) {
+            userIds.push($(checkbox).data("id"));
+            $(checkbox).prop("checked", false);
+        }
+    }
+    return userIds;
 }
