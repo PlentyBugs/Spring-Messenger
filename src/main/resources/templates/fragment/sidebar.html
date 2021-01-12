@@ -36,9 +36,9 @@
             </div>
         </div>
 
-        <aside id="sidebar">
-            <div class="toggle">
-                <a href="#" class="fa-align-justify fa js-menu-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <aside id="sidebar" class="sidebar sidebar-left">
+            <div class="toggle" id="toggle-left">
+                <a href="#" class="fa-align-justify fa js-menu-toggle">
                     <span></span>
                 </a>
             </div>
@@ -79,6 +79,16 @@
                     </div>
                 </div>
                 <div th:replace="~{fragment/logout :: logout}"></div>
+            </div>
+        </aside>
+        <aside id="chat-menu" class="sidebar sidebar-right">
+            <div class="toggle" id="toggle-right">
+                <a href="#" class="fa-align-justify fa js-menu-toggle">
+                    <span></span>
+                </a>
+            </div>
+            <div class="side-inner">
+
             </div>
         </aside>
     </th:block>

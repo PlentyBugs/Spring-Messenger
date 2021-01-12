@@ -12,6 +12,33 @@ let chatId = "-1";
 
 $(() => {
 
+    let leftToggle = $("#toggle-left");
+    let leftToggled = false;
+    let leftSidebar = $("#sidebar");
+    let rightToggle = $("#toggle-right");
+    let rightToggled = false;
+    let rightSidebar = $("#chat-menu");
+
+    leftToggle.click(() => {
+        if (leftToggled) {
+            leftSidebar.css("transform", "translateX(-100%)");
+            leftToggled = false;
+        } else {
+            leftSidebar.css("transform", "translateX(0%)");
+            leftToggled = true;
+        }
+    });
+
+    rightToggle.click(() => {
+        if (rightToggled) {
+            rightSidebar.css("transform", "translateX(100%)");
+            rightToggled = false;
+        } else {
+            rightSidebar.css("transform", "translateX(0%)");
+            rightToggled = true;
+        }
+    });
+
     if (localStorage.getItem("currentChatId") !== null) {
         loadChat(localStorage.getItem("currentChatName"), localStorage.getItem("currentChatId"));
     }
