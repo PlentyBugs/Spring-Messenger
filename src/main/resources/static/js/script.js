@@ -241,9 +241,9 @@ function printMessages() {
                 let message = messages[i];
                 let position = getPosition(message);
 
-                let blockMessages = $("<div class='" + position + " messages'></div>")
+                let blockMessages = $("<div class='" + position + " messages'></div>");
 
-                while (i + 1 < length && position === getPosition(messages[i + 1])) {
+                while (i + 1 < length && position === getPosition(messages[i + 1]) && message.senderName === messages[i + 1].senderName) {
                     position = getPosition(message);
                     blockMessages.append($("<div class='message'>" + message.content + "</div>"));
                     message = messages[++i];
