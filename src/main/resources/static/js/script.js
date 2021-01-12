@@ -1,6 +1,7 @@
 let data = $('#data');
 let userId = data.data("user-id");
 let username = data.data("user-username");
+let avatar = data.data("user-avatar");
 let contactList = $("#contact-list");
 let chatList = $("#chat-list");
 let chatNameHeader = $("#chat-name");
@@ -8,6 +9,7 @@ let messageText = $("#message-text");
 let sendButton = $("#send-button");
 let chatWindow = $("#chat-window");
 let contactListChatCreating = $("#contact-list-chat-creating");
+let sideContent = $("#side-content");
 let chatId = "-1";
 
 $(() => {
@@ -172,6 +174,10 @@ $(() => {
             createChatName.addClass("error-input");
         }
     });
+
+    let userAvatar = $("<img class='img-fluid custom-img ml-3vw' src='/img/" + avatar + "' />")
+    onImageError(userAvatar, sideContent, username);
+    sideContent.prepend(userAvatar);
 });
 
 function addChatToSideBar(chat) {
