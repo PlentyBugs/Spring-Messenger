@@ -9,9 +9,9 @@ import org.plentybugs.messenger.model.User;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContactNotification {
-    private Long contactId;
-    private String contactUsername;
-    private String contactAvatarFilename;
+    private Long id;
+    private String username;
+    private String avatar;
 
     public static ContactNotification of(User user) {
         return new ContactNotification(

@@ -47,7 +47,7 @@ public class ChatController {
     public Chat getChatById(
             @AuthenticationPrincipal User user,
             @PathVariable("id") Chat chat
-    ) {
+    ) throws ResponseStatusException {
         if (chat.getParticipantIds().contains(user.getId().toString())) {
             return chat;
         }
@@ -58,7 +58,7 @@ public class ChatController {
     public Set<ContactNotification> getParticipants(
             @AuthenticationPrincipal User user,
             @PathVariable("id") Chat chat
-    ) {
+    ) throws ResponseStatusException {
         if (chat.getParticipantIds().contains(user.getId().toString())) {
             return chatService.getParticipants(chat);
         }
@@ -66,15 +66,28 @@ public class ChatController {
     }
 
     @Async
-    @PutMapping("/{id}/invite/{userId}")
+    @PutMapping("/{id}/participant/{userId}")
     public void inviteUser(
             @AuthenticationPrincipal User admin,
             @PathVariable("id") Chat chat,
             @PathVariable String userId
-    ) {
+    ) throws ResponseStatusException {
         if (!chat.getModeratorIds().contains(admin.getId().toString())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         chatService.inviteUser(chat, userId);
+    }
+
+    @Async
+    @DeleteMapping("/{id}/participant/{userId}")
+    public void kickUser(
+            @AuthenticationPrincipal User admin,
+            @PathVariable("id") Chat chat,
+            @PathVariable String userId
+    ) throws ResponseStatusException {
+        if (!chat.getModeratorIds().contains(admin.getId().toString())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        chatService.kickUser(chat, userId);
     }
 }

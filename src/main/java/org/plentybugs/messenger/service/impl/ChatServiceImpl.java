@@ -74,4 +74,11 @@ public class ChatServiceImpl implements ChatService {
         chat.getParticipantIds().add(userId);
         repository.save(chat);
     }
+
+    @Override
+    public void kickUser(Chat chat, String userId) {
+        chat.getParticipantIds().remove(userId);
+        chat.getModeratorIds().remove(userId);
+        repository.save(chat);
+    }
 }

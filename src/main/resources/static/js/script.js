@@ -12,6 +12,17 @@ let contactListChatCreating = $("#contact-list-chat-creating");
 let sideContent = $("#side-content");
 let chatId = "-1";
 
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
+
 $(() => {
 
     let leftToggle = $("#toggle-left");
@@ -215,6 +226,7 @@ function loadChat(id) {
         async: false,
         cache: false,
         success: (chat) => {
+            let isModerator = chat.moderatorIds.includes(userId + "");
             let name = chat.chatName;
             let id = chat.chatId;
             let logo = chat.chatLogo;
@@ -223,7 +235,7 @@ function loadChat(id) {
             chatId = id;
             printMessages();
             localStorage.setItem("currentChatId", id);
-            localStorage.setItem("currentChat", chat);
+            localStorage.setItem("currentChat", JSON.stringify(chat));
 
             let chatMenu = $("#chat-menu-content");
             chatMenu.empty();
@@ -231,7 +243,8 @@ function loadChat(id) {
             let topBox = $("<div></div>");
             let chatLogo = $("<img class='img-fluid custom-img ml-3vw d-inline-flex' src='/img/" + logo + "' />")
             onImageError(chatLogo, topBox, name, "ml-3vw d-inline-flex");
-            let participantCount = $("<div class='d-inline-flex custom-a user-count'>" + chat.participantIds.length + " users</div>");
+            let participantCount = $("<div class='d-inline-flex custom-a user-count'><span id='usersInChat'>" + chat.participantIds.length + "</span>&nbsp;users</div>");
+            let usersInChat = participantCount.find("#usersInChat");
 
             let participantList = $("<div id='participant-list' class='participant-list' style='display: none'></div>");
             $.ajax({
@@ -242,7 +255,23 @@ function loadChat(id) {
                 cache: false,
                 success: (participants) => {
                     for (let participant of participants) {
-                        participantList.append($("<div>" + participant.contactUsername + "</div>"));
+                        let userBlock = getUserBlock(participant, true);
+                        userBlock.addClass("mb-1vh");
+
+                        if (isModerator && participant.id != userId) {
+                            let kickButton = $("<button class='btn btn-outline-danger ml-auto d-inline-flex'>kick</button>");
+                            kickButton.click(() => {
+                                kickUser(chatId, participant.id);
+                                userBlock.remove();
+                                usersInChat.text(usersInChat.text() - 1);
+                                chat.participantIds.remove(participant.id + "");
+                                localStorage.setItem("currentChat", JSON.stringify(chat));
+                                addUserToInviteModal(participant);
+                            });
+                            userBlock.find(">:first-child").append(kickButton);
+                        }
+
+                        participantList.append(userBlock);
                     }
                 }
             });
@@ -257,7 +286,7 @@ function loadChat(id) {
 
             topBox.prepend(chatLogo);
             topBox.append(participantCount);
-            if (chat.moderatorIds.includes(userId + "")) {
+            if (isModerator) {
                 let addParticipantPlus = $("<span class='fa fa-plus invite-plus' data-toggle='modal' data-target='#modal-invite-user-to-chat'></span>");
                 topBox.append(addParticipantPlus);
             }
@@ -270,12 +299,11 @@ function loadChat(id) {
 }
 
 function addContactToSideBar(contact) {
-    let id = contact.contactId;
-    let name = contact.contactUsername;
+    let name = contact.username;
 
     let contactBlock = $("<li class='block'></li>");
     let link = $("<a href='#' class='d-flex align-items-center'></a>");
-    let img = $("<img src='/img/" + contact.contactAvatarFilename + "' alt='Image' class='img-fluid custom-img mr-vw'>");
+    let img = $("<img src='/img/" + contact.avatar + "' alt='Image' class='img-fluid custom-img mr-vw'>");
     let userName = $("<span class='user-name'>" + name + "</span>");
     onImageError(img, link, name);
 
@@ -285,43 +313,16 @@ function addContactToSideBar(contact) {
 
     contactList.prepend(contactBlock);
 
-    let chat = localStorage.getItem("currentChat");
-    if (chat !== null) {
-        let parsedChat = JSON.parse(chat);
-        if (parsedChat.moderatorIds.includes(userId + "") && !parsedChat.participantIds.includes(id + "")) {
-            let containerInviteToChat = $("#user-invite-user-to-chat-add");
-            let userContainer = $("<div class='row m-2 user-modal-invite-to-chat' style='display: flow-root'></div>");
-            let userLabel = $("<label for='" + id + "' data-id='" + id + "' class='user-modal-checkbox'></label>");
-            let usernameSpan = $("<span>" + name + "</span>");
-            let inviteButton = $("<button class='add-contact-button float-right btn-info'>invite</button>")
-
-            inviteButton.click(() => {
-                $.ajax({
-                    type: 'PUT',
-                    beforeSend: (xhr) => xhr.setRequestHeader(header, token),
-                    url: getHostname() + "chat/" + parsedChat.chatId + "/invite/" + id,
-                    async: true,
-                    cache: false,
-                });
-                playSuccessButtonAnimation(inviteButton, "invite", "invited", 1500, "btn-info");
-            });
-
-            userLabel.append(usernameSpan);
-            userLabel.append(inviteButton);
-            userContainer.append(userLabel);
-
-            containerInviteToChat.append(userContainer);
-        }
-    }
+    addUserToInviteModal(contact);
 }
 
 function addContactToChatCreatingBar(contact) {
-    let contactUsername = contact.contactUsername;
-    let id = contact.contactId;
+    let contactUsername = contact.username;
+    let id = contact.id;
 
     let contactBlock = $("<div class='row m-2 user-modal checkbox-list-box' style='display: flow-root'></div>");
     let label = $("<label for='contact-" + id + "' data-id='" + userId + "' class='user-modal-checkbox'></label>");
-    let img = $("<img src='/img/" + contact.contactAvatarFilename + "' alt='Image' class='img-fluid custom-img custom-img-checkbox-list mr-vw'>");
+    let img = $("<img src='/img/" + contact.avatar + "' alt='Image' class='img-fluid custom-img custom-img-checkbox-list mr-vw'>");
     let span = $("<span>" + contactUsername + "</span>");
     let checkbox = $("<input type='checkbox' id='contact-" + id + "' data-id='" + id + "' class='user-modal-checkbox d-none create-chat-contact-checkbox' />");
     let checkboxMark = $("<span class='user-modal-checkbox-mark'></span>");
@@ -450,4 +451,66 @@ function playSuccessButtonAnimation(button, commonText, successText = "Success",
         button.removeClass(successClass);
         button.addClass(commonClass);
     }, timeout);
+}
+
+function getUserBlock(user, minimizedImg = false) {
+    let name = user.username;
+    let userBlock = $(`<div class="block"></div>`);
+    let userLink = $(`<div class="d-flex align-items-center"></div>`);
+    let userAvatar = $(`<img src="/img/` + user.avatar + `" alt="User avatar" class="img-fluid mr-vw">`);
+    let userName = $(`<span class="user-name">` + name + `</span>`);
+
+    let imgClass = minimizedImg ? "custom-img-min": "custom-img";
+    userAvatar.addClass(imgClass);
+
+    onImageError(userAvatar, userLink, name, imgClass);
+
+    userLink.append(userAvatar);
+    userLink.append(userName);
+    userBlock.append(userLink);
+
+    return userBlock;
+}
+
+function kickUser(chatId, userId) {
+    $.ajax({
+        type: 'DELETE',
+        beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+        url: getHostname() + "chat/" + chatId + "/participant/" + userId,
+        async: true,
+        cache: false
+    });
+}
+
+function addUserToInviteModal(contact) {
+    let id = contact.id;
+    let name = contact.username;
+    let chat = localStorage.getItem("currentChat");
+    if (chat !== null) {
+        let parsedChat = JSON.parse(chat);
+        if (parsedChat.moderatorIds.includes(userId + "") && !parsedChat.participantIds.includes(id + "")) {
+            let containerInviteToChat = $("#user-invite-user-to-chat-add");
+            let userContainer = $("<div class='row m-2 user-modal-invite-to-chat' style='display: flow-root'></div>");
+            let userLabel = $("<label for='" + id + "' data-id='" + id + "' class='user-modal-checkbox'></label>");
+            let usernameSpan = $("<span>" + name + "</span>");
+            let inviteButton = $("<button class='add-contact-button float-right btn-info'>invite</button>")
+
+            inviteButton.click(() => {
+                $.ajax({
+                    type: 'PUT',
+                    beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+                    url: getHostname() + "chat/" + parsedChat.chatId + "/participant/" + id,
+                    async: true,
+                    cache: false,
+                });
+                playSuccessButtonAnimation(inviteButton, "invite", "invited", 1500, "btn-info");
+            });
+
+            userLabel.append(usernameSpan);
+            userLabel.append(inviteButton);
+            userContainer.append(userLabel);
+
+            containerInviteToChat.append(userContainer);
+        }
+    }
 }

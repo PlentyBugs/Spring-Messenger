@@ -20,4 +20,6 @@ public interface ChatService {
     Set<ContactNotification> getParticipants(Chat chat);
 
     void inviteUser(Chat chat, String userId);
+
+    void kickUser(Chat chat, String userId);
 }
