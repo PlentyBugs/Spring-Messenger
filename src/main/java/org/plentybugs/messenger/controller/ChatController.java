@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.plentybugs.messenger.model.User;
 import org.plentybugs.messenger.model.dto.SimpleChat;
 import org.plentybugs.messenger.model.messaging.Chat;
+import org.plentybugs.messenger.model.notification.ContactNotification;
 import org.plentybugs.messenger.service.ChatService;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
@@ -51,5 +52,29 @@ public class ChatController {
             return chat;
         }
         throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+    }
+
+    @GetMapping("/{id}/participant")
+    public Set<ContactNotification> getParticipants(
+            @AuthenticationPrincipal User user,
+            @PathVariable("id") Chat chat
+    ) {
+        if (chat.getParticipantIds().contains(user.getId().toString())) {
+            return chatService.getParticipants(chat);
+        }
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+    }
+
+    @Async
+    @PutMapping("/{id}/invite/{userId}")
+    public void inviteUser(
+            @AuthenticationPrincipal User admin,
+            @PathVariable("id") Chat chat,
+            @PathVariable String userId
+    ) {
+        if (!chat.getModeratorIds().contains(admin.getId().toString())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        chatService.inviteUser(chat, userId);
     }
 }

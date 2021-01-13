@@ -538,3 +538,21 @@ body {
     font-size: 1.5vw;
     cursor: pointer;
 }
+
+.participant-list {
+    margin: .25vw;
+    padding: 1vw;
+    font-size: 1.25vw;
+    color: var(--text-color-main);
+    box-shadow: inset 0 0 6px 0;
+}
+
+.invite-plus {
+    transform: translateY(-3vh);
+    font-size: 1.25vw !important;
+    color: var(--text-color-main);
+}
+
+.invite-plus:hover {
+    color: var(--background-color-button);
+}

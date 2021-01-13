@@ -41,8 +41,8 @@ $(() => {
         }
     });
 
-    if (localStorage.getItem("currentChat") !== null) {
-        loadChat(JSON.parse(localStorage.getItem("currentChat")));
+    if (localStorage.getItem("currentChatId") !== null) {
+        loadChat(localStorage.getItem("currentChatId"));
     }
 
     let $body = $('body');
@@ -127,6 +127,11 @@ $(() => {
 
     searchUsersInput.keyup(() => filter(searchUsersInput.val(), searchUsers));
 
+    let searchUsersInputInviteToChat = $("#modal-invite-user-to-chat-filter");
+    let searchUsersInviteToChat = $(".user-modal-invite-to-chat");
+
+    searchUsersInputInviteToChat.keyup(() => filter(searchUsersInputInviteToChat.val(), searchUsersInviteToChat));
+
     let menu = $("#origin-menu");
     let settingsMenuToggle = $(".settings-menu-toggle");
     let contactMenuToggle = $(".contacts-menu-toggle");
@@ -196,59 +201,118 @@ function addChatToSideBar(chat) {
     chatBlock.append(chatLink);
 
     chatBlock.click(() => {
-        $.ajax({
-            type: 'GET',
-            beforeSend: (xhr) => xhr.setRequestHeader(header, token),
-            url: getHostname() + "chat/" + id,
-            async: false,
-            cache: false,
-            success: (fullChat) => loadChat(fullChat)
-        });
+        loadChat(id);
     });
 
     chatList.prepend(chatBlock);
 }
 
-function loadChat(chat) {
-    console.log(chat);
-    let name = chat.chatName;
-    let id = chat.chatId;
-    let logo = chat.chatLogo;
-    chatNameHeader.text(name);
-    cacheMessageText(id);
-    chatId = id;
-    printMessages();
-    localStorage.setItem("currentChat", JSON.stringify(chat));
+function loadChat(id) {
+    $.ajax({
+        type: 'GET',
+        beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+        url: getHostname() + "chat/" + id,
+        async: false,
+        cache: false,
+        success: (chat) => {
+            let name = chat.chatName;
+            let id = chat.chatId;
+            let logo = chat.chatLogo;
+            chatNameHeader.text(name);
+            cacheMessageText(id);
+            chatId = id;
+            printMessages();
+            localStorage.setItem("currentChatId", id);
+            localStorage.setItem("currentChat", chat);
 
-    let chatMenu = $("#chat-menu-content");
-    chatMenu.empty();
-    let chatNameInMenu = $("<span class='text-center custom-h3 h3-vw mb-3vh'>" + name + "</span>")
-    let topBox = $("<div class='mb-3vh'></div>");
-    let chatLogo = $("<img class='img-fluid custom-img ml-3vw d-inline-flex' src='/img/" + logo + "' />")
-    onImageError(chatLogo, topBox, name, "ml-3vw d-inline-flex");
-    let participantCount = $("<div class='d-inline-flex custom-a user-count'>" + chat.participantIds.length + " users</div>");
+            let chatMenu = $("#chat-menu-content");
+            chatMenu.empty();
+            let chatNameInMenu = $("<span class='text-center custom-h3 h3-vw mb-3vh'>" + name + "</span>");
+            let topBox = $("<div></div>");
+            let chatLogo = $("<img class='img-fluid custom-img ml-3vw d-inline-flex' src='/img/" + logo + "' />")
+            onImageError(chatLogo, topBox, name, "ml-3vw d-inline-flex");
+            let participantCount = $("<div class='d-inline-flex custom-a user-count'>" + chat.participantIds.length + " users</div>");
 
-    topBox.prepend(chatLogo);
-    topBox.append(participantCount);
+            let participantList = $("<div id='participant-list' class='participant-list' style='display: none'></div>");
+            $.ajax({
+                type: 'GET',
+                beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+                url: getHostname() + "chat/" + id + "/participant",
+                async: false,
+                cache: false,
+                success: (participants) => {
+                    for (let participant of participants) {
+                        participantList.append($("<div>" + participant.contactUsername + "</div>"));
+                    }
+                }
+            });
 
-    chatMenu.append(chatNameInMenu);
-    chatMenu.append(topBox);
+            participantCount.click(() => {
+                if (participantList.is(":hidden")) {
+                    participantList.slideDown("slow");
+                } else {
+                    participantList.slideUp("slow");
+                }
+            });
+
+            topBox.prepend(chatLogo);
+            topBox.append(participantCount);
+            if (chat.moderatorIds.includes(userId + "")) {
+                let addParticipantPlus = $("<span class='fa fa-plus invite-plus' data-toggle='modal' data-target='#modal-invite-user-to-chat'></span>");
+                topBox.append(addParticipantPlus);
+            }
+
+            chatMenu.append(chatNameInMenu);
+            chatMenu.append(topBox);
+            chatMenu.append(participantList);
+        }
+    });
 }
 
 function addContactToSideBar(contact) {
-    let contactUsername = contact.contactUsername;
+    let id = contact.contactId;
+    let name = contact.contactUsername;
 
     let contactBlock = $("<li class='block'></li>");
     let link = $("<a href='#' class='d-flex align-items-center'></a>");
     let img = $("<img src='/img/" + contact.contactAvatarFilename + "' alt='Image' class='img-fluid custom-img mr-vw'>");
-    let userName = $("<span class='user-name'>" + contactUsername + "</span>");
-    onImageError(img, link, contactUsername);
+    let userName = $("<span class='user-name'>" + name + "</span>");
+    onImageError(img, link, name);
 
     link.append(img);
     link.append(userName);
     contactBlock.append(link);
 
     contactList.prepend(contactBlock);
+
+    let chat = localStorage.getItem("currentChat");
+    if (chat !== null) {
+        let parsedChat = JSON.parse(chat);
+        if (parsedChat.moderatorIds.includes(userId + "") && !parsedChat.participantIds.includes(id + "")) {
+            let containerInviteToChat = $("#user-invite-user-to-chat-add");
+            let userContainer = $("<div class='row m-2 user-modal-invite-to-chat' style='display: flow-root'></div>");
+            let userLabel = $("<label for='" + id + "' data-id='" + id + "' class='user-modal-checkbox'></label>");
+            let usernameSpan = $("<span>" + name + "</span>");
+            let inviteButton = $("<button class='add-contact-button float-right btn-info'>invite</button>")
+
+            inviteButton.click(() => {
+                $.ajax({
+                    type: 'PUT',
+                    beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+                    url: getHostname() + "chat/" + parsedChat.chatId + "/invite/" + id,
+                    async: true,
+                    cache: false,
+                });
+                playSuccessButtonAnimation(inviteButton, "invite", "invited", 1500, "btn-info");
+            });
+
+            userLabel.append(usernameSpan);
+            userLabel.append(inviteButton);
+            userContainer.append(userLabel);
+
+            containerInviteToChat.append(userContainer);
+        }
+    }
 }
 
 function addContactToChatCreatingBar(contact) {
@@ -374,4 +438,16 @@ function getErrorReplacement(name = "A", classes = "") {
     let letter = name[0].toUpperCase();
     let backgroundColor = "bg-" + Math.floor(Math.random()*30 + 1);
     return $("<div class='logo custom-img mr-vw " + backgroundColor + " " + classes + "'><span>" + letter + "</span></div>");
+}
+
+function playSuccessButtonAnimation(button, commonText, successText = "Success", timeout = 1500, commonClass = "btn-warning", successClass = "btn-success") {
+    button = $(button);
+    button.text(successText);
+    button.removeClass(commonClass);
+    button.addClass(successClass);
+    setTimeout(() => {
+        button.text(commonText);
+        button.removeClass(successClass);
+        button.addClass(commonClass);
+    }, timeout);
 }

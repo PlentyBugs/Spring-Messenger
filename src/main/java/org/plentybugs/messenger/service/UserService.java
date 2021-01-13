@@ -6,6 +6,7 @@ import org.plentybugs.messenger.model.notification.ContactNotification;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService extends UserDetailsService {
 
@@ -20,4 +21,6 @@ public interface UserService extends UserDetailsService {
     void follow(User user, User contact);
 
     List<ContactNotification> getContacts(User user);
+
+    Set<ContactNotification> getUsersById(Set<Long> ids);
 }

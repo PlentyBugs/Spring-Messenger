@@ -107,6 +107,11 @@ public class UserServiceImpl implements UserService {
         return repository.findAllContactsShort(user.getId());
     }
 
+    @Override
+    public Set<ContactNotification> getUsersById(Set<Long> ids) {
+        return repository.findAllById(ids);
+    }
+
     private void sendMessage(User user) {
         if (user.getEmail() != null && !user.getEmail().equals("")) {
             String message = String.format(

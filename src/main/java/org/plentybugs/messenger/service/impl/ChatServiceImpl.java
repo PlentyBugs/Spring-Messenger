@@ -1,13 +1,15 @@
 package org.plentybugs.messenger.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import org.plentybugs.messenger.model.User;
 import org.plentybugs.messenger.model.dto.SimpleChat;
 import org.plentybugs.messenger.model.enums.ChatStatus;
 import org.plentybugs.messenger.model.messaging.Chat;
+import org.plentybugs.messenger.model.notification.ContactNotification;
 import org.plentybugs.messenger.repository.ChatRepository;
 import org.plentybugs.messenger.service.ChatService;
 import org.plentybugs.messenger.service.NotificationService;
+import org.plentybugs.messenger.service.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,11 +20,17 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
 
     private final NotificationService notificationService;
     private final ChatRepository repository;
+    private final UserService userService;
+
+    public ChatServiceImpl(NotificationService notificationService, ChatRepository repository, @Lazy UserService userService) {
+        this.notificationService = notificationService;
+        this.repository = repository;
+        this.userService = userService;
+    }
 
     @Override
     public Chat findByChatId(String chatId) {
@@ -54,5 +62,16 @@ public class ChatServiceImpl implements ChatService {
         if (!repository.findByChatId(chatId).getParticipantIds().contains(user.getId().toString())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
+    }
+
+    @Override
+    public Set<ContactNotification> getParticipants(Chat chat) {
+        return userService.getUsersById(chat.getParticipantIds().stream().map(Long::parseLong).collect(Collectors.toSet()));
+    }
+
+    @Override
+    public void inviteUser(Chat chat, String userId) {
+        chat.getParticipantIds().add(userId);
+        repository.save(chat);
     }
 }

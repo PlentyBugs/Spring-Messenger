@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
@@ -18,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select new org.plentybugs.messenger.model.notification.ContactNotification(u.id, u.username, u.avatar) from User u where :userId member of u.followers")
     List<ContactNotification> findAllContactsShort(Long userId);
+
+    @Query("select new org.plentybugs.messenger.model.notification.ContactNotification(u.id, u.username, u.avatar) from User u where u.id in :ids")
+    Set<ContactNotification> findAllById(Set<Long> ids);
 }
