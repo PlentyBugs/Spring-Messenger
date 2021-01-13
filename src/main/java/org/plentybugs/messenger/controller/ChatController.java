@@ -3,6 +3,7 @@ package org.plentybugs.messenger.controller;
 import lombok.RequiredArgsConstructor;
 import org.plentybugs.messenger.model.User;
 import org.plentybugs.messenger.model.dto.SimpleChat;
+import org.plentybugs.messenger.model.messaging.Chat;
 import org.plentybugs.messenger.service.ChatService;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
@@ -39,5 +40,16 @@ public class ChatController {
             @AuthenticationPrincipal User user
     ) {
         return chatService.getAllByUserShort(user);
+    }
+
+    @GetMapping("/{id}")
+    public Chat getChatById(
+            @AuthenticationPrincipal User user,
+            @PathVariable("id") Chat chat
+    ) {
+        if (chat.getParticipantIds().contains(user.getId().toString())) {
+            return chat;
+        }
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
     }
 }

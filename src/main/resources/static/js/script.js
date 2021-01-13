@@ -196,7 +196,14 @@ function addChatToSideBar(chat) {
     chatBlock.append(chatLink);
 
     chatBlock.click(() => {
-        loadChat(chat);
+        $.ajax({
+            type: 'GET',
+            beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+            url: getHostname() + "chat/" + id,
+            async: false,
+            cache: false,
+            success: (fullChat) => loadChat(fullChat)
+        });
     });
 
     chatList.prepend(chatBlock);
