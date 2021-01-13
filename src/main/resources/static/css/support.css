@@ -247,3 +247,11 @@
 .pb-3vh {
     padding-bottom: 3vh !important;
 }
+
+.h3-vw {
+    margin-top: 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    display: block !important;
+    font-size: 1.75vw !important;
+}

@@ -222,6 +222,7 @@ function loadChat(chat) {
 
     let chatMenu = $("#chat-menu-content");
     chatMenu.empty();
+    let chatNameInMenu = $("<span class='text-center custom-h3 h3-vw mb-3vh'>" + name + "</span>")
     let topBox = $("<div class='mb-3vh'></div>");
     let chatLogo = $("<img class='img-fluid custom-img ml-3vw d-inline-flex' src='/img/" + logo + "' />")
     onImageError(chatLogo, topBox, name, "ml-3vw d-inline-flex");
@@ -230,6 +231,7 @@ function loadChat(chat) {
     topBox.prepend(chatLogo);
     topBox.append(participantCount);
 
+    chatMenu.append(chatNameInMenu);
     chatMenu.append(topBox);
 }
 
