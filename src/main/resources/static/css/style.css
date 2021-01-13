@@ -532,3 +532,9 @@ body {
 .non-styled-list {
     list-style-type: none !important;
 }
+
+.user-count {
+    transform: translateY(-2.5vh);
+    font-size: 1.5vw;
+    cursor: pointer;
+}

@@ -222,9 +222,15 @@ function loadChat(chat) {
 
     let chatMenu = $("#chat-menu-content");
     chatMenu.empty();
-    let chatLogo = $("<img class='img-fluid custom-img ml-3vw mb-3vh' src='/img/" + logo + "' />")
-    onImageError(chatLogo, chatMenu, name, "ml-3vw mb-3vh");
-    chatMenu.prepend(chatLogo);
+    let topBox = $("<div class='mb-3vh'></div>");
+    let chatLogo = $("<img class='img-fluid custom-img ml-3vw d-inline-flex' src='/img/" + logo + "' />")
+    onImageError(chatLogo, topBox, name, "ml-3vw d-inline-flex");
+    let participantCount = $("<div class='d-inline-flex custom-a user-count'>" + chat.participantIds.length + " users</div>");
+
+    topBox.prepend(chatLogo);
+    topBox.append(participantCount);
+
+    chatMenu.append(topBox);
 }
 
 function addContactToSideBar(contact) {
