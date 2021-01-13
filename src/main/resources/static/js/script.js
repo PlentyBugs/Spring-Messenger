@@ -41,8 +41,8 @@ $(() => {
         }
     });
 
-    if (localStorage.getItem("currentChatId") !== null) {
-        loadChat(localStorage.getItem("currentChatName"), localStorage.getItem("currentChatId"));
+    if (localStorage.getItem("currentChat") !== null) {
+        loadChat(JSON.parse(localStorage.getItem("currentChat")));
     }
 
     let $body = $('body');
@@ -175,8 +175,8 @@ $(() => {
         }
     });
 
-    let userAvatar = $("<img class='img-fluid custom-img ml-3vw' src='/img/" + avatar + "' />")
-    onImageError(userAvatar, sideContent, username);
+    let userAvatar = $("<img class='img-fluid custom-img ml-3vw mb-3vh' src='/img/" + avatar + "' />")
+    onImageError(userAvatar, sideContent, username, "ml-3vw mb-3vh");
     sideContent.prepend(userAvatar);
 });
 
@@ -196,19 +196,28 @@ function addChatToSideBar(chat) {
     chatBlock.append(chatLink);
 
     chatBlock.click(() => {
-        loadChat(name, id);
+        loadChat(chat);
     });
 
     chatList.prepend(chatBlock);
 }
 
-function loadChat(name, id) {
+function loadChat(chat) {
+    console.log(chat);
+    let name = chat.chatName;
+    let id = chat.chatId;
+    let logo = chat.chatLogo;
     chatNameHeader.text(name);
     cacheMessageText(id);
     chatId = id;
     printMessages();
-    localStorage.setItem("currentChatName", name);
-    localStorage.setItem("currentChatId", id);
+    localStorage.setItem("currentChat", JSON.stringify(chat));
+
+    let chatMenu = $("#chat-menu-content");
+    chatMenu.empty();
+    let chatLogo = $("<img class='img-fluid custom-img ml-3vw mb-3vh' src='/img/" + logo + "' />")
+    onImageError(chatLogo, chatMenu, name, "ml-3vw mb-3vh");
+    chatMenu.prepend(chatLogo);
 }
 
 function addContactToSideBar(contact) {
@@ -339,15 +348,15 @@ function processCheckboxes(checkboxes) {
     return userIds;
 }
 
-function onImageError(img, parent, name) {
+function onImageError(img, parent, name, classes = "") {
     $(img).on("error", () => {
         $(img).remove();
-        $(parent).prepend(getErrorReplacement(name));
+        $(parent).prepend(getErrorReplacement(name, classes));
     });
 }
 
-function getErrorReplacement(name) {
+function getErrorReplacement(name = "A", classes = "") {
     let letter = name[0].toUpperCase();
     let backgroundColor = "bg-" + Math.floor(Math.random()*30 + 1);
-    return $("<div class='logo custom-img mr-vw " + backgroundColor + "'><span>" + letter + "</span></div>");
+    return $("<div class='logo custom-img mr-vw " + backgroundColor + " " + classes + "'><span>" + letter + "</span></div>");
 }
