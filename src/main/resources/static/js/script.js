@@ -239,7 +239,7 @@ function loadChat(id) {
 
             let chatMenu = $("#chat-menu-content");
             chatMenu.empty();
-            let chatNameInMenu = $("<span class='text-center custom-h3 h3-vw mb-3vh'>" + name + "</span>");
+            let chatNameInMenu = $("<span class='text-center custom-h3 h3-vw mb-3vh' style='overflow-wrap: break-word;'>" + name + "</span>");
             let topBox = $("<div></div>");
             let chatLogo = $("<img class='img-fluid custom-img ml-3vw d-inline-flex' src='/img/" + logo + "' />")
             onImageError(chatLogo, topBox, name, "ml-3vw d-inline-flex");
@@ -259,7 +259,7 @@ function loadChat(id) {
                         userBlock.addClass("mb-1vh");
 
                         if (isModerator && participant.id != userId) {
-                            let kickButton = $("<button class='btn btn-outline-danger ml-auto d-inline-flex'>kick</button>");
+                            let kickButton = $("<button class='btn kick-button btn-outline-danger ml-auto d-inline-flex'>kick</button>");
                             kickButton.click(() => {
                                 kickUser(chatId, participant.id);
                                 userBlock.remove();

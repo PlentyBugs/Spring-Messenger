@@ -569,3 +569,10 @@ body {
 .user-block {
     height: 3vh;
 }
+
+.kick-button {
+    border: .1vw solid red !important;
+    padding: .375vw .75vw !important;
+    font-size: 1vw !important;
+    border-radius: .25vw !important;
+}
