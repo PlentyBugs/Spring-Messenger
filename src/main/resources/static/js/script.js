@@ -144,24 +144,19 @@ $(() => {
     searchUsersInputInviteToChat.keyup(() => filter(searchUsersInputInviteToChat.val(), searchUsersInviteToChat));
 
     let menu = $("#origin-menu");
-    let settingsMenuToggle = $(".settings-menu-toggle");
     let contactMenuToggle = $(".contacts-menu-toggle");
-    let contactMenu = $("#contact-menu");
+    let settingsMenuToggle = $(".settings-menu-toggle");
+    let settingsMenuProfileToggle = $(".settings-menu-profile-toggle");
+    let settingsMenuDisplayToggle = $(".settings-menu-display-toggle");
     let settingsMenu = $("#settings-menu");
+    let settingsMenuProfile = $("#settings-menu-profile");
+    let settingsMenuDisplay = $("#settings-menu-display");
+    let contactMenu = $("#contact-menu");
 
-    for (let cmt of contactMenuToggle) {
-        $(cmt).click(() => {
-            menu.toggleClass("d-none");
-            contactMenu.toggleClass("d-none");
-        });
-    }
-
-    for (let smt of settingsMenuToggle) {
-        $(smt).click(() => {
-            menu.toggleClass("d-none");
-            settingsMenu.toggleClass("d-none");
-        });
-    }
+    menuToggle(menu, contactMenu, contactMenuToggle);
+    menuToggle(menu, settingsMenu, settingsMenuToggle);
+    menuToggle(settingsMenu, settingsMenuProfile, settingsMenuProfileToggle);
+    menuToggle(settingsMenu, settingsMenuDisplay, settingsMenuDisplayToggle);
 
     messageText.keyup(evt => {
         evt.preventDefault();
@@ -195,6 +190,15 @@ $(() => {
     onImageError(userAvatar, sideContent, username, "ml-3vw mb-3vh");
     sideContent.prepend(userAvatar);
 });
+
+function menuToggle(menu, subMenu, toggle) {
+    for (let tgl of toggle) {
+        $(tgl).click(() => {
+            menu.toggleClass("d-none");
+            subMenu.toggleClass("d-none");
+        });
+    }
+}
 
 function addChatToSideBar(chat) {
     let name = chat.chatName;

@@ -89,7 +89,25 @@
                         <ul class="custom-ul">
                             <li class="custom-li"><a href="#" class="settings-menu-toggle custom-a">Return</a></li>
                         </ul>
-                        <h3>Settings</h3>
+                        <h3 class="custom-h3">Settings</h3>
+                        <div class="nav-menu">
+                            <ul class="custom-ul">
+                                <li class="custom-li"><a href="#" class="settings-menu-profile-toggle custom-a">Profile Settings</a></li>
+                                <li class="custom-li"><a href="#" class="settings-menu-display-toggle custom-a">Display Settings</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="featured-users d-none" id="settings-menu-profile">
+                        <ul class="custom-ul">
+                            <li class="custom-li"><a href="#" class="settings-menu-profile-toggle custom-a">Return</a></li>
+                        </ul>
+                        <h3 class="custom-h3">Profile Settings</h3>
+                    </div>
+                    <div class="featured-users d-none" id="settings-menu-display">
+                        <ul class="custom-ul">
+                            <li class="custom-li"><a href="#" class="settings-menu-display-toggle custom-a">Return</a></li>
+                        </ul>
+                        <h3 class="custom-h3">Display Settings</h3>
                     </div>
                 </div>
                 <div th:replace="~{fragment/logout :: logout}"></div>
