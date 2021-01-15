@@ -1,6 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <th:block th:fragment="scripts">
-        <script th:src="@{/js/script.js}"></script>
+        <script th:src="@{/js/script.js}" sec:authorize="hasAuthority('USER')"></script>
         <script th:src="@{/js/wsUtils.js}" sec:authorize="hasAuthority('USER')"></script>
+        <script th:src="@{/js/settings.js}" sec:authorize="hasAuthority('USER')"></script>
     </th:block>
 </html>

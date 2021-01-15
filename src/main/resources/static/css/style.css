@@ -576,3 +576,12 @@ body {
     font-size: 1vw !important;
     border-radius: .25vw !important;
 }
+
+.custom-label {
+    color: var(--text-color-main);
+    overflow-wrap: break-word;
+}
+
+.custom-label:hover {
+    color: var(--text-color-link-hover);
+}

@@ -1,8 +1,8 @@
 :root {
     --background-color-side-menu: #ede6b9;
     --background-color-chat: #ede6b9;
-    --text-color-main: black;
-    --text-color-chat: white;
+    --text-color-main: #000000;
+    --text-color-chat: #ffffff;
     --background-color-mine-message: #b9925e;
     --background-color-yours-message: #829079;
     --scroll-color: #b9925e;
@@ -13,19 +13,19 @@
     --text-color-link-hover: #b9925e;
     --link-color-before: #b9925e;
     --background-color-button: #b9925e;
-    --text-color-button: white;
+    --text-color-button: #ffffff;
     --border-color-button: #b9925e;
-    --border-color-button-hover: white;
+    --border-color-button-hover: #ffffff;
     --background-color-checkbox-mark: #fff;
     --background-color-checkbox-mark-checked: #6af321;
     --background-color-textarea: #efac53;
-    --text-color-textarea: white;
+    --text-color-textarea: #ffffff;
     --background-color-header: #efac53;
-    --text-color-chat-name-header: white;
+    --text-color-chat-name-header: #ffffff;
     --background-color-login-span-or: #efac53;
-    --text-color-login-span-or: white;
-    --text-color-error-message: red;
-    --border-color-input-error: red;
+    --text-color-login-span-or: #ffffff;
+    --text-color-error-message: #ff0000;
+    --border-color-input-error: #ff0000;
     --background-color-input-error: #ffa1a1;
     --background-color-form-body: #efac53;
     --text-block-color-send-button: #efac53;
@@ -258,4 +258,21 @@
 
 .va-text-bottom {
     vertical-align: text-bottom !important;
+}
+
+input[type="color"] {
+    -webkit-appearance: none;
+    width: 1vw;
+    height: 1vw;
+    border: 0;
+    border-radius: 50%;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 2px 2px 5px rgba(0,0,0,.1);
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+    border: none;
 }
