@@ -1,47 +1,45 @@
 let rootStyles = $(":root")[0].style;
 let styles = JSON.parse(localStorage.getItem("styles"));
+let colorVars = {
+    'background-color-side-menu': '#ede6b9',
+    'background-color-chat': '#ede6b9',
+    'text-color-main': '#000000',
+    'text-color-chat': '#ffffff',
+    'background-color-mine-message': '#b9925e',
+    'background-color-yours-message': '#829079',
+    'scroll-color': '#b9925e',
+    'background-color-side-menu-logo': '#b18013',
+    'text-color-menu-toggle': '#ede6b9',
+    'text-color-menu-toggle-hover': '#eee793',
+    'text-color-link': '#000000',
+    'text-color-link-hover': '#b9925e',
+    'link-color-before': '#b9925e',
+    'background-color-button': '#b9925e',
+    'text-color-button': '#ffffff',
+    'border-color-button': '#b9925e',
+    'border-color-button-hover': '#ffffff',
+    'background-color-checkbox-mark': '#ffffff',
+    'background-color-checkbox-mark-checked': '#6af321',
+    'background-color-textarea': '#efac53',
+    'text-color-textarea': '#ffffff',
+    'background-color-header': '#efac53',
+    'text-color-chat-name-header': '#ffffff',
+    'background-color-login-span-or': '#efac53',
+    'text-color-login-span-or': '#ffffff',
+    'text-color-error-message': '#ff0000',
+    'border-color-input-error': '#ff0000',
+    'background-color-input-error': '#ffa1a1',
+    'background-color-form-body': '#efac53',
+    'text-block-color-send-button': '#efac53',
+    'send-button-color': '#b18013',
+};
 
 $(() => {
     if (styles == null || styles === "null") {
-        styles = {};
-        localStorage.setItem("styles", JSON.stringify({}));
+        createClearStyles();
     } else {
         Object.keys(styles).forEach(colorVar => rootStyles.setProperty("--" + colorVar, styles[colorVar]));
     }
-
-    let colorVars = {
-        'background-color-side-menu': '#ede6b9',
-        'background-color-chat': '#ede6b9',
-        'text-color-main': '#000000',
-        'text-color-chat': '#ffffff',
-        'background-color-mine-message': '#b9925e',
-        'background-color-yours-message': '#829079',
-        'scroll-color': '#b9925e',
-        'background-color-side-menu-logo': '#b18013',
-        'text-color-menu-toggle': '#ede6b9',
-        'text-color-menu-toggle-hover': '#eee793',
-        'text-color-link': '#000000',
-        'text-color-link-hover': '#b9925e',
-        'link-color-before': '#b9925e',
-        'background-color-button': '#b9925e',
-        'text-color-button': '#ffffff',
-        'border-color-button': '#b9925e',
-        'border-color-button-hover': '#ffffff',
-        'background-color-checkbox-mark': '#fff',
-        'background-color-checkbox-mark-checked': '#6af321',
-        'background-color-textarea': '#efac53',
-        'text-color-textarea': '#ffffff',
-        'background-color-header': '#efac53',
-        'text-color-chat-name-header': '#ffffff',
-        'background-color-login-span-or': '#efac53',
-        'text-color-login-span-or': '#ffffff',
-        'text-color-error-message': '#ff0000',
-        'border-color-input-error': '#ff0000',
-        'background-color-input-error': '#ffa1a1',
-        'background-color-form-body': '#efac53',
-        'text-block-color-send-button': '#efac53',
-        'send-button-color': '#b18013',
-    };
     
     let menu = $("#origin-menu");
     let contactMenuToggle = $(".contacts-menu-toggle");
@@ -57,6 +55,17 @@ $(() => {
     menuToggle(menu, settingsMenu, settingsMenuToggle);
     menuToggle(settingsMenu, settingsMenuProfile, settingsMenuProfileToggle);
     menuToggle(settingsMenu, settingsMenuDisplay, settingsMenuDisplayToggle);
+
+    let clearButton = $("<button class='btn btn-block btn-custom btn-outline-danger mb-1vh'>Reset to default</button>")
+    clearButton.click(() => {
+        createClearStyles();
+        Object.keys(colorVars).forEach(colorVar => {
+            let color = colorVars[colorVar];
+            rootStyles.setProperty("--" + colorVar, color);
+            $("#" + colorVar).val(color);
+        });
+    });
+    settingsMenuDisplay.append(clearButton);
 
     Object.keys(colorVars).forEach(colorVar => settingsMenuDisplay.append($(getDisplayColorInput(colorVar, colorVars[colorVar]))));
 });
@@ -91,4 +100,9 @@ function menuToggle(menu, subMenu, toggle) {
             subMenu.toggleClass("d-none");
         });
     }
+}
+
+function createClearStyles() {
+    styles = {};
+    localStorage.setItem("styles", JSON.stringify(styles));
 }
