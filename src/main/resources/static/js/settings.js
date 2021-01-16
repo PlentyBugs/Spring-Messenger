@@ -1,6 +1,14 @@
-let root = $(":root");
+let rootStyles = $(":root")[0].style;
+let styles = JSON.parse(localStorage.getItem("styles"));
 
 $(() => {
+    if (styles == null || styles === "null") {
+        styles = {};
+        localStorage.setItem("styles", JSON.stringify({}));
+    } else {
+        Object.keys(styles).forEach(colorVar => rootStyles.setProperty("--" + colorVar, styles[colorVar]));
+    }
+
     let colorVars = {
         'background-color-side-menu': '#ede6b9',
         'background-color-chat': '#ede6b9',
@@ -54,6 +62,9 @@ $(() => {
 });
 
 function getDisplayColorInput(colorVar = "", color = "") {
+    if (styles[colorVar] != null) {
+        color = styles[colorVar];
+    }
     let displayColorName = colorVar.replaceAll("-", " ");
     displayColorName = displayColorName.charAt(0).toUpperCase() + displayColorName.slice(1);
     let displayColorBlock = $("<div class='w-100 pl-1vw pr-1vw mb-1vh'></div>")
@@ -63,8 +74,11 @@ function getDisplayColorInput(colorVar = "", color = "") {
     displayColorBlock.append(displayColorInput);
     displayColorBlock.append(displayColorLabel);
 
-    displayColorInput.change(() => {
-        console.log(displayColorInput.val());
+    displayColorInput.on('input', () => {
+        rootStyles.setProperty("--" + colorVar, displayColorInput.val());
+        styles[colorVar] = displayColorInput.val();
+        localStorage.setItem("styles", JSON.stringify(styles));
+        console.log(styles);
     });
 
     return displayColorBlock;
