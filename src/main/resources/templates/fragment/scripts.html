@@ -1,7 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <th:block th:fragment="scripts">
+        <link th:href="@{/js/libs/croppr.min.css/}" rel="stylesheet" />
+        <script th:src="@{/js/libs/croppr.min.js/}"></script>
         <script th:src="@{/js/script.js}" sec:authorize="hasAuthority('USER')"></script>
         <script th:src="@{/js/wsUtils.js}" sec:authorize="hasAuthority('USER')"></script>
         <script th:src="@{/js/settings.js}" sec:authorize="hasAuthority('USER')"></script>
+        <script th:src="@{/js/imageUtils.js}" sec:authorize="hasAuthority('USER')"></script>
     </th:block>
 </html>
