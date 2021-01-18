@@ -222,15 +222,12 @@ function loadChat(id) {
             let chatNameInMenu = $("<span class='text-center custom-h3 h3-vw mb-3vh' style='overflow-wrap: break-word;'>" + name + "</span>");
             let topBox = $("<div></div>");
             let chatLogo = $("<img class='img-fluid custom-img ml-3vw d-inline-flex va-baseline' src='/img/" + logo + "' data-toggle='modal' data-target='#upload-image-modal' />");
-            let toggleImageUploader = () => $("#modal-upload-image").data("url", "chat/" + chatId);
-            chatLogo.click(toggleImageUploader);
-            onImageError(
+            onImageErrorWithUploader(
                 chatLogo,
                 topBox,
                 name,
                 "ml-3vw d-inline-flex",
-                toggleImageUploader,
-                "data-toggle='modal' data-target='#upload-image-modal'"
+                "chat/" + chatId
             );
             let participantCount = $("<div class='d-inline-flex custom-a user-count'><span id='usersInChat'>" + chat.participantIds.length + "</span>&nbsp;users</div>");
             let usersInChat = participantCount.find("#usersInChat");
@@ -417,7 +414,19 @@ function processCheckboxes(checkboxes) {
     return userIds;
 }
 
+function onImageErrorWithUploader(img, parent, name, classes = "", type = "") {
+    onImageError(
+        img,
+        parent,
+        name,
+        classes,
+        () => $("#modal-upload-image").data("url", type),
+        "data-toggle='modal' data-target='#upload-image-modal'"
+    );
+}
+
 function onImageError(img, parent, name, classes = "", onClick = () => {}, additionalFunctionality = "") {
+    $(img).click(onClick);
     $(img).on("error", () => {
         $(img).remove();
         $(parent).prepend(getErrorReplacement(name, classes, onClick, additionalFunctionality));
