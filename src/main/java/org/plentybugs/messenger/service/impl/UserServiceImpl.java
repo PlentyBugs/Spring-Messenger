@@ -11,6 +11,7 @@ import org.plentybugs.messenger.service.MailService;
 import org.plentybugs.messenger.service.NotificationService;
 import org.plentybugs.messenger.service.UserService;
 import org.plentybugs.messenger.util.SecurityUtils;
+import org.plentybugs.messenger.util.support.Pair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -118,6 +120,11 @@ public class UserServiceImpl implements UserService {
     public void updateUser(User user) {
         repository.save(user);
         securityUtils.updateContext(user);
+    }
+
+    @Override
+    public Map<Long, String> getAvatars(List<Long> userIds) {
+        return repository.findAllAvatarsById(userIds).stream().collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     private void sendMessage(User user) {

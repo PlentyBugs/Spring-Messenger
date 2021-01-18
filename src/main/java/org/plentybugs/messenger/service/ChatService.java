@@ -5,6 +5,7 @@ import org.plentybugs.messenger.model.dto.SimpleChat;
 import org.plentybugs.messenger.model.messaging.Chat;
 import org.plentybugs.messenger.model.notification.ContactNotification;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface ChatService {
@@ -24,4 +25,6 @@ public interface ChatService {
     void kickUser(Chat chat, String userId);
 
     void updateChat(Chat chat);
+
+    Map<Long, String> getParticipantAvatars(Chat chat);
 }

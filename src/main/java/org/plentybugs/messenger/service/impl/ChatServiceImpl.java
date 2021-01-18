@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -85,5 +86,10 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public void updateChat(Chat chat) {
         repository.save(chat);
+    }
+
+    @Override
+    public Map<Long, String> getParticipantAvatars(Chat chat) {
+        return userService.getAvatars(chat.getParticipantIds().stream().map(Long::parseLong).collect(Collectors.toList()));
     }
 }

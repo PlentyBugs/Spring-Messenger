@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -65,6 +66,17 @@ public class ChatController {
     ) throws ResponseStatusException {
         if (chat.getParticipantIds().contains(user.getId().toString())) {
             return chatService.getParticipants(chat);
+        }
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+    }
+
+    @GetMapping("/{id}/participant/avatar")
+    public Map<Long, String> getParticipantAvatars(
+            @AuthenticationPrincipal User user,
+            @PathVariable("id") Chat chat
+    ) throws ResponseStatusException {
+        if (chat.getParticipantIds().contains(user.getId().toString())) {
+            return chatService.getParticipantAvatars(chat);
         }
         throw new ResponseStatusException(HttpStatus.FORBIDDEN);
     }

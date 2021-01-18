@@ -290,6 +290,21 @@ function loadChat(id) {
     });
 }
 
+function loadUserAvatarsByChat(chatId) {
+    let userAvatars = {};
+
+    $.ajax({
+        type: 'GET',
+        beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+        url: getHostname() + "chat/" + chatId + "/participant/avatar",
+        async: false,
+        cache: false,
+        success: (avatars) => userAvatars = avatars
+    });
+
+    return userAvatars;
+}
+
 function addContactToSideBar(contact) {
     let name = contact.username;
 
@@ -341,6 +356,7 @@ function cacheMessageText(id) {
 
 // todo: оптимизировать
 function printMessages() {
+    let userAvatars = loadUserAvatarsByChat(chatId);
     $.ajax({
         type: 'GET',
         beforeSend: (xhr) => xhr.setRequestHeader(header, token),
@@ -353,6 +369,7 @@ function printMessages() {
 
             for (let i = 0; i < length; i++) {
                 let message = messages[i];
+                let senderId = message.senderId;
                 let position = getPosition(message);
 
                 let blockMessages = $("<div class='" + position + " messages'></div>");
@@ -364,6 +381,8 @@ function printMessages() {
                 }
 
                 blockMessages.append($("<div class='message last'>" + message.content + "<div class='message-author'>By " + message.senderName + "</div></div>"));
+                let userAvatar = $("<img class='img-fluid custom-img ml-3vw d-inline-flex va-baseline user-avatar-" + position + "' src='/img/" + userAvatars[senderId] + "' data-toggle='modal' data-target='#upload-image-modal'>");
+                blockMessages.append(userAvatar);
 
                 chatWindow.append(blockMessages);
             }

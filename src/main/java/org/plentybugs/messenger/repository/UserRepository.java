@@ -2,6 +2,7 @@ package org.plentybugs.messenger.repository;
 
 import org.plentybugs.messenger.model.User;
 import org.plentybugs.messenger.model.notification.ContactNotification;
+import org.plentybugs.messenger.util.support.Pair;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -22,4 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select new org.plentybugs.messenger.model.notification.ContactNotification(u.id, u.username, u.avatar) from User u where u.id in :ids")
     Set<ContactNotification> findAllById(Set<Long> ids);
+
+    @Query("select new org.plentybugs.messenger.util.support.Pair(u.id, u.avatar) from User u where u.id in :userIds")
+    List<Pair<Long, String>> findAllAvatarsById(List<Long> userIds);
 }

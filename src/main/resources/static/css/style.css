@@ -263,7 +263,21 @@ body {
     height: 80vh;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 15px;
+    padding: 15px 3.2vw;
+}
+
+.user-avatar-mine, .user-avatar-yours {
+    margin-top: -2.5vh;
+    max-width: 2.2vw !important;
+    max-height: 2.2vw !important;
+}
+
+.user-avatar-yours {
+    margin-left: -3vw !important;
+}
+
+.user-avatar-mine {
+    margin-right: -3vw !important;
 }
 
 .message-box {
@@ -415,10 +429,10 @@ body {
 }
 
 .message {
-    border-radius: 20px;
-    padding: 8px 15px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    border-radius: 1.3vw;
+    padding: 0.5vw 1vw;
+    margin-top: 0.3vw;
+    margin-bottom: 0.3vw;
     display: inline-block;
     max-width: 50vw;
     overflow-wrap: break-word;
@@ -441,22 +455,22 @@ body {
     position: absolute;
     z-index: 0;
     bottom: 0;
-    left: -7px;
-    height: 20px;
-    width: 20px;
+    left: -0.56vw;
+    height: 1.3vw;
+    width: 1.3vw;
     background: var(--background-color-yours-message);
-    border-bottom-right-radius: 15px;
+    border-bottom-right-radius: 1vw;
 }
 .yours .message.last:after {
     content: "";
     position: absolute;
     z-index: 1;
     bottom: 0;
-    left: -10px;
-    width: 10px;
-    height: 20px;
+    left: -0.7vw;
+    width: 0.7vw;
+    height: 1.3vw;
     background: var(--background-color-chat);
-    border-bottom-right-radius: 10px;
+    border-bottom-right-radius: 0.7vw;
 }
 
 .mine {
@@ -475,11 +489,11 @@ body {
     position: absolute;
     z-index: 0;
     bottom: 0;
-    right: -8px;
-    height: 20px;
-    width: 20px;
+    right: -0.56vw;
+    height: 1.3vw;
+    width: 1.3vw;
     background: var(--background-color-mine-message);
-    border-bottom-left-radius: 15px;
+    border-bottom-left-radius: 1vw;
 }
 
 .mine .message.last:after {
@@ -487,11 +501,11 @@ body {
     position: absolute;
     z-index: 1;
     bottom: 0;
-    right: -10px;
-    width: 10px;
-    height: 20px;
+    right: -0.7vw;
+    width: 0.7vw;
+    height: 1.3vw;
     background: var(--background-color-chat);
-    border-bottom-left-radius: 10px;
+    border-bottom-left-radius: 0.7vw;
 }
 
 .error {
