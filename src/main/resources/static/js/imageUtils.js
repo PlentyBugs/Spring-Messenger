@@ -41,7 +41,7 @@ $(() => {
                     data.append("avatar", modalCustomFileInput.prop("files")[0]);
                     $.ajax({
                         type: 'PUT',
-                        url: getHostname() + "/image",
+                        url: getHostname() + modal.data("url") + "/image",
                         beforeSend: (xhr) => xhr.setRequestHeader(header, token),
                         data: data,
                         enctype: 'multipart/form-data',
@@ -50,20 +50,20 @@ $(() => {
                         processData: false,
                         contentType: false,
                     });
-                    refreshPage()
+                    refreshPage();
                 });
                 modalImagePreview.after(uploadImageButton);
-                let img = $("<img class='mw-100' id='uploaded-image-cropper' src='" + e.target.result + "' style='max-width: 100%'>");
+                let img = $("<img class='mw-100' alt='preview' id='uploaded-image-cropper' src='" + e.target.result + "' style='max-width: 100%'>");
                 modalImageResult.empty();
                 modalImageResult.append(img);
-                createCropper(uploadImageButton);
+                createCropper(uploadImageButton, modal, modalCustomFileInput);
             }
         };
         reader.readAsDataURL(e.target.files[0]);
     });
 });
 
-function createCropper(button) {
+function createCropper(button, modal, imageInput) {
     new Croppr("#uploaded-image-cropper", {
         returnMode: "real",
         aspectRatio: 1,
@@ -80,7 +80,7 @@ function createCropper(button) {
                 data.append("height", image.height);
                 $.ajax({
                     type: 'PUT',
-                    url: getHostname() + "/image",
+                    url: getHostname() + modal.data("url") + "/image",
                     beforeSend: (xhr) => xhr.setRequestHeader(header, token),
                     data: data,
                     enctype: 'multipart/form-data',
@@ -89,12 +89,12 @@ function createCropper(button) {
                     processData: false,
                     contentType: false,
                 });
-                refreshPage()
+                refreshPage();
             });
         }
     });
 }
 
 function refreshPage() {
-    window.location = window.location.href;
+    location.reload();
 }

@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.Set;
 
 @RestController
@@ -89,5 +91,24 @@ public class ChatController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         chatService.kickUser(chat, userId);
+    }
+
+    @PutMapping("/{id}/image")
+    public void updateLogo(
+        @AuthenticationPrincipal User user,
+        @PathVariable("id") Chat chat,
+        @RequestParam(value = "x", required = false) Integer x,
+        @RequestParam(value = "y", required = false) Integer y,
+        @RequestParam(value = "width", required = false) Integer width,
+        @RequestParam(value = "height", required = false) Integer height,
+        @RequestParam("avatar") MultipartFile logo
+    ) throws IOException {
+        if (!chat.getModeratorIds().contains(user.getId().toString()))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        if (x == null) {
+            chatService.updateLogo(chat, logo);
+        } else {
+            chatService.cropAndUpdateLogo(chat, logo, x, y, width, height);
+        }
     }
 }

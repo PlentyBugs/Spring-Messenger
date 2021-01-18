@@ -221,8 +221,17 @@ function loadChat(id) {
             chatMenu.empty();
             let chatNameInMenu = $("<span class='text-center custom-h3 h3-vw mb-3vh' style='overflow-wrap: break-word;'>" + name + "</span>");
             let topBox = $("<div></div>");
-            let chatLogo = $("<img class='img-fluid custom-img ml-3vw d-inline-flex' src='/img/" + logo + "' data-toggle='modal' data-target='#upload-image-modal' />");
-            onImageError(chatLogo, topBox, name, "ml-3vw d-inline-flex", "data-toggle='modal' data-target='#upload-image-modal'");
+            let chatLogo = $("<img class='img-fluid custom-img ml-3vw d-inline-flex va-baseline' src='/img/" + logo + "' data-toggle='modal' data-target='#upload-image-modal' />");
+            let toggleImageUploader = () => $("#modal-upload-image").data("url", "chat/" + chatId);
+            chatLogo.click(toggleImageUploader);
+            onImageError(
+                chatLogo,
+                topBox,
+                name,
+                "ml-3vw d-inline-flex",
+                toggleImageUploader,
+                "data-toggle='modal' data-target='#upload-image-modal'"
+            );
             let participantCount = $("<div class='d-inline-flex custom-a user-count'><span id='usersInChat'>" + chat.participantIds.length + "</span>&nbsp;users</div>");
             let usersInChat = participantCount.find("#usersInChat");
 
@@ -408,17 +417,19 @@ function processCheckboxes(checkboxes) {
     return userIds;
 }
 
-function onImageError(img, parent, name, classes = "", additionalFunctionality = "") {
+function onImageError(img, parent, name, classes = "", onClick = () => {}, additionalFunctionality = "") {
     $(img).on("error", () => {
         $(img).remove();
-        $(parent).prepend(getErrorReplacement(name, classes, additionalFunctionality));
+        $(parent).prepend(getErrorReplacement(name, classes, onClick, additionalFunctionality));
     });
 }
 
-function getErrorReplacement(name = "A", classes = "", additionalFunctionality = "") {
+function getErrorReplacement(name = "A", classes = "", onClick = () => {}, additionalFunctionality = "") {
     let letter = name[0].toUpperCase();
     let backgroundColor = "bg-" + Math.floor(Math.random()*30 + 1);
-    return $("<div class='logo custom-img mr-vw " + backgroundColor + " " + classes + "' " + additionalFunctionality + "><span>" + letter + "</span></div>");
+    let replacement = $("<div class='logo custom-img mr-vw " + backgroundColor + " " + classes + "' " + additionalFunctionality + "><span>" + letter + "</span></div>");
+    replacement.click(onClick);
+    return replacement;
 }
 
 function playSuccessButtonAnimation(button, commonText, successText = "Success", timeout = 1500, commonClass = "btn-warning", successClass = "btn-success") {

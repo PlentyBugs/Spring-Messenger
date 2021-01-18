@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MVCConfig implements WebMvcConfigurer {
 
-    @Value("{upload.path}")
+    @Value("${upload.path}")
     private String uploadPath;
 
     @Override

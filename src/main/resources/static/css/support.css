@@ -260,6 +260,10 @@
     vertical-align: text-bottom !important;
 }
 
+.va-baseline {
+    vertical-align: baseline !important;
+}
+
 input[type="color"] {
     -webkit-appearance: none;
     width: 1vw;
