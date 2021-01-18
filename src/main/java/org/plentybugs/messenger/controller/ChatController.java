@@ -6,6 +6,7 @@ import org.plentybugs.messenger.model.dto.SimpleChat;
 import org.plentybugs.messenger.model.messaging.Chat;
 import org.plentybugs.messenger.model.notification.ContactNotification;
 import org.plentybugs.messenger.service.ChatService;
+import org.plentybugs.messenger.service.ImageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,6 +23,7 @@ import java.util.Set;
 public class ChatController {
 
     private final ChatService chatService;
+    private final ImageService imageService;
 
     @Async
     @PostMapping
@@ -103,12 +105,10 @@ public class ChatController {
         @RequestParam(value = "height", required = false) Integer height,
         @RequestParam("avatar") MultipartFile logo
     ) throws IOException {
-        if (!chat.getModeratorIds().contains(user.getId().toString()))
+        if (!chat.getModeratorIds().contains(user.getId().toString())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        if (x == null) {
-            chatService.updateLogo(chat, logo);
-        } else {
-            chatService.cropAndUpdateLogo(chat, logo, x, y, width, height);
         }
+        imageService.cropAndUpdateLogo(chat, logo, x, y, width, height);
+        chatService.updateChat(chat);
     }
 }

@@ -16,7 +16,7 @@ public class SimpleChat {
     public static SimpleChat of(Chat chat) {
         return new SimpleChat(
                 chat.getChatId(),
-                chat.getChatLogo(),
+                chat.getAvatar(),
                 chat.getChatName()
         );
     }

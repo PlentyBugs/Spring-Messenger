@@ -10,6 +10,7 @@ import org.plentybugs.messenger.service.ChatService;
 import org.plentybugs.messenger.service.MailService;
 import org.plentybugs.messenger.service.NotificationService;
 import org.plentybugs.messenger.service.UserService;
+import org.plentybugs.messenger.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private final NotificationService notificationService;
     private final PasswordEncoder passwordEncoder;
+    private final SecurityUtils securityUtils;
     private final UserRepository repository;
     private final ChatService chatService;
     private final MailService mailService;
@@ -110,6 +112,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<ContactNotification> getUsersById(Set<Long> ids) {
         return repository.findAllById(ids);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        repository.save(user);
+        securityUtils.updateContext(user);
     }
 
     private void sendMessage(User user) {

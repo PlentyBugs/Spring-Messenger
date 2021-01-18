@@ -10,7 +10,7 @@ import org.plentybugs.messenger.model.enums.ChatStatus;
 @NoArgsConstructor
 public class ChatNotification {
     private String chatId;
-    private String chatLogo;
+    private String avatar;
     private String chatName;
     private String recipientId;
     private ChatStatus status;

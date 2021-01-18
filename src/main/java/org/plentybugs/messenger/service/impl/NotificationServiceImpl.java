@@ -26,7 +26,7 @@ public class NotificationServiceImpl implements NotificationService {
                 userId, "/queue/chats",
                 new ChatNotification(
                         chat.getChatId(),
-                        chat.getChatLogo(),
+                        chat.getAvatar(),
                         chat.getChatName(),
                         userId,
                         status

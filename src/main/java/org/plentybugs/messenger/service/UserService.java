@@ -23,4 +23,6 @@ public interface UserService extends UserDetailsService {
     List<ContactNotification> getContacts(User user);
 
     Set<ContactNotification> getUsersById(Set<Long> ids);
+
+    void updateUser(User user);
 }

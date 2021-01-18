@@ -13,7 +13,7 @@ let sideContent = $("#side-content");
 let chatId = "-1";
 
 Array.prototype.remove = function() {
-    var what, a = arguments, L = a.length, ax;
+    let what, a = arguments, L = a.length, ax;
     while (L && this.length) {
         what = a[--L];
         while ((ax = this.indexOf(what)) !== -1) {
@@ -171,8 +171,14 @@ $(() => {
         }
     });
 
-    let userAvatar = $("<img class='img-fluid custom-img ml-3vw mb-3vh' src='/img/" + avatar + "' />")
-    onImageError(userAvatar, sideContent, username, "ml-3vw mb-3vh");
+    let userAvatar = $("<img class='img-fluid custom-img ml-3vw mb-3vh' src='/img/" + avatar + "' data-toggle='modal' data-target='#upload-image-modal' />");
+    onImageErrorWithUploader(
+        userAvatar,
+        sideContent,
+        username,
+        "ml-3vw mb-3vh",
+        "user/" + userId
+    );
     sideContent.prepend(userAvatar);
 });
 
@@ -182,7 +188,7 @@ function addChatToSideBar(chat) {
 
     let chatBlock = $(`<li class="block"></li>`);
     let chatLink = $(`<a href="#" class="d-flex align-items-center"></a>`);
-    let chatImage = $(`<img src="/img/` + chat.chatLogo + `" alt="Image" class="img-fluid custom-img mr-vw">`);
+    let chatImage = $(`<img src="/img/` + chat.avatar + `" alt="Image" class="img-fluid custom-img mr-vw">`);
     let chatName = $(`<span class="user-name">` + name + `</span>`);
 
     onImageError(chatImage, chatLink, name);
@@ -209,7 +215,7 @@ function loadChat(id) {
             let isModerator = chat.moderatorIds.includes(userId + "");
             let name = chat.chatName;
             let id = chat.chatId;
-            let logo = chat.chatLogo;
+            let logo = chat.avatar;
             chatNameHeader.text(name);
             cacheMessageText(id);
             chatId = id;
@@ -221,9 +227,9 @@ function loadChat(id) {
             chatMenu.empty();
             let chatNameInMenu = $("<span class='text-center custom-h3 h3-vw mb-3vh' style='overflow-wrap: break-word;'>" + name + "</span>");
             let topBox = $("<div></div>");
-            let chatLogo = $("<img class='img-fluid custom-img ml-3vw d-inline-flex va-baseline' src='/img/" + logo + "' data-toggle='modal' data-target='#upload-image-modal' />");
+            let avatar = $("<img class='img-fluid custom-img ml-3vw d-inline-flex va-baseline' src='/img/" + logo + "' data-toggle='modal' data-target='#upload-image-modal' />");
             onImageErrorWithUploader(
-                chatLogo,
+                avatar,
                 topBox,
                 name,
                 "ml-3vw d-inline-flex",
@@ -270,7 +276,7 @@ function loadChat(id) {
                 }
             });
 
-            topBox.prepend(chatLogo);
+            topBox.prepend(avatar);
             topBox.append(participantCount);
             if (isModerator) {
                 let addParticipantPlus = $("<span class='fa fa-plus invite-plus' data-toggle='modal' data-target='#modal-invite-user-to-chat'></span>");

@@ -4,10 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.plentybugs.messenger.model.User;
 import org.plentybugs.messenger.model.dto.SimpleUser;
 import org.plentybugs.messenger.model.notification.ContactNotification;
+import org.plentybugs.messenger.service.ImageService;
 import org.plentybugs.messenger.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -16,6 +21,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final ImageService imageService;
 
     @GetMapping("/simple")
     public List<SimpleUser> getSimpleUsers(
@@ -41,5 +47,22 @@ public class UserController {
             @AuthenticationPrincipal User user
     ) {
         return userService.getContacts(user);
+    }
+
+    @PutMapping("/{id}/image")
+    public void updateAvatar(
+            @AuthenticationPrincipal User user,
+            @PathVariable("id") User target,
+            @RequestParam(value = "x", required = false) Integer x,
+            @RequestParam(value = "y", required = false) Integer y,
+            @RequestParam(value = "width", required = false) Integer width,
+            @RequestParam(value = "height", required = false) Integer height,
+            @RequestParam("avatar") MultipartFile logo
+    ) throws IOException {
+        if (!user.getId().equals(target.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        imageService.cropAndUpdateLogo(target, logo, x, y, width, height);
+        userService.updateUser(target);
     }
 }

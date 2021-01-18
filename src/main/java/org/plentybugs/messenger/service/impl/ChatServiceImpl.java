@@ -9,14 +9,11 @@ import org.plentybugs.messenger.repository.ChatRepository;
 import org.plentybugs.messenger.service.ChatService;
 import org.plentybugs.messenger.service.NotificationService;
 import org.plentybugs.messenger.service.UserService;
-import org.plentybugs.messenger.util.ImageUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
@@ -28,13 +25,11 @@ public class ChatServiceImpl implements ChatService {
     private final NotificationService notificationService;
     private final ChatRepository repository;
     private final UserService userService;
-    private final ImageUtils imageUtils;
 
-    public ChatServiceImpl(NotificationService notificationService, ChatRepository repository, @Lazy UserService userService, ImageUtils imageUtils) {
+    public ChatServiceImpl(NotificationService notificationService, ChatRepository repository, @Lazy UserService userService) {
         this.notificationService = notificationService;
         this.userService = userService;
         this.repository = repository;
-        this.imageUtils = imageUtils;
     }
 
     @Override
@@ -87,22 +82,8 @@ public class ChatServiceImpl implements ChatService {
         repository.save(chat);
     }
 
-    public void saveLogoFilename(Chat chat, String filename) {
-        if (!filename.isEmpty()) {
-            chat.setChatLogo(filename);
-            repository.save(chat);
-        }
-    }
-
     @Override
-    public void updateLogo(Chat chat, MultipartFile logo) throws IOException {
-        String filename = imageUtils.saveFile(logo);
-        saveLogoFilename(chat, filename);
-    }
-
-    @Override
-    public void cropAndUpdateLogo(Chat chat, MultipartFile logo, Integer x, Integer y, Integer width, Integer height) throws IOException {
-        String filename = imageUtils.cropAndSaveImage(logo, x, y, width, height);
-        saveLogoFilename(chat, filename);
+    public void updateChat(Chat chat) {
+        repository.save(chat);
     }
 }

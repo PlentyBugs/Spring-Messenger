@@ -3,6 +3,7 @@ package org.plentybugs.messenger.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.plentybugs.messenger.model.enums.Role;
+import org.plentybugs.messenger.model.interfaces.Imaginable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,7 +18,7 @@ import java.util.Set;
 @Data
 @Table(name = "usr")
 @NoArgsConstructor
-public class User implements UserDetails, Serializable {
+public class User implements UserDetails, Serializable, Imaginable {
     private static final long serialVersionUID = -8401182482189625141L;
 
     @Id
