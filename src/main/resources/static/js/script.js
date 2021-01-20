@@ -1,5 +1,6 @@
 let data = $('#data');
 let userId = data.data("user-id");
+let email = data.data("user-email");
 let username = data.data("user-username");
 let avatar = data.data("user-avatar");
 let contactList = $("#contact-list");

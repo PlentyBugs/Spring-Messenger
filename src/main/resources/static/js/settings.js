@@ -57,23 +57,63 @@ $(() => {
     let modalId = "profile-settings";
     let profileSettings = $("<div></div>");
     getUserAvatarBlock(profileSettings).addClass("profile-settings-img");
-    let profileSettingsUsername = $("<input type='text' class='form-control mb-2' name='username' placeholder='Username' />");
-    let profileSettingsPassword = $("<input type='text' class='form-control mb-2' name='password' placeholder='Password' />");
-    let profileSettingsPasswordRepeat = $("<input type='text' class='form-control d-none mb-2' name='passwordRepeated' placeholder='Repeat Password' />");
+    let profileSettingsUsername = $("<input type='text' class='form-control mb-2'placeholder='Username' value='" + username + "' />");
+    let profileSettingsEmail = $("<input type='email' class='form-control mb-2'placeholder='Email' value='" + email + "' />");
+    let profileSettingsPassword = $("<input type='password' class='form-control mb-2' placeholder='Password' />");
+    let profileSettingsPasswordRepeat = $("<input type='password' class='form-control d-none mb-2' placeholder='Repeat Password' />");
     let profileSettingsSubmitButton = $("<button type='button' class='btn btn-custom btn-block btn-outline-light'>Submit</button>");
     settingsMenuProfile.attr("data-toggle", "modal");
     settingsMenuProfile.attr("data-target", "#modal-" + modalId);
     profileSettingsPassword.keyup(() => {
         if (profileSettingsPassword.val() === "") {
             profileSettingsPasswordRepeat.addClass("d-none");
+            $("#passwordRepeatError").addClass("d-none");
         } else {
             profileSettingsPasswordRepeat.removeClass("d-none");
+            $("#passwordRepeatError").removeClass("d-none");
         }
-    })
+    });
+    profileSettingsSubmitButton.click(() => {
+        let data = "?id=" + userId + "&";
+        let username = profileSettingsUsername.val();
+        let email = profileSettingsEmail.val();
+        let password = profileSettingsPassword.val();
+        let passwordRepeat = profileSettingsPasswordRepeat.val();
+
+        if (username !== "") data += "username=" + username + "&";
+        if (email !== "") data += "email=" + email + "&";
+        if (password !== "") data += "password=" + password + "&";
+        if (passwordRepeat !== "") data += "passwordRepeat=" + passwordRepeat + "&";
+
+        $.ajax({
+            type: 'PUT',
+            beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+            url: getHostname() + "user/" + userId + data,
+            async: false,
+            cache: false,
+            success: (errors) => {
+                ['usernameError', 'emailError', 'passwordError', 'passwordRepeatError'].forEach((e) => {
+                    $("#" + e).text("");
+                });
+                console.log(errors);
+                for (let error of Object.keys(errors)) {
+                    $("#" + error).text(errors[error]);
+                }
+                if (Object.keys(errors).length === 0) {
+                    refreshPage();
+                }
+            }
+        })
+    });
 
     profileSettings.append(profileSettingsUsername);
+    profileSettings.append(getErrorP("username"));
+    profileSettings.append(profileSettingsEmail);
+    profileSettings.append(getErrorP("email"));
     profileSettings.append(profileSettingsPassword);
+    profileSettings.append(getErrorP("password"));
     profileSettings.append(profileSettingsPasswordRepeat);
+    profileSettings.append(getErrorP("passwordRepeat"));
     profileSettings.append(profileSettingsSubmitButton);
 
     $("body").append(buildModal(modalId, "Profile Settings", profileSettings));
@@ -146,4 +186,8 @@ function buildModal(modalId, headerText, body) {
     `);
     modal.find("#modal-body-" + modalId).append(body);
     return modal;
+}
+
+function getErrorP(id) {
+    return $("<p class='error text-center' id='" + id + "Error'></p>");
 }

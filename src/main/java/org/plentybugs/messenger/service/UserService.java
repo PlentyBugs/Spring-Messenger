@@ -28,4 +28,6 @@ public interface UserService extends UserDetailsService {
     void updateUser(User user);
 
     Map<Long, String> getAvatars(List<Long> userIds);
+
+    void updateUserUEP(User target, User body, String passwordRepeat, Map<String, String> errors);
 }

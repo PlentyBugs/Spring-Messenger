@@ -25,14 +25,14 @@ public class User implements UserDetails, Serializable, Imaginable {
     @GeneratedValue
     private Long id;
 
-    @NotBlank(message = "Username can't be empty")
+    @NotBlank(message = "Username mustn't be empty")
     private String username;
 
-    @NotBlank(message = "Password can't be empty")
+    @NotBlank(message = "Password mustn't be empty")
     private String password;
 
     @Email(message = "Email's format isn't correct")
-    @NotBlank
+    @NotBlank(message = "Email mustn't be empty")
     private String email;
 
     @ElementCollection

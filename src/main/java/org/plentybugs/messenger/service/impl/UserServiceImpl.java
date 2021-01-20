@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -125,6 +126,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<Long, String> getAvatars(List<Long> userIds) {
         return repository.findAllAvatarsById(userIds).stream().collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+    }
+
+    @Override
+    public void updateUserUEP(User target, User body, String passwordRepeat, Map<String, String> errors) {
+
+        if (passwordRepeat == null) {
+            errors.put("passwordRepeatError", "Repeated Password can't be empty");
+            return;
+        }
+
+        if (!BCrypt.checkpw(passwordRepeat, target.getPassword()) && !passwordRepeat.equals(body.getPassword())) {
+            errors.put("passwordRepeatError", "Passwords aren't equal");
+            return;
+        }
+
+        String targetUsername = target.getUsername();
+        String bodyUsername = body.getUsername();
+        if (!bodyUsername.equals(targetUsername)) {
+            if (repository.findByUsername(bodyUsername).isPresent()) {
+                errors.put("usernameError", "A User with the same username already exists");
+                return;
+            } else {
+                target.setUsername(bodyUsername);
+            }
+        }
+        target.setEmail(body.getEmail());
+        target.setPassword(passwordEncoder.encode(body.getPassword()));
+        updateUser(target);
     }
 
     private void sendMessage(User user) {

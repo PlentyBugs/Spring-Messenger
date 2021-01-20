@@ -4,6 +4,7 @@
         <th:block th:replace="fragment/sidebar :: sidebar" sec:authorize="hasAuthority('USER')"></th:block>
         <div id="data" sec:authorize="hasAuthority('USER')"
              th:data-user-id="${#authentication.principal.id}"
+             th:data-user-email="${#authentication.principal.email}"
              th:data-user-username="${#authentication.principal.username}"
              th:data-user-avatar="${#authentication.principal.avatar}"
              th:data-token="${_csrf.token}"

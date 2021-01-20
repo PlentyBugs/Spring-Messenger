@@ -6,14 +6,18 @@ import org.plentybugs.messenger.model.dto.SimpleUser;
 import org.plentybugs.messenger.model.notification.ContactNotification;
 import org.plentybugs.messenger.service.ImageService;
 import org.plentybugs.messenger.service.UserService;
+import org.plentybugs.messenger.util.ValidationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -22,6 +26,7 @@ public class UserController {
 
     private final UserService userService;
     private final ImageService imageService;
+    private final ValidationUtils validationUtils;
 
     @GetMapping("/simple")
     public List<SimpleUser> getSimpleUsers(
@@ -64,5 +69,25 @@ public class UserController {
         }
         imageService.cropAndUpdateLogo(target, logo, x, y, width, height);
         userService.updateUser(target);
+    }
+
+    @PutMapping("/{targetId}")
+    public Map<String, String> updateUser(
+            @AuthenticationPrincipal User user,
+            @PathVariable("targetId") User target,
+            @RequestParam(required = false) String passwordRepeat,
+            @Valid User body,
+            BindingResult bindingResult
+    ) {
+        if (!user.getId().equals(target.getId()) || !user.getId().equals(body.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        Map<String, String> errors = validationUtils.getErrors(bindingResult);
+
+        if (errors.isEmpty()) {
+            userService.updateUserUEP(target, body, passwordRepeat, errors);
+        }
+
+        return errors;
     }
 }
