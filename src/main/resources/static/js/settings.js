@@ -44,17 +44,39 @@ $(() => {
     let menu = $("#origin-menu");
     let contactMenuToggle = $(".contacts-menu-toggle");
     let settingsMenuToggle = $(".settings-menu-toggle");
-    let settingsMenuProfileToggle = $(".settings-menu-profile-toggle");
+    let settingsMenuProfile = $("#settings-menu-profile");
     let settingsMenuDisplayToggle = $(".settings-menu-display-toggle");
     let settingsMenu = $("#settings-menu");
-    let settingsMenuProfile = $("#settings-menu-profile");
     let settingsMenuDisplay = $("#settings-menu-display");
     let contactMenu = $("#contact-menu");
 
     menuToggle(menu, contactMenu, contactMenuToggle);
     menuToggle(menu, settingsMenu, settingsMenuToggle);
-    menuToggle(settingsMenu, settingsMenuProfile, settingsMenuProfileToggle);
     menuToggle(settingsMenu, settingsMenuDisplay, settingsMenuDisplayToggle);
+
+    let modalId = "profile-settings";
+    let profileSettings = $("<div></div>");
+    getUserAvatarBlock(profileSettings).addClass("profile-settings-img");
+    let profileSettingsUsername = $("<input type='text' class='form-control mb-2' name='username' placeholder='Username' />");
+    let profileSettingsPassword = $("<input type='text' class='form-control mb-2' name='password' placeholder='Password' />");
+    let profileSettingsPasswordRepeat = $("<input type='text' class='form-control d-none mb-2' name='passwordRepeated' placeholder='Repeat Password' />");
+    let profileSettingsSubmitButton = $("<button type='button' class='btn btn-custom btn-block btn-outline-light'>Submit</button>");
+    settingsMenuProfile.attr("data-toggle", "modal");
+    settingsMenuProfile.attr("data-target", "#modal-" + modalId);
+    profileSettingsPassword.keyup(() => {
+        if (profileSettingsPassword.val() === "") {
+            profileSettingsPasswordRepeat.addClass("d-none");
+        } else {
+            profileSettingsPasswordRepeat.removeClass("d-none");
+        }
+    })
+
+    profileSettings.append(profileSettingsUsername);
+    profileSettings.append(profileSettingsPassword);
+    profileSettings.append(profileSettingsPasswordRepeat);
+    profileSettings.append(profileSettingsSubmitButton);
+
+    $("body").append(buildModal(modalId, "Profile Settings", profileSettings));
 
     let clearButton = $("<button class='btn btn-block btn-custom btn-outline-danger mb-1vh'>Reset to default</button>")
     clearButton.click(() => {
@@ -105,4 +127,23 @@ function menuToggle(menu, subMenu, toggle) {
 function createClearStyles() {
     styles = {};
     localStorage.setItem("styles", JSON.stringify(styles));
+}
+
+function buildModal(modalId, headerText, body) {
+    let modal = $(`
+        <div class="modal fade" id="modal-` + modalId + `" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content bg-custom">
+                    <div class="modal-header text-center d-block">
+                        <h5 class="modal-title">` + headerText + `</h5>
+                    </div>
+                    <div class="modal-body" id="modal-body-` + modalId + `">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    `);
+    modal.find("#modal-body-" + modalId).append(body);
+    return modal;
 }

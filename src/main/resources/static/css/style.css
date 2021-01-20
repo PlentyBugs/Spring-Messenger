@@ -599,3 +599,11 @@ body {
 .custom-label:hover {
     color: var(--text-color-link-hover);
 }
+
+.profile-settings-img {
+    display: block;
+    height: 10rem;
+    width: 10rem;
+    margin-left: auto !important;
+    margin-right: auto;
+}

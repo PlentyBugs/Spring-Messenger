@@ -171,15 +171,7 @@ $(() => {
         }
     });
 
-    let userAvatar = $("<img class='img-fluid custom-img ml-3vw mb-3vh' src='/img/" + avatar + "' data-toggle='modal' data-target='#upload-image-modal' />");
-    onImageErrorWithUploader(
-        userAvatar,
-        sideContent,
-        username,
-        "ml-3vw mb-3vh",
-        "user/" + userId
-    );
-    sideContent.prepend(userAvatar);
+    getUserAvatarBlock(sideContent).addClass("ml-3vw mb-3vh");
 });
 
 function addChatToSideBar(chat) {
@@ -538,4 +530,17 @@ function addUserToInviteModal(contact) {
             containerInviteToChat.append(userContainer);
         }
     }
+}
+
+function getUserAvatarBlock(parentBlock) {
+    let userAvatar = $("<img class='img-fluid custom-img ml-3vw mb-3vh .usr-avatar' src='/img/" + avatar + "' data-toggle='modal' data-target='#upload-image-modal' />");
+    onImageErrorWithUploader(
+        userAvatar,
+        parentBlock,
+        username,
+        "",
+        "user/" + userId
+    );
+    $(parentBlock).prepend(userAvatar);
+    return $(parentBlock).find("img");
 }

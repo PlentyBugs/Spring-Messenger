@@ -1,6 +1,6 @@
 $(() => {
     let modal = $("#modal-upload-image");
-    let modalBlock = $("<div class='modal fade' id='upload-image-modal' tabindex='-1' role='dialog' aria-hidden='true'></div>");
+    let modalBlock = $("<div class='modal fade' id='upload-image-modal' tabindex='-1' role='dialog' aria-hidden='true' style='z-index: 1051 !important;'></div>");
     let modalDialog = $("<div class='modal-dialog' role='document'></div>");
     let modalContent = $("<div class='modal-content bg-dark'></div>");
     let modalHeader = $("<div class='modal-header text-center d-block'><h5 class='modal-title'>Upload Image</h5></div>");
