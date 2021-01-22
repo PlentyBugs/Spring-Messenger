@@ -30,6 +30,7 @@
     --background-color-form-body: #efac53;
     --text-block-color-send-button: #efac53;
     --send-button-color: #b18013;
+    --text-color-button-theme: #000000;
 }
 
 .bg-1 {
@@ -274,9 +275,19 @@ input[type="color"] {
     overflow: hidden;
     box-shadow: 2px 2px 5px rgba(0,0,0,.1);
 }
+
 input[type="color"]::-webkit-color-swatch-wrapper {
     padding: 0;
 }
+
 input[type="color"]::-webkit-color-swatch {
     border: none;
+}
+
+.btn-outline-retro {
+    border-color: #efac53 !important;
+}
+
+.btn-outline-retro:hover {
+    background-color: #efac53 !important;
 }

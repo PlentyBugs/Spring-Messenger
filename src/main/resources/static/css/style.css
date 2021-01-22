@@ -538,6 +538,10 @@ body {
     color: var(--text-color-menu-toggle-hover);
 }
 
+.btn-themed {
+    color: var(--text-color-button-theme) !important;
+}
+
 .btn-custom {
     color: var(--text-color-button);
     background-color: var(--background-color-button);

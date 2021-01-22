@@ -11,6 +11,13 @@ function getCurrentColorScheme() {
     return currentColorScheme;
 }
 
+function setCurrentColorScheme(theme = "Retro") {
+    currentColorScheme =
+        theme === "Retro" ? getRetroColorScheme() :
+        theme === "Dark" ? getDarkColorScheme() :
+        getLightColorScheme();
+}
+
 function getRetroColorScheme() {
     return {
         'background-color-side-menu': '#ede6b9',
@@ -44,6 +51,7 @@ function getRetroColorScheme() {
         'background-color-form-body': '#efac53',
         'text-block-color-send-button': '#efac53',
         'send-button-color': '#b18013',
+        'text-color-button-theme': '#000000',
     };
 }
 
@@ -80,6 +88,7 @@ function getDarkColorScheme() {
         'background-color-form-body': '#0d1b3f',
         'text-block-color-send-button': '#0d1b3f',
         'send-button-color': '#263f77',
+        'text-color-button-theme': '#ffffff',
     };
 }
 
@@ -116,5 +125,6 @@ function getLightColorScheme() {
         'background-color-form-body': '#2ab7ca',
         'text-block-color-send-button': '#2ab7ca',
         'send-button-color': '#0993a2',
+        'text-color-button-theme': '#000000',
     };
 }
