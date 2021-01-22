@@ -82,3 +82,39 @@ function getDarkColorScheme() {
         'send-button-color': '#263f77',
     };
 }
+
+function getLightColorScheme() {
+    return {
+        'background-color-side-menu': '#e6e6ea',
+        'background-color-chat': '#e6e6ea',
+        'text-color-main': '#000000',
+        'text-color-chat': '#ffffff',
+        'background-color-mine-message': '#ffb61b',
+        'background-color-yours-message': '#2ab7ca',
+        'scroll-color': '#1f4298',
+        'background-color-side-menu-logo': '#1f4068',
+        'text-color-menu-toggle': '#228d9d',
+        'text-color-menu-toggle-hover': '#30daf1',
+        'text-color-link': '#16b7ca',
+        'text-color-link-hover': '#30daf1',
+        'link-color-before': '#30daf1',
+        'background-color-button': '#b9925e',
+        'text-color-button': '#ffffff',
+        'border-color-button': '#b9925e',
+        'border-color-button-hover': '#ffffff',
+        'background-color-checkbox-mark': '#ffffff',
+        'background-color-checkbox-mark-checked': '#6af321',
+        'background-color-textarea': '#2ab7ca',
+        'text-color-textarea': '#ffffff',
+        'background-color-header': '#2ab7ca',
+        'text-color-chat-name-header': '#ffffff',
+        'background-color-login-span-or': '#efac53',
+        'text-color-login-span-or': '#ffffff',
+        'text-color-error-message': '#ff0000',
+        'border-color-input-error': '#ff0000',
+        'background-color-input-error': '#ffa1a1',
+        'background-color-form-body': '#2ab7ca',
+        'text-block-color-send-button': '#2ab7ca',
+        'send-button-color': '#0993a2',
+    };
+}
