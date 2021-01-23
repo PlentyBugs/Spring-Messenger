@@ -611,3 +611,13 @@ body {
     margin-left: auto !important;
     margin-right: auto;
 }
+
+.reply {
+    text-decoration: underline;
+    text-decoration-color: var(--text-color-chat);
+    cursor: pointer;
+}
+
+.reply:hover {
+    text-decoration-color: gray;
+}

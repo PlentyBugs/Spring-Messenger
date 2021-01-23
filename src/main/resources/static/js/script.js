@@ -373,7 +373,7 @@ function printMessages() {
                     message = messages[++i];
                 }
 
-                blockMessages.append($("<div class='message last'>" + message.content + "<div class='message-author'>By " + message.senderName + "</div></div>"));
+                blockMessages.append($("<div class='message last'>" + message.content + "<div class='message-author'>By " + message.senderName + "&nbsp;<span class='reply unselectable'>reply</span></div></div>"));
                 let userAvatar = $("<img class='img-fluid custom-img ml-3vw d-inline-flex va-baseline user-avatar-" + position + "' src='/img/" + userAvatars[senderId] + "' data-toggle='modal' data-target='#upload-image-modal'>");
                 blockMessages.append(userAvatar);
 

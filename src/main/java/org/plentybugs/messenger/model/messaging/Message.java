@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -21,5 +22,6 @@ public class Message {
     private String content;
     private String senderId;
     private String senderName;
+    private Set<String> repliedTo;
     private Date time;
 }
