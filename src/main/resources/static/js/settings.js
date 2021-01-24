@@ -43,7 +43,6 @@ function getDisplayColorInput(colorVar = "", color = "") {
         rootStyles.setProperty("--" + colorVar, displayColorInput.val());
         styles[colorVar] = displayColorInput.val();
         localStorage.setItem("styles", JSON.stringify(styles));
-        console.log(styles);
     });
 
     return displayColorBlock;
@@ -164,7 +163,6 @@ function buildProfileSettings(settingsMenuProfile) {
                 ['usernameError', 'emailError', 'passwordError', 'passwordRepeatError'].forEach((e) => {
                     $("#" + e).text("");
                 });
-                console.log(errors);
                 for (let error of Object.keys(errors)) {
                     $("#" + error).text(errors[error]);
                 }

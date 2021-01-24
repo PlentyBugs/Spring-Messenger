@@ -12,6 +12,7 @@ let chatWindow = $("#chat-window");
 let contactListChatCreating = $("#contact-list-chat-creating");
 let sideContent = $("#side-content");
 let chatId = "-1";
+let messageRightClick = $("#message-right-click");
 
 Array.prototype.remove = function() {
     let what, a = arguments, L = a.length, ax;
@@ -25,6 +26,11 @@ Array.prototype.remove = function() {
 };
 
 $(() => {
+    $(document).bind("mousedown", function (e) {
+        if (!$(e.target).parents("#message-right-click").length > 0) {
+            messageRightClick.hide(100);
+        }
+    });
 
     let leftToggle = $("#toggle-left");
     let leftToggled = false;
@@ -369,11 +375,15 @@ function printMessages() {
 
                 while (i + 1 < length && position === getPosition(messages[i + 1]) && message.senderName === messages[i + 1].senderName) {
                     position = getPosition(message);
-                    blockMessages.append($("<div class='message'>" + message.content + "</div>"));
+                    let msg = $("<div class='message' id='" + message.id + "'>" + message.content + "</div>");
+                    blockMessages.append(msg);
                     message = messages[++i];
+                    onMessageClick(msg, message.id);
                 }
 
-                blockMessages.append($("<div class='message last'>" + message.content + "<div class='message-author'>By " + message.senderName + "&nbsp;<span class='reply unselectable'>reply</span></div></div>"));
+                let msg = $("<div class='message last' id='" + message.id + "'>" + message.content + "<div class='message-author'>By " + message.senderName + "&nbsp;<span class='reply unselectable'>reply</span></div></div>");
+                blockMessages.append(msg);
+                onMessageClick(msg, message.id);
                 let userAvatar = $("<img class='img-fluid custom-img ml-3vw d-inline-flex va-baseline user-avatar-" + position + "' src='/img/" + userAvatars[senderId] + "' data-toggle='modal' data-target='#upload-image-modal'>");
                 blockMessages.append(userAvatar);
 
@@ -544,4 +554,25 @@ function getUserAvatarBlock(parentBlock) {
     );
     $(parentBlock).prepend(userAvatar);
     return $(parentBlock).find("img");
+}
+
+function onMessageClick(message, messageId) {
+    // $(document).bind("contextmenu", e => {
+    //     messageRightClick.css({
+    //         position: 'absolute',
+    //         left: e.pageX,
+    //         top: e.pageY,
+    //         display: 'block'
+    //     })
+    //     return false;
+    // });
+    $(message).contextmenu((e) => {
+        messageRightClick.css({
+            position: 'absolute',
+            left: e.pageX,
+            top: e.pageY,
+            display: 'block'
+        })
+        return false;
+    });
 }

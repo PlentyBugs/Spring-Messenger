@@ -1,7 +1,6 @@
 let currentColorScheme = getDarkColorScheme();
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log(currentColorScheme);
     Object.keys(currentColorScheme).forEach((colorVar) =>
         rootStyles.setProperty("--" + colorVar, currentColorScheme[colorVar])
     );
