@@ -13,6 +13,8 @@ let contactListChatCreating = $("#contact-list-chat-creating");
 let sideContent = $("#side-content");
 let chatId = "-1";
 let messageRightClick = $("#message-right-click");
+let selectMessageContextMenu = $("#select-message-contextmenu");
+let replyMessageContextMenu = $("#reply-message-contextmenu");
 
 Array.prototype.remove = function() {
     let what, a = arguments, L = a.length, ax;
@@ -557,22 +559,19 @@ function getUserAvatarBlock(parentBlock) {
 }
 
 function onMessageClick(message, messageId) {
-    // $(document).bind("contextmenu", e => {
-    //     messageRightClick.css({
-    //         position: 'absolute',
-    //         left: e.pageX,
-    //         top: e.pageY,
-    //         display: 'block'
-    //     })
-    //     return false;
-    // });
     $(message).contextmenu((e) => {
         messageRightClick.css({
             position: 'absolute',
             left: e.pageX,
             top: e.pageY,
             display: 'block'
-        })
+        });
+        selectMessageContextMenu.unbind("click").bind("click", () => {
+            messageRightClick.hide(100);
+        });
+        replyMessageContextMenu.unbind("click").bind("click", () => {
+            messageRightClick.hide(100);
+        });
         return false;
     });
 }
