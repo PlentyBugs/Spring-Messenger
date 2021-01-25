@@ -2,6 +2,7 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -450,6 +451,10 @@ body {
     position: relative;
 }
 
+.yours .message[is="selected"], .yours .message.last[is="selected"]:before {
+    background-color: var(--background-color-yours-message-selected);
+}
+
 .yours .message.last:before {
     content: "";
     position: absolute;
@@ -461,6 +466,7 @@ body {
     background: var(--background-color-yours-message);
     border-bottom-right-radius: 1vw;
 }
+
 .yours .message.last:after {
     content: "";
     position: absolute;
@@ -482,6 +488,10 @@ body {
     margin-left: 25%;
     background: var(--background-color-mine-message);
     position: relative;
+}
+
+.mine .message[is="selected"], .mine .message.last[is="selected"]:before {
+    background-color: var(--background-color-mine-message-selected);
 }
 
 .mine .message.last:before {

@@ -15,6 +15,7 @@ let chatId = "-1";
 let messageRightClick = $("#message-right-click");
 let selectMessageContextMenu = $("#select-message-contextmenu");
 let replyMessageContextMenu = $("#reply-message-contextmenu");
+let selectedMessages = [];
 
 Array.prototype.remove = function() {
     let what, a = arguments, L = a.length, ax;
@@ -379,8 +380,8 @@ function printMessages() {
                     position = getPosition(message);
                     let msg = $("<div class='message' id='" + message.id + "'>" + message.content + "</div>");
                     blockMessages.append(msg);
-                    message = messages[++i];
                     onMessageClick(msg, message.id);
+                    message = messages[++i];
                 }
 
                 let msg = $("<div class='message last' id='" + message.id + "'>" + message.content + "<div class='message-author'>By " + message.senderName + "&nbsp;<span class='reply unselectable'>reply</span></div></div>");
@@ -567,6 +568,7 @@ function onMessageClick(message, messageId) {
             display: 'block'
         });
         selectMessageContextMenu.unbind("click").bind("click", () => {
+            toggleMessage(message, messageId, $(message).attr("is") === "selected");
             messageRightClick.hide(100);
         });
         replyMessageContextMenu.unbind("click").bind("click", () => {
@@ -574,4 +576,20 @@ function onMessageClick(message, messageId) {
         });
         return false;
     });
+    $(message).click(() => {
+        console.log(message +""+ messageId +" "+ selectedMessages.includes(messageId))
+        if (selectedMessages.length > 0) {
+            toggleMessage(message, messageId, selectedMessages.includes(messageId));
+        }
+    });
+}
+
+function toggleMessage(message, messageId, predicate) {
+    if (predicate) {
+        selectedMessages.remove(messageId);
+        $(message).attr("is", "");
+    } else {
+        selectedMessages.push(messageId);
+        $(message).attr("is", "selected");
+    }
 }
