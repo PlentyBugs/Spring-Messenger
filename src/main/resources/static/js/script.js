@@ -15,6 +15,7 @@ let chatId = "-1";
 let messageRightClick = $("#message-right-click");
 let selectMessageContextMenu = $("#select-message-contextmenu");
 let replyMessageContextMenu = $("#reply-message-contextmenu");
+let selectMenu = $("#select-menu");
 let selectedMessages = [];
 
 Array.prototype.remove = function() {
@@ -577,7 +578,6 @@ function onMessageClick(message, messageId) {
         return false;
     });
     $(message).click(() => {
-        console.log(message +""+ messageId +" "+ selectedMessages.includes(messageId))
         if (selectedMessages.length > 0) {
             toggleMessage(message, messageId, selectedMessages.includes(messageId));
         }
@@ -591,5 +591,10 @@ function toggleMessage(message, messageId, predicate) {
     } else {
         selectedMessages.push(messageId);
         $(message).attr("is", "selected");
+    }
+    if (selectedMessages.length > 0) {
+        selectMenu.removeClass("d-none")
+    } else {
+        selectMenu.addClass("d-none");
     }
 }

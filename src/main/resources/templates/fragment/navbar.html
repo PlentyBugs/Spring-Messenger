@@ -1,8 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <th:block th:fragment="navbar">
-        <nav class="navbar-custom" sec:authorize="hasAuthority('USER')">
+        <nav class="navbar-custom navbar-upper" sec:authorize="hasAuthority('USER')">
             <div class="order-2 w-100 text-center" id="navbarSupportedContent">
                 <span id="chat-name"></span>
+            </div>
+            <div class="order-2 w-100 text-right navbar-custom navbar-select-menu d-none" id="select-menu">
+                <span class="mr-1vw select-menu-button unselectable" id="select-menu-save">Save</span>
+                <span class="mr-1vw select-menu-button unselectable" id="select-menu-reply">Reply</span>
+                <span class="mr-1vw select-menu-button unselectable" id="select-menu-delete">Delete</span>
             </div>
         </nav>
     </th:block>

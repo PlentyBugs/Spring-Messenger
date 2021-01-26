@@ -387,7 +387,23 @@ body {
     position: absolute;
     background-color: var(--background-color-header);
     width: 100%;
+}
+
+.navbar-upper {
     height: 5vh;
+}
+
+.navbar-select-menu {
+    height: 3vh;
+    padding-bottom: 4vh;
+    padding-right: 2vw;
+    z-index: 9999;
+}
+
+.select-menu-button:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: var(--text-color-chat-name-header);
 }
 
 #chat-name {
