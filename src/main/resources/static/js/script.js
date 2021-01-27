@@ -16,7 +16,9 @@ let messageRightClick = $("#message-right-click");
 let selectMessageContextMenu = $("#select-message-contextmenu");
 let replyMessageContextMenu = $("#reply-message-contextmenu");
 let selectMenu = $("#select-menu");
+let selectMenuReply = $("#select-menu-reply");
 let selectedMessages = [];
+let repliedMessages = [];
 
 Array.prototype.remove = function() {
     let what, a = arguments, L = a.length, ax;
@@ -30,6 +32,8 @@ Array.prototype.remove = function() {
 };
 
 $(() => {
+    selectMenuReply.click(() => reply(selectedMessages));
+
     $(document).bind("mousedown", function (e) {
         if (!$(e.target).parents("#message-right-click").length > 0) {
             messageRightClick.hide(100);
@@ -573,6 +577,7 @@ function onMessageClick(message, messageId) {
             messageRightClick.hide(100);
         });
         replyMessageContextMenu.unbind("click").bind("click", () => {
+            reply([messageId]);
             messageRightClick.hide(100);
         });
         return false;
@@ -592,9 +597,22 @@ function toggleMessage(message, messageId, predicate) {
         selectedMessages.push(messageId);
         $(message).attr("is", "selected");
     }
+    toggleSelectMenu();
+}
+
+function toggleSelectMenu() {
     if (selectedMessages.length > 0) {
         selectMenu.removeClass("d-none")
     } else {
         selectMenu.addClass("d-none");
     }
+}
+
+function reply(messageIds) {
+    repliedMessages = messageIds;
+    for (let m of JSON.parse(JSON.stringify(selectedMessages))) {
+        toggleMessage($("#" + m), m, true)
+    }
+    selectedMessages = [];
+    toggleSelectMenu();
 }
