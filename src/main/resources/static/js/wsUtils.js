@@ -26,7 +26,7 @@ function disconnect() {
     console.log("disconnected")
 }
 
-function sendMessage(msg, senderId, senderName, chatId) {
+function sendMessage(msg, senderId, senderName, chatId, repliedMessages) {
     if (senderId !== "" && msg.replaceAll(/\s+/g, "") !== "") {
         msg = msg.replaceAll(/\s+/g, " ");
         const message = {
@@ -34,6 +34,7 @@ function sendMessage(msg, senderId, senderName, chatId) {
             chatId: chatId,
             senderId: senderId,
             senderName: senderName,
+            repliedTo: repliedMessages,
             time: new Date()
         };
         stompClient.send("/app/chat/" + chatId, {}, JSON.stringify(message));

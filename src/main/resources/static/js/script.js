@@ -389,7 +389,7 @@ function printMessages() {
                     message = messages[++i];
                 }
 
-                let msg = $("<div class='message last' id='" + message.id + "'>" + message.content + "<div class='message-author'>By " + message.senderName + "&nbsp;<span class='reply unselectable'>reply</span></div></div>");
+                let msg = $("<div class='message last' id='" + message.id + "'>" + message.content + "<div class='message-author'>By " + message.senderName + "&nbsp;</div></div>");
                 blockMessages.append(msg);
                 onMessageClick(msg, message.id);
                 let userAvatar = $("<img class='img-fluid custom-img ml-3vw d-inline-flex va-baseline user-avatar-" + position + "' src='/img/" + userAvatars[senderId] + "' data-toggle='modal' data-target='#upload-image-modal'>");
@@ -434,9 +434,10 @@ function getHostname() {
 
 function prepareMessage() {
     let msg = messageText.val();
-    sendMessage(msg, userId, username, chatId);
+    sendMessage(msg, userId, username, chatId, repliedMessages);
     messageText.val("");
     localStorage.setItem(chatId, "");
+    repliedMessages = [];
 }
 
 function processCheckboxes(checkboxes) {
@@ -609,7 +610,7 @@ function toggleSelectMenu() {
 }
 
 function reply(messageIds) {
-    repliedMessages = messageIds;
+    repliedMessages = JSON.parse(JSON.stringify(messageIds));
     for (let m of JSON.parse(JSON.stringify(selectedMessages))) {
         toggleMessage($("#" + m), m, true)
     }
