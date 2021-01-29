@@ -17,6 +17,8 @@ let selectMessageContextMenu = $("#select-message-contextmenu");
 let replyMessageContextMenu = $("#reply-message-contextmenu");
 let selectMenu = $("#select-menu");
 let selectMenuReply = $("#select-menu-reply");
+let repliedMessageBlock = $("#replied-message-block");
+let repliedMessageText = $("#replied-message");
 let selectedMessages = [];
 let repliedMessages = [];
 
@@ -436,6 +438,7 @@ function prepareMessage() {
     let msg = messageText.val();
     sendMessage(msg, userId, username, chatId, repliedMessages);
     messageText.val("");
+    clearReply();
     localStorage.setItem(chatId, "");
     repliedMessages = [];
 }
@@ -616,4 +619,11 @@ function reply(messageIds) {
     }
     selectedMessages = [];
     toggleSelectMenu();
+
+    repliedMessageBlock.removeClass("d-none");
+}
+
+function clearReply() {
+    repliedMessageBlock.addClass("d-none");
+    repliedMessages = [];
 }

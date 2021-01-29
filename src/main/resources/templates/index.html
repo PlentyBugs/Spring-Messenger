@@ -12,6 +12,10 @@
     </div>
 
     <div class="message-box">
+        <div class="replied-message-block d-none" id="replied-message-block">
+            <span class="replied-message" id="replied-message"></span>
+            <span class="fa fa-times replied-message-close float-right" id="replied-message-close" onclick="clearReply();"></span>
+        </div>
         <textarea placeholder="Message..." name="message" id="message-text" class="message-textarea" autofocus></textarea>
         <i class="fa fa-paper-plane send-button unselectable" id="send-button"></i>
     </div>

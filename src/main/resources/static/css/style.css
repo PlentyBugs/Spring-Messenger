@@ -647,3 +647,23 @@ body {
 .reply:hover {
     text-decoration-color: gray;
 }
+
+.replied-message-block {
+    position: absolute;
+    bottom: 15vh;
+    padding: 1vh;
+    height: 10vh;
+    width: 100%;
+    z-index: 9999;
+    background-color: var(--background-color-textarea);
+}
+
+.replied-message {
+    height: 100%;
+    width: 95%;
+    overflow-wrap: break-word;
+}
+
+.replied-message-close:hover {
+    color: var(--send-button-color);
+}
