@@ -651,17 +651,23 @@ body {
 .replied-message-block {
     position: absolute;
     bottom: 15vh;
-    padding: 1vh;
-    height: 10vh;
+    padding: 2vh;
+    height: 7vh;
     width: 100%;
     z-index: 9999;
     background-color: var(--background-color-textarea);
+    border-bottom: 0.1vmax solid var(--send-button-color);
+    font-size: 1vw !important;
 }
 
 .replied-message {
     height: 100%;
-    width: 95%;
-    overflow-wrap: break-word;
+    width: 96vw;
+    overflow: hidden;
+}
+
+.replied-message-close {
+    line-height: 1.5vw !important;
 }
 
 .replied-message-close:hover {

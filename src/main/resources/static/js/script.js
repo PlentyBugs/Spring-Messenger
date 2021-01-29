@@ -620,6 +620,7 @@ function reply(messageIds) {
     selectedMessages = [];
     toggleSelectMenu();
 
+    repliedMessageText.text($("#" + messageIds).text());
     repliedMessageBlock.removeClass("d-none");
 }
 
