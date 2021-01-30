@@ -627,10 +627,9 @@ function reply(messageIds) {
     repliedMessageBlock.removeClass("d-none");
 
     repliedMessageText.unbind("click").bind("click", () => {
-        let position = $("#" + messageIds[0]).position();
+        let top = $("#" + messageIds[0]).position().top;
         chatWindow.animate({
-            scrollTop: position.top,
-            scrollLeft: position.left
+            scrollTop: chatWindow.scrollTop() + top - 5*vh,
         }, 200);
     });
 }
