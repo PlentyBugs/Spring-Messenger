@@ -1,3 +1,6 @@
+const properties = document.getElementById("properties");
+const vh = properties.getBoundingClientRect().height;
+const vw = properties.getBoundingClientRect().width;
 let data = $('#data');
 let userId = data.data("user-id");
 let email = data.data("user-email");
@@ -622,6 +625,14 @@ function reply(messageIds) {
 
     repliedMessageText.text($("#" + messageIds).text());
     repliedMessageBlock.removeClass("d-none");
+
+    repliedMessageText.unbind("click").bind("click", () => {
+        let position = $("#" + messageIds[0]).position();
+        chatWindow.animate({
+            scrollTop: position.top,
+            scrollLeft: position.left
+        }, 200);
+    });
 }
 
 function clearReply() {

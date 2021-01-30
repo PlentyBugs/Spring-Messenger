@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <th:block th:fragment="navbar">
+        <div id="properties" style="width: 1vw; height: 1vh; top: -10000px; position: absolute"></div>
         <nav class="navbar-custom navbar-upper" sec:authorize="hasAuthority('USER')">
             <div class="order-2 w-100 text-center" id="navbarSupportedContent">
                 <span id="chat-name"></span>
