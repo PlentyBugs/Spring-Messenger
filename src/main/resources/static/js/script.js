@@ -623,14 +623,19 @@ function reply(messageIds) {
     selectedMessages = [];
     toggleSelectMenu();
 
-    repliedMessageText.text($("#" + messageIds).text());
+    repliedMessageText.text($("#" + repliedMessages[0]).text());
     repliedMessageBlock.removeClass("d-none");
 
     repliedMessageText.unbind("click").bind("click", () => {
-        let top = $("#" + messageIds[0]).position().top;
+        let top = $("#" + repliedMessages[0]).position().top;
         chatWindow.animate({
             scrollTop: chatWindow.scrollTop() + top - 5*vh,
         }, 200);
+        repliedMessages.forEach((e) => {
+            let elem = $("#" + e);
+            elem.css("opacity", "0.6");
+            setTimeout(() => elem.css("opacity", 1), 500);
+        });
     });
 }
 
