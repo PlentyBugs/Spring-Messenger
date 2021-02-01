@@ -53,6 +53,7 @@ function getRetroColorScheme() {
         'text-block-color-send-button': '#efac53',
         'send-button-color': '#b18013',
         'text-color-button-theme': '#000000',
+        'underline-color-replied-message': '#ffffff',
     };
 }
 
@@ -92,6 +93,7 @@ function getDarkColorScheme() {
         'text-block-color-send-button': '#0d1b3f',
         'send-button-color': '#263f77',
         'text-color-button-theme': '#ffffff',
+        'underline-color-replied-message': '#ffffff',
     };
 }
 
@@ -131,5 +133,6 @@ function getLightColorScheme() {
         'text-block-color-send-button': '#2ab7ca',
         'send-button-color': '#0993a2',
         'text-color-button-theme': '#000000',
+        'underline-color-replied-message': '#000000',
     };
 }

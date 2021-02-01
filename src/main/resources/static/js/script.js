@@ -376,6 +376,8 @@ function printMessages() {
         async: false,
         cache: false,
         success: (messages) => {
+            let messagesMapIdToText = Object.fromEntries(messages.map(m => [m.id, m.content]));
+            console.log(messagesMapIdToText);
             chatWindow.empty();
             let length = messages.length;
 
@@ -389,12 +391,15 @@ function printMessages() {
                 while (i + 1 < length && position === getPosition(messages[i + 1]) && message.senderName === messages[i + 1].senderName) {
                     position = getPosition(message);
                     let msg = $("<div class='message' id='" + message.id + "'>" + message.content + "</div>");
+                    handleReplyMessage(message.repliedTo, msg, messagesMapIdToText);
+
                     blockMessages.append(msg);
                     onMessageClick(msg, message.id);
                     message = messages[++i];
                 }
 
                 let msg = $("<div class='message last' id='" + message.id + "'>" + message.content + "<div class='message-author'>By " + message.senderName + "&nbsp;</div></div>");
+                handleReplyMessage(message.repliedTo, msg, messagesMapIdToText);
                 blockMessages.append(msg);
                 onMessageClick(msg, message.id);
                 let userAvatar = $("<img class='img-fluid custom-img ml-3vw d-inline-flex va-baseline user-avatar-" + position + "' src='/img/" + userAvatars[senderId] + "' data-toggle='modal' data-target='#upload-image-modal'>");
@@ -626,7 +631,11 @@ function reply(messageIds) {
     repliedMessageText.text($("#" + repliedMessages[0]).text());
     repliedMessageBlock.removeClass("d-none");
 
-    repliedMessageText.unbind("click").bind("click", () => {
+    makeRepliedScrollable(repliedMessageText, repliedMessages);
+}
+
+function makeRepliedScrollable(repliedMessageTextJQ, repliedMessages) {
+    repliedMessageTextJQ.unbind("click").bind("click", () => {
         let top = $("#" + repliedMessages[0]).position().top;
         chatWindow.animate({
             scrollTop: chatWindow.scrollTop() + top - 5*vh,
@@ -637,6 +646,19 @@ function reply(messageIds) {
             setTimeout(() => elem.css("opacity", 1), 500);
         });
     });
+}
+
+function handleReplyMessage(repliedMessages, msgJQ, messagesMapIdToText) {
+    if (repliedMessages !== null && repliedMessages.length !== 0) {
+        let replied = $("<div class='replied-message-chat'></div>");
+        let text = messagesMapIdToText[repliedMessages[0]];
+        if (text === "") {
+            text = $("#" + repliedMessages[0]).text();
+        }
+        replied.text(text);
+        makeRepliedScrollable(replied, repliedMessages);
+        msgJQ.prepend(replied);
+    }
 }
 
 function clearReply() {

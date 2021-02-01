@@ -673,3 +673,9 @@ body {
 .replied-message-close:hover {
     color: var(--send-button-color);
 }
+
+.replied-message-chat {
+    max-height: 4vh;
+    border-bottom: 0.1vmax solid var(--underline-color-replied-message);
+    overflow: hidden;
+}
