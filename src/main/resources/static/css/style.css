@@ -675,7 +675,7 @@ body {
 }
 
 .replied-message-chat {
-    max-height: 4vh;
+    max-height: 4rem;
     border-bottom: 0.1vmax solid var(--underline-color-replied-message);
     overflow: hidden;
 }

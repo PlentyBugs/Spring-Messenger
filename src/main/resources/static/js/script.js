@@ -20,6 +20,7 @@ let selectMessageContextMenu = $("#select-message-contextmenu");
 let replyMessageContextMenu = $("#reply-message-contextmenu");
 let selectMenu = $("#select-menu");
 let selectMenuReply = $("#select-menu-reply");
+let selectMenuSave = $("#select-menu-save");
 let repliedMessageBlock = $("#replied-message-block");
 let repliedMessageText = $("#replied-message");
 let selectedMessages = [];
@@ -37,7 +38,8 @@ Array.prototype.remove = function() {
 };
 
 $(() => {
-    selectMenuReply.click(() => reply(selectedMessages));
+    selectMenuReply.click(() => reply(clearSelection()));
+    selectMenuSave.click(() => saveMessages(clearSelection()));
 
     $(document).bind("mousedown", function (e) {
         if (!$(e.target).parents("#message-right-click").length > 0) {
@@ -391,17 +393,12 @@ function printMessages() {
                 while (i + 1 < length && position === getPosition(messages[i + 1]) && message.senderName === messages[i + 1].senderName) {
                     position = getPosition(message);
                     let msg = $("<div class='message' id='" + message.id + "'>" + message.content + "</div>");
-                    handleReplyMessage(message.repliedTo, msg, messagesMapIdToText);
-
-                    blockMessages.append(msg);
-                    onMessageClick(msg, message.id);
+                    processMessage(msg, blockMessages, message, messagesMapIdToText);
                     message = messages[++i];
                 }
 
                 let msg = $("<div class='message last' id='" + message.id + "'>" + message.content + "<div class='message-author'>By " + message.senderName + "&nbsp;</div></div>");
-                handleReplyMessage(message.repliedTo, msg, messagesMapIdToText);
-                blockMessages.append(msg);
-                onMessageClick(msg, message.id);
+                processMessage(msg, blockMessages, message, messagesMapIdToText);
                 let userAvatar = $("<img class='img-fluid custom-img ml-3vw d-inline-flex va-baseline user-avatar-" + position + "' src='/img/" + userAvatars[senderId] + "' data-toggle='modal' data-target='#upload-image-modal'>");
                 blockMessages.append(userAvatar);
 
@@ -620,14 +617,18 @@ function toggleSelectMenu() {
     }
 }
 
-function reply(messageIds) {
-    repliedMessages = JSON.parse(JSON.stringify(messageIds));
+function clearSelection() {
+    let messages = JSON.parse(JSON.stringify(selectedMessages));
     for (let m of JSON.parse(JSON.stringify(selectedMessages))) {
         toggleMessage($("#" + m), m, true)
     }
     selectedMessages = [];
     toggleSelectMenu();
+    return messages;
+}
 
+function reply(messages) {
+    repliedMessages = messages;
     repliedMessageText.text($("#" + repliedMessages[0]).text());
     repliedMessageBlock.removeClass("d-none");
 
@@ -648,6 +649,12 @@ function makeRepliedScrollable(repliedMessageTextJQ, repliedMessages) {
     });
 }
 
+function processMessage(msg, blockMessages, message, messagesMapIdToText) {
+    handleReplyMessage(message.repliedTo, msg, messagesMapIdToText);
+    blockMessages.append(msg);
+    onMessageClick(msg, message.id);
+}
+
 function handleReplyMessage(repliedMessages, msgJQ, messagesMapIdToText) {
     if (repliedMessages !== null && repliedMessages.length !== 0) {
         let replied = $("<div class='replied-message-chat'></div>");
@@ -664,4 +671,17 @@ function handleReplyMessage(repliedMessages, msgJQ, messagesMapIdToText) {
 function clearReply() {
     repliedMessageBlock.addClass("d-none");
     repliedMessages = [];
+}
+
+function saveMessages(messages) {
+    console.log(messages);
+    $.ajax({
+        type: 'PUT',
+        beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+        url: getHostname() + "message/user/" + userId,
+        async: false,
+        cache: false,
+        data: JSON.stringify(messages),
+        contentType: "application/json; charset=utf-8",
+    });
 }

@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserMetadata {
     @Id
-    private String userId;
+    private String id; // userId
 
     private Set<String> savedMessages;
 }

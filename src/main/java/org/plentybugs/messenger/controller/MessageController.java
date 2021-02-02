@@ -48,7 +48,7 @@ public class MessageController {
         return messageService.getByChatId(chatId);
     }
 
-    @PutMapping("/message/save/{userId}")
+    @PutMapping("/message/user/{userId}")
     public void saveMessagesToUserMetadata(
             @AuthenticationPrincipal User user,
             @PathVariable String userId,
@@ -60,7 +60,7 @@ public class MessageController {
         userMetaDataService.saveMessages(userId, messageIds);
     }
 
-    @DeleteMapping("/message/save/{userId}")
+    @DeleteMapping("/message/user/{userId}")
     public void deleteMessagesFromUserMetadata(
             @AuthenticationPrincipal User user,
             @PathVariable String userId,
