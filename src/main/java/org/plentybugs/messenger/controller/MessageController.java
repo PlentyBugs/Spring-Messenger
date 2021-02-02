@@ -7,20 +7,23 @@ import org.plentybugs.messenger.model.messaging.Message;
 import org.plentybugs.messenger.service.ChatService;
 import org.plentybugs.messenger.service.MessageService;
 import org.plentybugs.messenger.service.NotificationService;
+import org.plentybugs.messenger.service.UserMetadataService;
+import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
 public class MessageController {
 
+    private final UserMetadataService userMetaDataService;
     private final NotificationService notificationService;
     private final MessageService messageService;
     private final ChatService chatService;
@@ -43,5 +46,29 @@ public class MessageController {
     ) {
         chatService.checkUser(user, chatId);
         return messageService.getByChatId(chatId);
+    }
+
+    @PutMapping("/message/save/{userId}")
+    public void saveMessagesToUserMetadata(
+            @AuthenticationPrincipal User user,
+            @PathVariable String userId,
+            @RequestBody Set<String> messageIds
+    ) {
+        if (!user.getId().toString().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        userMetaDataService.saveMessages(userId, messageIds);
+    }
+
+    @DeleteMapping("/message/save/{userId}")
+    public void deleteMessagesFromUserMetadata(
+            @AuthenticationPrincipal User user,
+            @PathVariable String userId,
+            @RequestBody Set<String> messageIds
+    ) {
+        if (!user.getId().toString().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        userMetaDataService.deleteMessages(userId, messageIds);
     }
 }
