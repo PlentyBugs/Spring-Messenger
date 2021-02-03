@@ -18,6 +18,7 @@ let chatId = "-1";
 let messageRightClick = $("#message-right-click");
 let selectMessageContextMenu = $("#select-message-contextmenu");
 let replyMessageContextMenu = $("#reply-message-contextmenu");
+let saveMessageContextMenu = $("#save-message-contextmenu");
 let selectMenu = $("#select-menu");
 let selectMenuReply = $("#select-menu-reply");
 let selectMenuSave = $("#select-menu-save");
@@ -379,7 +380,6 @@ function printMessages() {
         cache: false,
         success: (messages) => {
             let messagesMapIdToText = Object.fromEntries(messages.map(m => [m.id, m.content]));
-            console.log(messagesMapIdToText);
             chatWindow.empty();
             let length = messages.length;
 
@@ -589,6 +589,10 @@ function onMessageClick(message, messageId) {
             reply([messageId]);
             messageRightClick.hide(100);
         });
+        saveMessageContextMenu.unbind("click").bind("click", () => {
+            saveMessages([messageId]);
+            messageRightClick.hide(100);
+        });
         return false;
     });
     $(message).click(() => {
@@ -674,7 +678,6 @@ function clearReply() {
 }
 
 function saveMessages(messages) {
-    console.log(messages);
     $.ajax({
         type: 'PUT',
         beforeSend: (xhr) => xhr.setRequestHeader(header, token),
