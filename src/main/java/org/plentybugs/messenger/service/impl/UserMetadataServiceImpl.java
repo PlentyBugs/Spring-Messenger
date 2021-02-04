@@ -1,10 +1,14 @@
 package org.plentybugs.messenger.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.plentybugs.messenger.model.messaging.Message;
 import org.plentybugs.messenger.model.messaging.UserMetadata;
 import org.plentybugs.messenger.repository.UserMetadataRepository;
+import org.plentybugs.messenger.service.MessageService;
 import org.plentybugs.messenger.service.UserMetadataService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 import java.util.Set;
@@ -14,6 +18,7 @@ import java.util.Set;
 public class UserMetadataServiceImpl implements UserMetadataService {
 
     private final UserMetadataRepository repository;
+    private final MessageService messageService;
 
     @Override
     public void saveMessages(String userId, Set<String> messageIds) {
@@ -36,5 +41,15 @@ public class UserMetadataServiceImpl implements UserMetadataService {
             userMetadata.getSavedMessages().removeAll(messageIds);
             repository.save(userMetadata);
         }
+    }
+
+    @Override
+    public Set<Message> getSavedMessagesByUserId(String userId) {
+        return messageService.findAllByIds(
+                repository
+                        .findById(userId)
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))
+                        .getSavedMessages()
+        );
     }
 }

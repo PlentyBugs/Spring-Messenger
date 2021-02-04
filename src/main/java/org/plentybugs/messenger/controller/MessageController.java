@@ -48,6 +48,17 @@ public class MessageController {
         return messageService.getByChatId(chatId);
     }
 
+    @GetMapping("/message/user/{userId}/saved")
+    public Set<Message> getSavedMessages(
+            @AuthenticationPrincipal User user,
+            @PathVariable String userId
+    ) {
+        if (!user.getId().toString().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        return userMetaDataService.getSavedMessagesByUserId(userId);
+    }
+
     @PutMapping("/message/user/{userId}")
     public void saveMessagesToUserMetadata(
             @AuthenticationPrincipal User user,

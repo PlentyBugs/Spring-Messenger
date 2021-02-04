@@ -688,3 +688,14 @@ function saveMessages(messages) {
         contentType: "application/json; charset=utf-8",
     });
 }
+
+function getSavedMessages() {
+    $.ajax({
+        type: 'GET',
+        beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+        url: getHostname() + "message/user/" + userId + "/saved",
+        async: false,
+        cache: false,
+        success: (messages) => {return messages}
+    });
+}
