@@ -679,3 +679,10 @@ body {
     border-bottom: 0.1vmax solid var(--underline-color-replied-message);
     overflow: hidden;
 }
+
+.saved-message {
+    padding-left: 1vw;
+    padding-right: 1vw;
+    border-bottom: 0.1vmax solid;
+    overflow-wrap: break-word;
+}

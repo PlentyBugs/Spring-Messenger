@@ -690,12 +690,15 @@ function saveMessages(messages) {
 }
 
 function getSavedMessages() {
+    let messageList = [];
     $.ajax({
         type: 'GET',
         beforeSend: (xhr) => xhr.setRequestHeader(header, token),
         url: getHostname() + "message/user/" + userId + "/saved",
         async: false,
         cache: false,
-        success: (messages) => {return messages}
+        success: (messages) => messageList = messages
     });
+
+    return messageList;
 }
