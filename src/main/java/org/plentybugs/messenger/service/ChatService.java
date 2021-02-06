@@ -12,7 +12,7 @@ public interface ChatService {
 
     Chat findByChatId(String chatId);
 
-    void create(String creatorId, String chatName, Set<String> participantIds);
+    void create(String creatorId, String chatName, Set<String> participantIds, boolean isGroup);
 
     Set<SimpleChat> getAllByUserShort(User user);
 

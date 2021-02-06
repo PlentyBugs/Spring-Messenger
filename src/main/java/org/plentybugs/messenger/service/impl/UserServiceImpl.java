@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
         participantIds.add(id);
         participantIds.add(contact.getId().toString());
 
-        chatService.create(id, user.getUsername() + "/" + contact.getUsername(), participantIds);
+        chatService.create(id, user.getUsername() + "/" + contact.getUsername(), participantIds, false);
 
         notificationService.sendContactNotification(user.getId(), contact);
     }

@@ -38,7 +38,7 @@ public class ChatController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
-        chatService.create(userId, chatName.substring(1, chatName.length() - 1), userIds);
+        chatService.create(userId, chatName.substring(1, chatName.length() - 1), userIds, true);
     }
 
     @GetMapping

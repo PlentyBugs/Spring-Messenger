@@ -14,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,13 +36,17 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public void create(String creatorId, String chatName, Set<String> participantIds) {
+    public void create(String creatorId, String chatName, Set<String> participantIds, boolean isGroup) {
+        if (!isGroup && repository.findPrivateByParticipantIdsAndGroupFalse(participantIds).isPresent())
+            return;
+
         participantIds.add(creatorId);
         Chat chat = Chat.builder()
                 .chatId(UUID.randomUUID().toString())
                 .chatName(chatName)
                 .participantIds(participantIds)
                 .moderatorIds(Collections.singleton(creatorId))
+                .group(isGroup)
                 .build();
 
         repository.save(chat);

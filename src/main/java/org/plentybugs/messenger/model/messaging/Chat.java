@@ -19,8 +19,9 @@ public class Chat implements Imaginable {
     @Id
     private String id;
     private String chatId;
-    private String chatName;
+    private boolean group;
     private String avatar;
+    private String chatName;
     private Set<String> moderatorIds;
     private Set<String> participantIds;
 }
