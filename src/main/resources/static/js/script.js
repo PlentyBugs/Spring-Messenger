@@ -16,10 +16,12 @@ let contactListChatCreating = $("#contact-list-chat-creating");
 let sideContent = $("#side-content");
 let chatId = "-1";
 let messageRightClick = $("#message-right-click");
+let deleteMessageContextMenu = $("#delete-message-contextmenu");
 let selectMessageContextMenu = $("#select-message-contextmenu");
 let replyMessageContextMenu = $("#reply-message-contextmenu");
 let saveMessageContextMenu = $("#save-message-contextmenu");
 let selectMenu = $("#select-menu");
+let selectMenuDelete = $("#select-menu-delete");
 let selectMenuReply = $("#select-menu-reply");
 let selectMenuSave = $("#select-menu-save");
 let repliedMessageBlock = $("#replied-message-block");
@@ -39,7 +41,8 @@ Array.prototype.remove = function() {
 };
 
 $(() => {
-    selectMenuReply.click(() => reply(clearSelection()));
+    selectMenuDelete.click(() => deleteMessages(clearSelection()));
+    selectMenuReply.click(() => replyMessages(clearSelection()));
     selectMenuSave.click(() => saveMessages(clearSelection()));
 
     $(document).bind("mousedown", function (e) {
@@ -574,7 +577,8 @@ function getUserAvatarBlock(parentBlock) {
 }
 
 function onMessageClick(message, messageId) {
-    $(message).contextmenu((e) => {
+    let messageJQ = $(message);
+    messageJQ.contextmenu((e) => {
         messageRightClick.css({
             position: 'absolute',
             left: e.pageX,
@@ -582,20 +586,29 @@ function onMessageClick(message, messageId) {
             display: 'block'
         });
         selectMessageContextMenu.unbind("click").bind("click", () => {
-            toggleMessage(message, messageId, $(message).attr("is") === "selected");
+            toggleMessage(message, messageId, messageJQ.attr("is") === "selected");
             messageRightClick.hide(100);
         });
         replyMessageContextMenu.unbind("click").bind("click", () => {
-            reply([messageId]);
+            replyMessages([messageId]);
             messageRightClick.hide(100);
         });
         saveMessageContextMenu.unbind("click").bind("click", () => {
             saveMessages([messageId]);
             messageRightClick.hide(100);
         });
+        if (messageJQ.parent().hasClass("mine")) {
+            deleteMessageContextMenu.removeClass("d-none");
+            deleteMessageContextMenu.unbind("click").bind("click", () => {
+                deleteMessages([messageId]);
+                messageRightClick.hide(100);
+            });
+        } else {
+            deleteMessageContextMenu.add("d-none");
+        }
         return false;
     });
-    $(message).click(() => {
+    messageJQ.click(() => {
         if (selectedMessages.length > 0) {
             toggleMessage(message, messageId, selectedMessages.includes(messageId));
         }
@@ -631,7 +644,7 @@ function clearSelection() {
     return messages;
 }
 
-function reply(messages) {
+function replyMessages(messages) {
     repliedMessages = messages;
     repliedMessageText.text($("#" + repliedMessages[0]).text());
     repliedMessageBlock.removeClass("d-none");
@@ -701,4 +714,19 @@ function getSavedMessages() {
     });
 
     return messageList;
+}
+
+function deleteMessages(messages, messageJQs) {
+    $.ajax({
+        type: 'DELETE',
+        beforeSend: (xhr) => xhr.setRequestHeader(header, token),
+        url: getHostname() + "message/",
+        async: false,
+        cache: false,
+        data: JSON.stringify(messages),
+        contentType: "application/json; charset=utf-8",
+        success: (deletedMessagesIds) => {
+            console.log(deletedMessagesIds);
+        }
+    });
 }

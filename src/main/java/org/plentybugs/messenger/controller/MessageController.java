@@ -82,4 +82,12 @@ public class MessageController {
         }
         userMetaDataService.deleteMessages(userId, messageIds);
     }
+
+    @DeleteMapping("/message")
+    public Set<String> deleteMessages(
+            @AuthenticationPrincipal User user,
+            @RequestBody Set<String> messageIds
+    ) {
+        return messageService.deleteMessagesWithUserCheck(messageIds, user);
+    }
 }
