@@ -726,7 +726,13 @@ function deleteMessages(messages, messageJQs) {
         data: JSON.stringify(messages),
         contentType: "application/json; charset=utf-8",
         success: (deletedMessagesIds) => {
-            console.log(deletedMessagesIds);
+            deletedMessagesIds.forEach(id => {
+                let message = $("#" + id);
+                message.empty();
+                let undo = $("<span class='undo unselectable'>undo</span>")
+                message.unbind("contextmenu");
+                message.append(undo);
+            });
         }
     });
 }

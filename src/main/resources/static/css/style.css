@@ -686,3 +686,13 @@ body {
     border-bottom: 0.1vmax solid;
     overflow-wrap: break-word;
 }
+
+.undo {
+    margin-left: 3vw;
+    margin-right: 3vw;
+}
+
+.undo:hover {
+    border-bottom: 0.1vmax solid;
+    cursor: pointer;
+}
