@@ -26,7 +26,11 @@ function disconnect() {
     console.log("disconnected")
 }
 
-function sendMessage(msg, senderId, senderName, chatId, repliedMessages) {
+function sendMessage(message) {
+    stompClient.send("/app/chat/" + chatId, {}, JSON.stringify(message));
+}
+
+function buildAndSendMessage(msg, senderId, senderName, chatId, repliedMessages) {
     if (senderId !== "" && msg.replaceAll(/\s+/g, "") !== "") {
         msg = msg.replaceAll(/\s+/g, " ");
         const message = {
@@ -37,7 +41,7 @@ function sendMessage(msg, senderId, senderName, chatId, repliedMessages) {
             repliedTo: repliedMessages,
             time: new Date()
         };
-        stompClient.send("/app/chat/" + chatId, {}, JSON.stringify(message));
+        sendMessage(message, senderId);
     }
 }
 

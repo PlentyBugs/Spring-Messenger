@@ -12,7 +12,7 @@ public interface MessageService {
 
     List<Message> getByChatId(String chatId);
 
-    Set<Message> findAllByIds(Set<String> savedMessages);
+    List<Message> findAllByIds(Set<String> savedMessages);
 
     Set<String> deleteMessagesWithUserCheck(Set<String> messageIds, User user);
 }

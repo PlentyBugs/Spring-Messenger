@@ -49,7 +49,7 @@ public class MessageController {
     }
 
     @GetMapping("/message/user/{userId}/saved")
-    public Set<Message> getSavedMessages(
+    public List<Message> getSavedMessages(
             @AuthenticationPrincipal User user,
             @PathVariable String userId
     ) {

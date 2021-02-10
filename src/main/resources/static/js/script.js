@@ -395,12 +395,30 @@ function printMessages() {
 
                 while (i + 1 < length && position === getPosition(messages[i + 1]) && message.senderName === messages[i + 1].senderName) {
                     position = getPosition(message);
-                    let msg = $("<div class='message' id='" + message.id + "'>" + message.content + "</div>");
+                    let msg = $(`
+                        <div 
+                            class='message' 
+                            id='` + message.id + `' 
+                            data-time='` + message.time + `'
+                            data-replied-ids="` + message.repliedTo + `"
+                        >` + message.content + `</div>
+                    `);
                     processMessage(msg, blockMessages, message, messagesMapIdToText);
                     message = messages[++i];
                 }
 
-                let msg = $("<div class='message last' id='" + message.id + "'>" + message.content + "<div class='message-author'>By " + message.senderName + "&nbsp;</div></div>");
+                let msg = $(`
+                    <div 
+                        class='message last' 
+                        id='` + message.id + `' 
+                        data-time='` + message.time + `'
+                        data-replied-ids="` + message.repliedTo + `"
+                    >` + message.content + `
+                        <div class='message-author'>
+                            By ` + message.senderName + `&nbsp;
+                        </div>
+                    </div>
+                `);
                 processMessage(msg, blockMessages, message, messagesMapIdToText);
                 let userAvatar = $("<img class='img-fluid custom-img ml-3vw d-inline-flex va-baseline user-avatar-" + position + "' src='/img/" + userAvatars[senderId] + "' data-toggle='modal' data-target='#upload-image-modal'>");
                 blockMessages.append(userAvatar);
@@ -444,7 +462,7 @@ function getHostname() {
 
 function prepareMessage() {
     let msg = messageText.val();
-    sendMessage(msg, userId, username, chatId, repliedMessages);
+    buildAndSendMessage(msg, userId, username, chatId, repliedMessages);
     messageText.val("");
     clearReply();
     localStorage.setItem(chatId, "");
@@ -716,7 +734,8 @@ function getSavedMessages() {
     return messageList;
 }
 
-function deleteMessages(messages, messageJQs) {
+function deleteMessages(messages) {
+    let messagesById = Object.fromEntries(messages.map(id => [id, messageFromJQ(chatWindow.find("#" + id), id)]));
     $.ajax({
         type: 'DELETE',
         beforeSend: (xhr) => xhr.setRequestHeader(header, token),
@@ -727,12 +746,34 @@ function deleteMessages(messages, messageJQs) {
         contentType: "application/json; charset=utf-8",
         success: (deletedMessagesIds) => {
             deletedMessagesIds.forEach(id => {
-                let message = $("#" + id);
+                let message = chatWindow.find("#" + id);
                 message.empty();
                 let undo = $("<span class='undo unselectable'>undo</span>")
+                undo.click(() => {
+                    let currentMessage = messagesById[deletedMessagesIds];
+                    sendMessage(currentMessage, message.senderId);
+                    undo.empty();
+                    undo.append(currentMessage.content);
+                });
                 message.unbind("contextmenu");
                 message.append(undo);
             });
         }
     });
+}
+
+function messageFromJQ(messageJQ, messageId) {
+    let content = messageJQ.text();
+    if ($(messageJQ).hasClass("last")) {
+        content = content.replace(/By\s.+?$/gm, "");
+    }
+    return {
+        id: messageId,
+        content: content.trim(),
+        chatId: chatId,
+        senderId: userId,
+        senderName: username,
+        repliedTo: messageJQ.data("replied-id"),
+        time: messageJQ.data("time")
+    };
 }

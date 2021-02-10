@@ -2,6 +2,7 @@ package org.plentybugs.messenger.service;
 
 import org.plentybugs.messenger.model.messaging.Message;
 
+import java.util.List;
 import java.util.Set;
 
 public interface UserMetadataService {
@@ -9,5 +10,5 @@ public interface UserMetadataService {
 
     void deleteMessages(String userId, Set<String> messageIds);
 
-    Set<Message> getSavedMessagesByUserId(String userId);
+    List<Message> getSavedMessagesByUserId(String userId);
 }
