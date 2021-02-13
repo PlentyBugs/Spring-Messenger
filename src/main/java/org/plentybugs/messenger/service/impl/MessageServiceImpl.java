@@ -28,15 +28,19 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    public List<Message> getByChatIdSortedByTime(String chatId) {
+        return getByChatId(chatId).stream().sorted(Comparator.comparing(Message::getTime)).collect(Collectors.toList());
+    }
+
+    @Override
     public List<Message> findAllByIds(Set<String> savedMessages) {
-        return repository.findAllByIdOrderByTime(savedMessages);
+        return repository.findAllById(savedMessages);
     }
 
     @Override
     public Set<String> deleteMessagesWithUserCheck(Set<String> messageIds, User user) {
         String userId = user.getId().toString();
-        Set<Message> toDelete = StreamSupport
-                .stream(repository.findAllById(messageIds).spliterator(), false)
+        Set<Message> toDelete = repository.findAllById(messageIds).stream()
                 .filter(message -> message.getSenderId().equals(userId))
                 .collect(Collectors.toSet());
 

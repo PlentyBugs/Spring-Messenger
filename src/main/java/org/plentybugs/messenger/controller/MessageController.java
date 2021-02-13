@@ -16,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ public class MessageController {
             @PathVariable("id") String chatId
     ) {
         chatService.checkUser(user, chatId);
-        return messageService.getByChatId(chatId);
+        return messageService.getByChatIdSortedByTime(chatId);
     }
 
     @GetMapping("/message/user/{userId}/saved")

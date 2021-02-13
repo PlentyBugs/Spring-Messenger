@@ -9,5 +9,5 @@ import java.util.Set;
 public interface MessageRepository extends MongoRepository<Message, String> {
     List<Message> findByChatId(String chatId);
 
-    List<Message> findAllByIdOrderByTime(Set<String> ids);
+    List<Message> findAllById(Set<String> ids);
 }
