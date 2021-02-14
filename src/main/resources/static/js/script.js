@@ -684,6 +684,7 @@ function makeRepliedScrollable(repliedMessageTextJQ, repliedMessages) {
     });
 }
 
+// todo: под прием одного сообщения или написать уникальную функцию
 function processMessage(msg, blockMessages, message, messagesMapIdToText) {
     handleReplyMessage(message.repliedTo, msg, messagesMapIdToText);
     blockMessages.append(msg);
