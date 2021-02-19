@@ -6,3 +6,8 @@
 - Add some feature to it that conceptually distinguishes it from others
 
  ****
+You can choose between dark, retro, and light themes:
+![Dark theme](images/dark%20theme%20chat.png)
+![Retro theme](images/retro%20theme%20chat.png)
+![Light theme](images/light%20theme%20chat.png)
+ ****
