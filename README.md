@@ -11,3 +11,6 @@ You can choose between dark, retro, and light themes:
 ![Retro theme](images/retro%20theme%20chat.png)
 ![Light theme](images/light%20theme%20chat.png)
  ****
+Also, if you want to change the design in detail, then you will have such an opportunity
+![Light theme](images/display settings.png)
+ ****
