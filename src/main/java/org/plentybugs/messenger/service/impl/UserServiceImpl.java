@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
             String message = String.format(
                             "Hello, %s! \n" +
                             "Welcome to my messenger!" +
-                            " Please, visit next link to activate your account: http://%s/registration/activate/%s",
+                            " Please, visit next link to activate your account: https://%s/registration/activate/%s",
                     user.getUsername(),
                     hostname,
                     user.getActivationCode()

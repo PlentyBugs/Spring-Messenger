@@ -36,4 +36,4 @@ mail:
 upload:
   path: /app/uploads
 
-hostname: https://pepepopo.herokuapp.com
+hostname: pepepopo.herokuapp.com
